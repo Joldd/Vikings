@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
     bool isPathing;
     [SerializeField] GameObject floor;
     [SerializeField] LineRenderer _lr;
+    LineRenderer currentLine;
+    List<LineRenderer> lines = new List<LineRenderer>();
     [SerializeField] float lineWidth = 0.2f;
     public static GameManager Instance { get; private set; }
 
@@ -56,7 +58,10 @@ public class GameManager : MonoBehaviour
             if (Physics.Raycast(ray, out hit))
             {
                 currentMark.transform.position = hit.point;
-                
+                if (marks.Count >= 2)
+                {
+                    currentLine.SetPosition(1, hit.point);
+                }
             }
         }
         
@@ -66,16 +71,19 @@ public class GameManager : MonoBehaviour
     {
         if (isPathing && Input.GetMouseButtonDown(0))
         {
+            Vector3 currentPos = currentMark.transform.position;
             currentMark = Instantiate(mark, currentWayPoints.transform);
             marks.Add(currentMark);
-            if (marks.Count >= 3)
+            currentMark.transform.position = currentPos;
+            if (marks.Count >= 2)
             {
                 int index = marks.IndexOf(currentMark);
-                LineRenderer line = Instantiate(_lr, currentWayPoints.transform);
-                line.SetPosition(0, marks[index - 2].transform.position);
-                line.SetPosition(1, marks[index - 1].transform.position);
-                line.startWidth = lineWidth;
-                line.endWidth = lineWidth;
+                currentLine = Instantiate(_lr, currentWayPoints.transform);
+                currentLine.SetPosition(0, marks[index - 1].transform.position);
+                currentLine.SetPosition(1, currentMark.transform.position);
+                currentLine.startWidth = lineWidth;
+                currentLine.endWidth = lineWidth;
+                lines.Add(currentLine);
             }
         }
 
@@ -83,8 +91,11 @@ public class GameManager : MonoBehaviour
         {
             marks.Remove(currentMark);
             DestroyImmediate(currentMark);
+            DestroyImmediate(currentLine);
             currentWayPoints.setMarks(marks);
             marks.Clear();
+            currentWayPoints.setLines(lines);
+            lines.Clear();
             isPathing = false;
         }
     }
