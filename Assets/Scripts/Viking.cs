@@ -8,6 +8,7 @@ public class Viking : MonoBehaviour
     [SerializeField] int speed;
     GameObject currentMark;
     LineRenderer currentLine;
+    [SerializeField] Animator _anim;
 
     private void Start()
     {
@@ -17,6 +18,7 @@ public class Viking : MonoBehaviour
         currentMark.SetActive(false);
         currentMark = myWayPoints.nextPoint(currentMark);
         currentLine = myWayPoints.lines[0];
+        transform.LookAt(currentMark.transform);
     }
 
     private void Update()
@@ -30,11 +32,13 @@ public class Viking : MonoBehaviour
                 currentMark = myWayPoints.nextPoint(currentMark);
                 currentLine.gameObject.SetActive(false);
                 currentLine = myWayPoints.nextLine(currentLine);
+                transform.LookAt(currentMark.transform);    
             }
             currentLine.SetPosition(0, transform.position);
             if (Vector3.Distance(transform.position, currentMark.transform.position) < 0.1f && myWayPoints.marks.IndexOf(currentMark) == myWayPoints.marks.Count - 1)
             {
                 Destroy(myWayPoints.gameObject);
+                _anim.Play("Idle");
             }
         }    
     }
