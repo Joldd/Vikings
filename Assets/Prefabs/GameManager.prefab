@@ -47,3 +47,5 @@ MonoBehaviour:
   wayPoints: {fileID: 590442063111698986, guid: f35bd681a3830f846be8da8226606314, type: 3}
   viking: {fileID: 1429273588724494570, guid: c1f0eaf837bc85047a503f81a64c640d, type: 3}
   mark: {fileID: 7358676295792338941, guid: 805a25c7c5ca1f5478544f0b814f93a1, type: 3}
+  floor: {fileID: 0}
+  _lr: {fileID: 7229208740688947864, guid: 3227842557e104943bb8a938baff9dd2, type: 3}

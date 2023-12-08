@@ -4,30 +4,23 @@ using UnityEngine;
 
 public class WayPoints : MonoBehaviour
 {
-    private void OnDrawGizmos()
-    {   
-        foreach (Transform t in transform)
-        {
-            Gizmos.color = Color.blue;
-            Gizmos.DrawSphere(t.position, .2f);
-        }
+    public List<GameObject> marks;
 
-        Gizmos.color = Color.red;
-        for ( int i = 0; i < transform.childCount - 1; i++)
-        {
-            Gizmos.DrawLine(transform.GetChild(i).position, transform.GetChild(i + 1).position);
-        }
+    public void setMarks(List<GameObject> m)
+    {
+        marks = new List<GameObject>(m);
     }
 
-    public Transform nextPoint(Transform currentPoint)
+    public GameObject nextPoint(GameObject currentMark)
     {
-        if (currentPoint.GetSiblingIndex() < transform.childCount - 1)
+        int index = marks.IndexOf(currentMark);
+        if (index < marks.Count - 1)
         {
-            return transform.GetChild(currentPoint.GetSiblingIndex() + 1);           
+            return marks[index + 1];           
         }
         else
         {
-            return currentPoint;
+            return currentMark;
         }
     }
 }

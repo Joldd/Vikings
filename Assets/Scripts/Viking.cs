@@ -4,23 +4,24 @@ using UnityEngine;
 
 public class Viking : MonoBehaviour
 {
-    [SerializeField] WayPoints wayPoints;
+    WayPoints myWayPoints;
     [SerializeField] int speed;
-    Transform currentWayPoint;
+    GameObject currentMark;
 
     private void Start()
     {
-        currentWayPoint = wayPoints.transform.GetChild(0);
-        transform.position = currentWayPoint.position;
-        currentWayPoint = wayPoints.nextPoint(currentWayPoint);
+        myWayPoints = GameManager.Instance.currentWayPoints;
+        currentMark = myWayPoints.marks[0];
+        transform.position = currentMark.transform.position;
+        currentMark = myWayPoints.nextPoint(currentMark);
     }
 
     private void Update()
     {
-        transform.position = Vector3.MoveTowards(transform.position, currentWayPoint.position, speed * Time.deltaTime);
-        if (Vector3.Distance(transform.position, currentWayPoint.position) < 0.1f && currentWayPoint.GetSiblingIndex() < wayPoints.transform.childCount - 1)
+        transform.position = Vector3.MoveTowards(transform.position, currentMark.transform.position, speed * Time.deltaTime);
+        if (Vector3.Distance(transform.position, currentMark.transform.position) < 0.1f && myWayPoints.marks.IndexOf(currentMark) < myWayPoints.marks.Count - 1)
         {
-            currentWayPoint = wayPoints.nextPoint(currentWayPoint);
+            currentMark = myWayPoints.nextPoint(currentMark);
         }
     }
 }
