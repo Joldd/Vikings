@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3006687591019415778}
   - component: {fileID: 8143974586233405072}
   m_Layer: 0
-  m_Name: Viking
+  m_Name: Barbirouse
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -62,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1bbf01fffbd53814386bfd6489c3cb29, type: 2}
+  - {fileID: 2100000, guid: 3990e0e2a1d6bf840bfa30f93e8054e3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

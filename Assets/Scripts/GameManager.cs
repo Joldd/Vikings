@@ -1,12 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
     [SerializeField] WayPoints wayPoints;
     public WayPoints currentWayPoints;
-    [SerializeField] GameObject viking;
     [SerializeField] GameObject mark;
     List<GameObject> marks = new List<GameObject>();
     GameObject currentMark;
@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
     List<LineRenderer> lines = new List<LineRenderer>();
     [SerializeField] float lineWidth = 0.2f;
     public static GameManager Instance { get; private set; }
+    [SerializeField] GameObject groupButtons;
+    private List<Button> buttonsViking = new List<Button>();
 
     private void Awake()
     {
@@ -27,6 +29,26 @@ public class GameManager : MonoBehaviour
         else
         {
             Instance = this;
+        }
+    }
+
+    private void Start()
+    {
+       for(int i = 0; i < groupButtons.transform.childCount; i++)
+        {
+            if (groupButtons.transform.GetChild(i).tag != "Draw")
+            {
+                buttonsViking.Add(groupButtons.transform.GetChild(i).GetComponent<Button>());
+                groupButtons.transform.GetChild(i).GetComponent<Button>().interactable = false;
+            }
+        }
+    }
+
+    private void interactionsButtons(bool b)
+    {
+        foreach (Button btn in buttonsViking)
+        {
+            btn.interactable = b;
         }
     }
 
@@ -41,11 +63,12 @@ public class GameManager : MonoBehaviour
         }   
     }
 
-    public void createViking()
+    public void createViking(GameObject viking)
     {
         if (GameObject.FindObjectOfType<WayPoints>() != null && !isPathing)
         {
             Instantiate(viking);
+            interactionsButtons(false);
         }
     }
 
@@ -63,8 +86,7 @@ public class GameManager : MonoBehaviour
                     currentLine.SetPosition(1, hit.point);
                 }
             }
-        }
-        
+        }      
     }
 
     private void Update()
@@ -87,7 +109,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (isPathing && Input.GetKeyDown(KeyCode.Escape))
         {
             marks.Remove(currentMark);
             DestroyImmediate(currentMark);
@@ -97,6 +119,7 @@ public class GameManager : MonoBehaviour
             currentWayPoints.setLines(lines);
             lines.Clear();
             isPathing = false;
+            interactionsButtons(true);
         }
     }
 }
