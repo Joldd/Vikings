@@ -38,7 +38,7 @@ public class Viking : MonoBehaviour
             if (Vector3.Distance(transform.position, currentMark.transform.position) < 0.1f && myWayPoints.marks.IndexOf(currentMark) == myWayPoints.marks.Count - 1)
             {
                 Destroy(myWayPoints.gameObject);
-                _anim.Play("Idle");
+                //_anim.Play("Idle");
             }
         }    
     }
