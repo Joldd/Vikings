@@ -62,6 +62,10 @@ public class Viking : MonoBehaviour
                 {
                     state = "Attack";
                 }
+                if (Vector3.Distance(transform.position, target.position) > 15f)
+                {
+                    state = "Running";
+                }
             }
             if (state == "Attack")
             {
@@ -70,6 +74,12 @@ public class Viking : MonoBehaviour
                 {
                     _anim.Play("Attack");
                     timerAttack = timerAttackMax;
+                }
+                if (Vector3.Distance(transform.position, target.position) > 5f)
+                {
+                    timerAttack = timerAttackMax;
+                    state = "RunAttack";
+                    _anim.Play("Run");
                 }
             }
         }        
