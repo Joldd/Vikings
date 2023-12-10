@@ -9,6 +9,10 @@ public class Viking : MonoBehaviour
     GameObject currentMark;
     LineRenderer currentLine;
     [SerializeField] Animator _anim;
+    string state = "Running";
+    Transform target;
+    [SerializeField] float timerAttackMax;
+    float timerAttack = 0f;
 
     private void Start()
     {
@@ -21,25 +25,62 @@ public class Viking : MonoBehaviour
         transform.LookAt(currentMark.transform);
     }
 
+    private void Attack()
+    {
+        _anim.Play("Attack");
+    }
+
     private void Update()
     {
-        if (myWayPoints != null)
+        if (myWayPoints != null) 
         {
-            transform.position = Vector3.MoveTowards(transform.position, currentMark.transform.position, speed * Time.deltaTime);
-            if (Vector3.Distance(transform.position, currentMark.transform.position) < 0.1f && myWayPoints.marks.IndexOf(currentMark) < myWayPoints.marks.Count - 1)
-            {
-                currentMark.SetActive(false);
-                currentMark = myWayPoints.nextPoint(currentMark);
-                currentLine.gameObject.SetActive(false);
-                currentLine = myWayPoints.nextLine(currentLine);
-                transform.LookAt(currentMark.transform);    
-            }
             currentLine.SetPosition(0, transform.position);
-            if (Vector3.Distance(transform.position, currentMark.transform.position) < 0.1f && myWayPoints.marks.IndexOf(currentMark) == myWayPoints.marks.Count - 1)
+
+            if (state == "Running")
             {
-                Destroy(myWayPoints.gameObject);
-                _anim.Play("Idle");
+                transform.position = Vector3.MoveTowards(transform.position, currentMark.transform.position, speed * Time.deltaTime);
+                if (Vector3.Distance(transform.position, currentMark.transform.position) < 0.1f && myWayPoints.marks.IndexOf(currentMark) < myWayPoints.marks.Count - 1)
+                {
+                    currentMark.SetActive(false);
+                    currentMark = myWayPoints.nextPoint(currentMark);
+                    currentLine.gameObject.SetActive(false);
+                    currentLine = myWayPoints.nextLine(currentLine);
+                    transform.LookAt(currentMark.transform);
+                }
+                if (Vector3.Distance(transform.position, currentMark.transform.position) < 0.1f && myWayPoints.marks.IndexOf(currentMark) == myWayPoints.marks.Count - 1)
+                {
+                    Destroy(myWayPoints.gameObject);
+                    _anim.Play("Idle");
+                }
+            } 
+            
+            if (state == "RunAttack")
+            {
+                transform.position = Vector3.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
+                transform.LookAt(target);
+                if (Vector3.Distance(transform.position, target.position) < 1f)
+                {
+                    state = "Attack";
+                }
             }
-        }    
+            if (state == "Attack")
+            {
+                timerAttack -= Time.deltaTime;
+                if (timerAttack <= 0)
+                {
+                    _anim.Play("Attack");
+                    timerAttack = timerAttackMax;
+                }
+            }
+        }        
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Enemy")
+        {
+            state = "RunAttack";
+            target = other.transform;
+        }
     }
 }

@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
     [SerializeField] GameObject groupButtons;
     private List<Button> buttonsViking = new List<Button>();
+    int layer_mask;
 
     private void Awake()
     {
@@ -35,13 +36,15 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
        for(int i = 0; i < groupButtons.transform.childCount; i++)
-        {
+       {
             if (groupButtons.transform.GetChild(i).tag != "Draw")
             {
                 buttonsViking.Add(groupButtons.transform.GetChild(i).GetComponent<Button>());
                 groupButtons.transform.GetChild(i).GetComponent<Button>().interactable = false;
             }
-        }
+       }
+
+       layer_mask = LayerMask.GetMask("Floor");
     }
 
     private void interactionsButtons(bool b)
@@ -78,7 +81,7 @@ public class GameManager : MonoBehaviour
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-            if (Physics.Raycast(ray, out hit))
+            if (Physics.Raycast(ray, out hit, 100f, layer_mask))
             {
                 currentMark.transform.position = hit.point;
                 if (marks.Count >= 2)
