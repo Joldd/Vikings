@@ -495,6 +495,26 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3134471785978720058, guid: 5f3697bab2d136841a81300d68710300, type: 3}
   m_PrefabInstance: {fileID: 3703321209139837282}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1721158404 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1840676239112419684, guid: 7c4e07dfc73697a47956e3ad981f6abe, type: 3}
+  m_PrefabInstance: {fileID: 2029405871}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1721158407
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1721158404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28352e51ebed80149a5c036d0979b831, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slider: {fileID: 0}
+  maxPV: 0
+  PV: 0
 --- !u!1 &1826522963
 GameObject:
   m_ObjectHideFlags: 0
@@ -577,7 +597,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1154178265574598755, guid: 7c4e07dfc73697a47956e3ad981f6abe, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.5
+      value: 1.54
       objectReference: {fileID: 0}
     - target: {fileID: 1154178265574598755, guid: 7c4e07dfc73697a47956e3ad981f6abe, type: 3}
       propertyPath: m_LocalPosition.z
@@ -611,14 +631,65 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1665693648303098881, guid: 7c4e07dfc73697a47956e3ad981f6abe, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1665693648303098881, guid: 7c4e07dfc73697a47956e3ad981f6abe, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1665693648303098881, guid: 7c4e07dfc73697a47956e3ad981f6abe, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1840676239112419684, guid: 7c4e07dfc73697a47956e3ad981f6abe, type: 3}
       propertyPath: m_Name
       value: Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 3005375225739976382, guid: 7c4e07dfc73697a47956e3ad981f6abe, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3005375225739976382, guid: 7c4e07dfc73697a47956e3ad981f6abe, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3549848537734001798, guid: 7c4e07dfc73697a47956e3ad981f6abe, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3549848537734001798, guid: 7c4e07dfc73697a47956e3ad981f6abe, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3875744758940304984, guid: 7c4e07dfc73697a47956e3ad981f6abe, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3875744758940304984, guid: 7c4e07dfc73697a47956e3ad981f6abe, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3875744758940304984, guid: 7c4e07dfc73697a47956e3ad981f6abe, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9025836181798494384, guid: 7c4e07dfc73697a47956e3ad981f6abe, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9025836181798494384, guid: 7c4e07dfc73697a47956e3ad981f6abe, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1840676239112419684, guid: 7c4e07dfc73697a47956e3ad981f6abe, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1721158407}
   m_SourcePrefab: {fileID: 100100000, guid: 7c4e07dfc73697a47956e3ad981f6abe, type: 3}
 --- !u!1001 &3703321209139837282
 PrefabInstance:

@@ -10,9 +10,11 @@ public class Viking : MonoBehaviour
     LineRenderer currentLine;
     [SerializeField] Animator _anim;
     string state = "Running";
-    Transform target;
+    Enemy target;
     [SerializeField] float timerAttackMax;
     float timerAttack = 0f;
+    [SerializeField] float damage = 1f;
+    bool firstAttack = true;
 
     private void Start()
     {
@@ -27,7 +29,14 @@ public class Viking : MonoBehaviour
 
     private void Attack()
     {
-        _anim.Play("Attack");
+        _anim.speed = 1f/timerAttackMax;
+        _anim.Play("Attack",0);
+        
+    }
+
+    public void Deal()
+    {
+        Debug.Log("azd");
     }
 
     private void Update()
@@ -56,13 +65,13 @@ public class Viking : MonoBehaviour
             
             if (state == "RunAttack")
             {
-                transform.position = Vector3.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
-                transform.LookAt(target);
-                if (Vector3.Distance(transform.position, target.position) < 1f)
+                transform.position = Vector3.MoveTowards(transform.position, target.transform.position, speed * Time.deltaTime);
+                transform.LookAt(new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z));
+                if (Vector3.Distance(transform.position, target.transform.position) < 1f)
                 {
                     state = "Attack";
                 }
-                if (Vector3.Distance(transform.position, target.position) > 15f)
+                if (Vector3.Distance(transform.position, target.transform.position) > 15f)
                 {
                     state = "Running";
                 }
@@ -72,13 +81,20 @@ public class Viking : MonoBehaviour
                 timerAttack -= Time.deltaTime;
                 if (timerAttack <= 0)
                 {
-                    _anim.Play("Attack");
+                    if (!firstAttack)
+                    {
+                        target.PV--;
+                        target.updateHealthBar();
+                    }
+                    firstAttack = false;
+                    Attack();
                     timerAttack = timerAttackMax;
                 }
-                if (Vector3.Distance(transform.position, target.position) > 5f)
+                if (Vector3.Distance(transform.position, target.transform.position) > 5f)
                 {
                     timerAttack = timerAttackMax;
                     state = "RunAttack";
+                    firstAttack = true;
                     _anim.Play("Run");
                 }
             }
@@ -90,7 +106,7 @@ public class Viking : MonoBehaviour
         if (other.tag == "Enemy")
         {
             state = "RunAttack";
-            target = other.transform;
+            target = other.gameObject.GetComponent<Enemy>();
         }
     }
 }
