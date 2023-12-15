@@ -1,21 +1,41 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class Viking : MonoBehaviour
+public class Viking : Unit
 {
     WayPoints myWayPoints;
-    [SerializeField] int speed;
     GameObject currentMark;
     LineRenderer currentLine;
+    
     [SerializeField] Animator _anim;
     string state = "Running";
+
     public Enemy target;
     [SerializeField] float timerAttackMax;
     float timerAttack = 0f;
+
+    [SerializeField] int speed;
     [SerializeField] public float damage = 1f;
 
-    private void Start()
+    private void OnMouseDown()
+    {
+        if (GameManager.Instance.selectedUnit != null)
+        {
+            GameManager.Instance.selectedUnit.Unselect();
+        }
+        Select();
+        GameManager.Instance.buttonsHouse.gameObject.SetActive(false);
+        GameManager.Instance.ButtonsUnit.gameObject.SetActive(true);
+        GameManager.Instance.runButton.onClick.AddListener(() =>
+        {
+            Run();
+        });
+    }
+
+    public void Run()
     {
         myWayPoints = GameManager.Instance.currentWayPoints;
         currentMark = myWayPoints.marks[0];
@@ -24,6 +44,7 @@ public class Viking : MonoBehaviour
         currentMark = myWayPoints.nextPoint(currentMark);
         currentLine = myWayPoints.lines[0];
         transform.LookAt(currentMark.transform);
+        _anim.Play("Run");
     }
 
     private void Attack()

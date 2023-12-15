@@ -7,19 +7,29 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] WayPoints wayPoints;
     public WayPoints currentWayPoints;
+
     [SerializeField] GameObject mark;
     List<GameObject> marks = new List<GameObject>();
     GameObject currentMark;
+
     bool isPathing;
-    [SerializeField] GameObject floor;
+
     [SerializeField] LineRenderer _lr;
     LineRenderer currentLine;
     List<LineRenderer> lines = new List<LineRenderer>();
     [SerializeField] float lineWidth = 0.2f;
+
     public static GameManager Instance { get; private set; }
-    [SerializeField] GameObject groupButtons;
-    private List<Button> buttonsViking = new List<Button>();
+
+    [SerializeField] GameObject floor;
     int layer_mask;
+
+    [SerializeField] public HorizontalLayoutGroup ButtonsUnit;
+    [SerializeField] public HorizontalLayoutGroup buttonsHouse;
+    [SerializeField] GameObject spawn;
+    [SerializeField] public Button runButton;
+
+    public Unit selectedUnit;
 
     private void Awake()
     {
@@ -35,24 +45,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-       for(int i = 0; i < groupButtons.transform.childCount; i++)
-       {
-            if (groupButtons.transform.GetChild(i).tag != "Draw")
-            {
-                buttonsViking.Add(groupButtons.transform.GetChild(i).GetComponent<Button>());
-                groupButtons.transform.GetChild(i).GetComponent<Button>().interactable = false;
-            }
-       }
-
        layer_mask = LayerMask.GetMask("Floor");
-    }
-
-    private void interactionsButtons(bool b)
-    {
-        foreach (Button btn in buttonsViking)
-        {
-            btn.interactable = b;
-        }
     }
 
     public void createPath()
@@ -68,11 +61,8 @@ public class GameManager : MonoBehaviour
 
     public void createViking(GameObject viking)
     {
-        if (GameObject.FindObjectOfType<WayPoints>() != null && !isPathing)
-        {
-            Instantiate(viking);
-            interactionsButtons(false);
-        }
+        GameObject v = Instantiate(viking);
+        v.transform.position = spawn.transform.position;
     }
 
     private void FixedUpdate()
@@ -122,7 +112,6 @@ public class GameManager : MonoBehaviour
             currentWayPoints.setLines(lines);
             lines.Clear();
             isPathing = false;
-            interactionsButtons(true);
         }
     }
 }
