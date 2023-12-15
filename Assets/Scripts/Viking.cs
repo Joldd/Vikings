@@ -10,11 +10,10 @@ public class Viking : MonoBehaviour
     LineRenderer currentLine;
     [SerializeField] Animator _anim;
     string state = "Running";
-    Enemy target;
+    public Enemy target;
     [SerializeField] float timerAttackMax;
     float timerAttack = 0f;
-    [SerializeField] float damage = 1f;
-    bool firstAttack = true;
+    [SerializeField] public float damage = 1f;
 
     private void Start()
     {
@@ -30,13 +29,8 @@ public class Viking : MonoBehaviour
     private void Attack()
     {
         _anim.speed = 1f/timerAttackMax;
-        _anim.Play("Attack",0);
+        _anim.Play("Attack");
         
-    }
-
-    public void Deal()
-    {
-        Debug.Log("azd");
     }
 
     private void Update()
@@ -81,12 +75,6 @@ public class Viking : MonoBehaviour
                 timerAttack -= Time.deltaTime;
                 if (timerAttack <= 0)
                 {
-                    if (!firstAttack)
-                    {
-                        target.PV--;
-                        target.updateHealthBar();
-                    }
-                    firstAttack = false;
                     Attack();
                     timerAttack = timerAttackMax;
                 }
@@ -94,7 +82,6 @@ public class Viking : MonoBehaviour
                 {
                     timerAttack = timerAttackMax;
                     state = "RunAttack";
-                    firstAttack = true;
                     _anim.Play("Run");
                 }
             }
