@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Viking : Unit
+public class Viking : Selectable
 {
-    WayPoints myWayPoints;
+    public WayPoints myWayPoints;
     GameObject currentMark;
     LineRenderer currentLine;
     
     [SerializeField] Animator _anim;
-    string state = "Running";
+    string state = "Sleeping";
 
     public Enemy target;
     [SerializeField] float timerAttackMax;
@@ -24,7 +24,15 @@ public class Viking : Unit
     {
         if (GameManager.Instance.selectedUnit != null)
         {
-            GameManager.Instance.selectedUnit.Unselect();
+            if (GameManager.Instance.selectedUnit.TryGetComponent<Viking>(out Viking v))
+            {
+                Debug.Log("a");
+                if (v.myWayPoints != null)
+                {
+                    v.myWayPoints.enabled = false;
+                }
+            }
+            GameManager.Instance.selectedUnit.UnSelect();
         }
         Select();
         GameManager.Instance.buttonsHouse.gameObject.SetActive(false);
@@ -35,9 +43,18 @@ public class Viking : Unit
         });
     }
 
+    public override void Select()
+    {
+        base.Select();
+        if (myWayPoints != null)
+        {
+            myWayPoints.enabled = true;
+        }
+    }
+
     public void Run()
     {
-        myWayPoints = GameManager.Instance.currentWayPoints;
+        state = "Running";
         currentMark = myWayPoints.marks[0];
         transform.position = currentMark.transform.position;
         currentMark.SetActive(false);
@@ -56,7 +73,7 @@ public class Viking : Unit
 
     private void Update()
     {
-        if (myWayPoints != null) 
+        if (state != "Sleeping") 
         {
             currentLine.SetPosition(0, transform.position);
 

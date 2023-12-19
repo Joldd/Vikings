@@ -48,12 +48,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 894a9a6d59d6ffb4a9c005ccce7997cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  select: {fileID: 1733951413366823151}
+  myWayPoints: {fileID: 0}
   _anim: {fileID: 4318648580813740718}
   target: {fileID: 0}
   timerAttackMax: 1
   speed: 3
   damage: 1
-  select: {fileID: 1733951413366823151}
 --- !u!54 &4142787646409458304
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -100,7 +101,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 10
+  m_Radius: 1
   m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &1733951413366823151
 GameObject:
@@ -113,9 +114,8 @@ GameObject:
   - component: {fileID: 1655041410783809862}
   - component: {fileID: 7710585122025746111}
   - component: {fileID: 4685041038728690631}
-  - component: {fileID: 8136010451016816274}
   m_Layer: 8
-  m_Name: Cylinder
+  m_Name: Select
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -186,29 +186,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &8136010451016816274
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1733951413366823151}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!1001 &1256333737776382324
 PrefabInstance:
   m_ObjectHideFlags: 0

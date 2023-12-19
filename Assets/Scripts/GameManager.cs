@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject spawn;
     [SerializeField] public Button runButton;
 
-    public Unit selectedUnit;
+    public Selectable selectedUnit;
 
     private void Awake()
     {

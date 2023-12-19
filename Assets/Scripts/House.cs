@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class House : Unit
+public class House : Selectable
 {
     [SerializeField] Viking viking;
 
@@ -10,7 +10,7 @@ public class House : Unit
     {
         if (GameManager.Instance.selectedUnit != null)
         {
-            GameManager.Instance.selectedUnit.Unselect();
+            GameManager.Instance.selectedUnit.UnSelect();
         }
         Select();
         GameManager.Instance.buttonsHouse.gameObject.SetActive(true);

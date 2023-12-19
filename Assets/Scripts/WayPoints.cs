@@ -6,6 +6,13 @@ public class WayPoints : MonoBehaviour
 {
     public List<GameObject> marks;
     public List<LineRenderer> lines;
+    Viking viking;
+
+    private void Start()
+    {
+        viking = GameManager.Instance.selectedUnit.GetComponent<Viking>();
+        viking.myWayPoints = this;
+    }
 
     public void setMarks(List<GameObject> m)
     {
