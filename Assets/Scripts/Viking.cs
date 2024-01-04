@@ -20,7 +20,8 @@ public class Viking : Selectable
     [SerializeField] int speed;
     [SerializeField] public float damage = 1f;
 
-    [SerializeField] Button btnDraw;
+    public Button btnDraw;
+    public Button btnRun;
 
     public override void Start()
     {
@@ -29,6 +30,7 @@ public class Viking : Selectable
         {
             GameManager.Instance.createPath();
         });
+        btnRun.interactable = false;
     }
 
     public override void Select()
@@ -59,6 +61,7 @@ public class Viking : Selectable
         currentLine = myWayPoints.lines[0];
         transform.LookAt(currentMark.transform);
         _anim.Play("Run");
+        btnRun.interactable = false;
     }
 
     private void Attack()
@@ -120,7 +123,7 @@ public class Viking : Selectable
                     _anim.Play("Run");
                 }
             }
-        }        
+        }  
     }
 
     private void OnTriggerEnter(Collider other)

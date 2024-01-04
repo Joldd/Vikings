@@ -58,6 +58,7 @@ MonoBehaviour:
   speed: 7
   damage: 1
   btnDraw: {fileID: 2365200660325376421}
+  btnRun: {fileID: 7902292539394581963}
 --- !u!135 &1190162487747689075
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -362,6 +363,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3301434400223605367, guid: a4a8e66797d27c248a763f542c7945b7, type: 3}
   m_PrefabInstance: {fileID: 223050702479864720}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7902292539394581963 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7976713166994527835, guid: a4a8e66797d27c248a763f542c7945b7, type: 3}
+  m_PrefabInstance: {fileID: 223050702479864720}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &8377956139807848934 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8600773397929658998, guid: a4a8e66797d27c248a763f542c7945b7, type: 3}

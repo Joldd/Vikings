@@ -24,8 +24,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject floor;
     int layer_mask;
 
-    [SerializeField] public Button runButton;
-
     public Selectable selectedUnit;
 
     private void Awake()
@@ -109,6 +107,11 @@ public class GameManager : MonoBehaviour
             currentWayPoints.setLines(lines);
             lines.Clear();
             isPathing = false;
+            if (selectedUnit.TryGetComponent<Viking>(out Viking v))
+            {
+                v.btnDraw.interactable = false;
+                v.btnRun.interactable = true;
+            }
         }
     }
 }
