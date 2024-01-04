@@ -55,6 +55,7 @@ public class Selectable : MonoBehaviour, ISelectable
         {
             GameManager.Instance.selectedUnit.UnSelect();
         }
+        GameManager.Instance.StopBuilding();
         Select();
     }
 }

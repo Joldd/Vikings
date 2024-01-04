@@ -26,6 +26,12 @@ public class GameManager : MonoBehaviour
 
     public Selectable selectedUnit;
 
+    public bool isBuilding = false;
+    public House houseToBuild;
+
+    public GameObject buildings;
+    public GameObject spawnsBuildings;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -41,6 +47,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
        layer_mask = LayerMask.GetMask("Floor");
+        StopBuilding();
     }
 
     public void createPath()
@@ -113,5 +120,20 @@ public class GameManager : MonoBehaviour
                 v.btnRun.interactable = true;
             }
         }
+        if (isBuilding)
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                StopBuilding();
+            }
+        }
+    }
+
+    public void StopBuilding()
+    {
+        isBuilding = false;
+        houseToBuild = null;
+        buildings.SetActive(false);
+        spawnsBuildings.SetActive(false);
     }
 }
