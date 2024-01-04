@@ -6,6 +6,7 @@ using UnityEngine;
 public class Selectable : MonoBehaviour, ISelectable
 {
     [SerializeField] GameObject select;
+    [SerializeField] GameObject canvas;
 
     public bool isSelect{ 
         get{ 
@@ -23,6 +24,11 @@ public class Selectable : MonoBehaviour, ISelectable
         set {; }
     }
 
+    public virtual void Start()
+    {
+        canvas.SetActive(false);
+    }
+
     public virtual void Die()
     {
         Debug.Log(gameObject.name + " is dead");
@@ -33,11 +39,22 @@ public class Selectable : MonoBehaviour, ISelectable
         GameManager.Instance.selectedUnit = this;
         select.SetActive(true);
         isSelect = true;
+        canvas.SetActive(true);
     }
 
-    public void UnSelect()
+    public virtual void UnSelect()
     {
         select.SetActive(false);
         isSelect = false;
+        canvas.SetActive(false);
+    }
+
+    public virtual void OnMouseDown()
+    {
+        if (GameManager.Instance.selectedUnit != null)
+        {
+            GameManager.Instance.selectedUnit.UnSelect();
+        }
+        Select();
     }
 }

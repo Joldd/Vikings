@@ -20,26 +20,14 @@ public class Viking : Selectable
     [SerializeField] int speed;
     [SerializeField] public float damage = 1f;
 
-    private void OnMouseDown()
+    [SerializeField] Button btnDraw;
+
+    public override void Start()
     {
-        if (GameManager.Instance.selectedUnit != null)
+        base.Start();
+        btnDraw.onClick.AddListener(() =>
         {
-            if (GameManager.Instance.selectedUnit.TryGetComponent<Viking>(out Viking v))
-            {
-                Debug.Log("a");
-                if (v.myWayPoints != null)
-                {
-                    v.myWayPoints.enabled = false;
-                }
-            }
-            GameManager.Instance.selectedUnit.UnSelect();
-        }
-        Select();
-        GameManager.Instance.buttonsHouse.gameObject.SetActive(false);
-        GameManager.Instance.ButtonsUnit.gameObject.SetActive(true);
-        GameManager.Instance.runButton.onClick.AddListener(() =>
-        {
-            Run();
+            GameManager.Instance.createPath();
         });
     }
 
@@ -48,7 +36,16 @@ public class Viking : Selectable
         base.Select();
         if (myWayPoints != null)
         {
-            myWayPoints.enabled = true;
+            myWayPoints.gameObject.SetActive(true);
+        }
+    }
+
+    public override void UnSelect()
+    {
+        base.UnSelect();
+        if (myWayPoints != null)
+        {
+            myWayPoints.gameObject.SetActive(false);
         }
     }
 
@@ -90,7 +87,7 @@ public class Viking : Selectable
                 }
                 if (Vector3.Distance(transform.position, currentMark.transform.position) < 0.1f && myWayPoints.marks.IndexOf(currentMark) == myWayPoints.marks.Count - 1)
                 {
-                    Destroy(myWayPoints.gameObject);
+                    //Destroy(myWayPoints.gameObject);
                     _anim.Play("Idle");
                 }
             } 

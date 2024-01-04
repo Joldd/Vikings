@@ -24,9 +24,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject floor;
     int layer_mask;
 
-    [SerializeField] public HorizontalLayoutGroup ButtonsUnit;
-    [SerializeField] public HorizontalLayoutGroup buttonsHouse;
-    [SerializeField] GameObject spawn;
     [SerializeField] public Button runButton;
 
     public Selectable selectedUnit;
@@ -59,7 +56,7 @@ public class GameManager : MonoBehaviour
         }   
     }
 
-    public void createViking(GameObject viking)
+    public void createViking(GameObject viking, Transform spawn)
     {
         GameObject v = Instantiate(viking);
         v.transform.position = spawn.transform.position;

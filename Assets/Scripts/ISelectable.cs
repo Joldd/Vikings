@@ -8,4 +8,6 @@ public interface ISelectable
     void Die();
     void Select();
     void UnSelect();
+
+    void OnMouseDown();
 }
