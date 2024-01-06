@@ -56,9 +56,24 @@ public class GameManager : MonoBehaviour
         {
             isPathing = true;
             currentWayPoints = Instantiate(wayPoints);
+            GameObject firstMark = Instantiate(mark, currentWayPoints.transform);
+            firstMark.transform.position = selectedUnit.transform.position;
+            marks.Add(firstMark);
             currentMark = Instantiate(mark, currentWayPoints.transform);
             marks.Add(currentMark);
+            createLine();
         }   
+    }
+
+    void createLine()
+    {
+        int index = marks.IndexOf(currentMark);
+        currentLine = Instantiate(_lr, currentWayPoints.transform);
+        currentLine.SetPosition(0, marks[index - 1].transform.position);
+        currentLine.SetPosition(1, currentMark.transform.position);
+        currentLine.startWidth = lineWidth;
+        currentLine.endWidth = lineWidth;
+        lines.Add(currentLine);
     }
 
     public void createViking(GameObject viking, Transform spawn)
@@ -76,10 +91,7 @@ public class GameManager : MonoBehaviour
             if (Physics.Raycast(ray, out hit, 100f, layer_mask))
             {
                 currentMark.transform.position = hit.point;
-                if (marks.Count >= 2)
-                {
-                    currentLine.SetPosition(1, hit.point);
-                }
+                currentLine.SetPosition(1, hit.point);            
             }
         }      
     }
@@ -92,16 +104,7 @@ public class GameManager : MonoBehaviour
             currentMark = Instantiate(mark, currentWayPoints.transform);
             marks.Add(currentMark);
             currentMark.transform.position = currentPos;
-            if (marks.Count >= 2)
-            {
-                int index = marks.IndexOf(currentMark);
-                currentLine = Instantiate(_lr, currentWayPoints.transform);
-                currentLine.SetPosition(0, marks[index - 1].transform.position);
-                currentLine.SetPosition(1, currentMark.transform.position);
-                currentLine.startWidth = lineWidth;
-                currentLine.endWidth = lineWidth;
-                lines.Add(currentLine);
-            }
+            createLine();
         }
 
         if (isPathing && Input.GetKeyDown(KeyCode.Escape))
