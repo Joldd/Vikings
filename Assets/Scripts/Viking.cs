@@ -26,6 +26,9 @@ public class Viking : Selectable
     public override void Start()
     {
         base.Start();
+
+        canBeSelected = true;
+
         btnDraw.onClick.AddListener(() =>
         {
             GameManager.Instance.createPath();

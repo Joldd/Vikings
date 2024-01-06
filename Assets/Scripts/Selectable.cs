@@ -3,26 +3,16 @@ using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-public class Selectable : MonoBehaviour, ISelectable
+public class Selectable : MonoBehaviour
 {
     [SerializeField] GameObject select;
     [SerializeField] GameObject canvas;
 
-    public bool isSelect{ 
-        get{ 
-            return false ; 
-        } 
-        set { ; } 
-    }
+    public bool isSelect;
 
-    public int PV
-    {
-        get
-        {
-            return 1;
-        }
-        set {; }
-    }
+    public bool canBeSelected;
+
+    public int PV;
 
     public virtual void Start()
     {
@@ -51,11 +41,14 @@ public class Selectable : MonoBehaviour, ISelectable
 
     public virtual void OnMouseDown()
     {
-        if (GameManager.Instance.selectedUnit != null)
+        if (canBeSelected)
         {
-            GameManager.Instance.selectedUnit.UnSelect();
+            if (GameManager.Instance.selectedUnit != null)
+            {
+                GameManager.Instance.selectedUnit.UnSelect();
+            }
+            GameManager.Instance.StopBuilding();
+            Select();
         }
-        GameManager.Instance.StopBuilding();
-        Select();
     }
 }
