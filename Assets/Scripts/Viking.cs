@@ -23,6 +23,8 @@ public class Viking : Selectable
     public Button btnDraw;
     public Button btnRun;
 
+    public int priceGold;
+
     public override void Start()
     {
         base.Start();

@@ -285,6 +285,7 @@ MonoBehaviour:
   - {fileID: 8878223246678805109}
   spawn: {fileID: 1745729143058281864}
   timeBuildMax: 3
+  priceReputation: 200
 --- !u!65 &7255845743970466150
 BoxCollider:
   m_ObjectHideFlags: 0

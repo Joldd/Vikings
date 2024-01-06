@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -12,9 +13,11 @@ public class UIManager : MonoBehaviour
 
     public void build(House house)
     {
-        GameManager.Instance.spawnsBuildings.SetActive(true);
-        GameManager.Instance.isBuilding = true;
-        GameManager.Instance.houseToBuild = house;
+        if (GameManager.Instance.reputation >= house.priceReputation)
+        {
+            GameManager.Instance.spawnsBuildings.SetActive(true);
+            GameManager.Instance.isBuilding = true;
+            GameManager.Instance.houseToBuild = house;
+        }
     }
-
 }

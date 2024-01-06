@@ -12,6 +12,7 @@ public class House : Selectable
     Animator animator;
     bool isBuilt;
     Slider sliderBuilding;
+    public int priceReputation;
 
     public override void Start()
     {

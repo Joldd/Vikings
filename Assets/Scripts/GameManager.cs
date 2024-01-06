@@ -1,5 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -32,6 +32,11 @@ public class GameManager : MonoBehaviour
     public GameObject buildings;
     public GameObject spawnsBuildings;
 
+    [SerializeField] TextMeshProUGUI textGold;
+    [SerializeField] TextMeshProUGUI textReputation;
+    public int gold;
+    public int reputation;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -48,6 +53,10 @@ public class GameManager : MonoBehaviour
     {
        layer_mask = LayerMask.GetMask("Floor");
         StopBuilding();
+
+        reputation = 0;
+        gold = 0;
+        updateRessources();
     }
 
     public void createPath()
@@ -78,8 +87,13 @@ public class GameManager : MonoBehaviour
 
     public void createViking(GameObject viking, Transform spawn)
     {
-        GameObject v = Instantiate(viking);
-        v.transform.position = spawn.transform.position;
+        if (gold >= viking.GetComponent<Viking>().priceGold)
+        {
+            GameObject v = Instantiate(viking);
+            v.transform.position = spawn.transform.position;
+            gold -= viking.GetComponent<Viking>().priceGold;
+            updateRessources();
+        }
     }
 
     private void FixedUpdate()
@@ -130,6 +144,17 @@ public class GameManager : MonoBehaviour
                 StopBuilding();
             }
         }
+
+
+
+        /////////////////////////////// CHEAT CODE /////////////////////////////////////
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            reputation += 100;
+            gold += 100;
+            updateRessources();
+        }
+        ////////////////////////////////////////////////////////////////////////////////
     }
 
     public void StopBuilding()
@@ -138,5 +163,11 @@ public class GameManager : MonoBehaviour
         houseToBuild = null;
         buildings.SetActive(false);
         spawnsBuildings.SetActive(false);
+    }
+
+    public void updateRessources()
+    {
+        textGold.text = gold.ToString();
+        textReputation.text = reputation.ToString();
     }
 }

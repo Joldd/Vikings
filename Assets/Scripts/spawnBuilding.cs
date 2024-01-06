@@ -12,5 +12,7 @@ public class spawnBuilding : MonoBehaviour
         GameManager.Instance.isBuilding = false;
         GameManager.Instance.houseToBuild = null;
         transform.parent.gameObject.SetActive(false);
+        GameManager.Instance.reputation -= house.priceReputation;
+        GameManager.Instance.updateRessources();
     }
 }

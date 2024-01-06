@@ -51,6 +51,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   select: {fileID: 3526587159197592103}
   canvas: {fileID: 3371334058274685415}
+  isSelect: 0
+  canBeSelected: 0
+  PV: 0
   myWayPoints: {fileID: 0}
   _anim: {fileID: 7776148340284581498}
   target: {fileID: 0}
@@ -59,6 +62,7 @@ MonoBehaviour:
   damage: 1
   btnDraw: {fileID: 2365200660325376421}
   btnRun: {fileID: 7902292539394581963}
+  priceGold: 200
 --- !u!135 &1190162487747689075
 SphereCollider:
   m_ObjectHideFlags: 0
