@@ -277,6 +277,11 @@ MonoBehaviour:
   isSelect: 0
   canBeSelected: 1
   PV: 0
+  timeBuildMax: 3
+  isBuilt: 0
+  timeBuild: 0
+  priceReputation: 200
+  priceGold: 0
   L_Vikings:
   - {fileID: 1429273588724494570, guid: c1f0eaf837bc85047a503f81a64c640d, type: 3}
   - {fileID: 1429273588724494570, guid: 962ffa1a0ed6881439deda31b6b8968e, type: 3}
@@ -284,8 +289,6 @@ MonoBehaviour:
   - {fileID: 6472866531753181744}
   - {fileID: 8878223246678805109}
   spawn: {fileID: 1745729143058281864}
-  timeBuildMax: 3
-  priceReputation: 200
 --- !u!65 &7255845743970466150
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -336,6 +339,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1540952965192831555}
     m_Modifications:
+    - target: {fileID: 1394342319050026343, guid: 4209454fd92a28549ac75bd96fd906aa, type: 3}
+      propertyPath: m_Name
+      value: Buttons
+      objectReference: {fileID: 0}
     - target: {fileID: 1394342319050026343, guid: 4209454fd92a28549ac75bd96fd906aa, type: 3}
       propertyPath: m_IsActive
       value: 1

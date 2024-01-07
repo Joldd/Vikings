@@ -85,7 +85,7 @@ public class GameManager : MonoBehaviour
         lines.Add(currentLine);
     }
 
-    public void createViking(GameObject viking, Transform spawn)
+    public GameObject createViking(GameObject viking, Transform spawn)
     {
         if (gold >= viking.GetComponent<Viking>().priceGold)
         {
@@ -93,6 +93,11 @@ public class GameManager : MonoBehaviour
             v.transform.position = spawn.transform.position;
             gold -= viking.GetComponent<Viking>().priceGold;
             updateRessources();
+            return v;
+        }
+        else
+        {
+            return null;
         }
     }
 

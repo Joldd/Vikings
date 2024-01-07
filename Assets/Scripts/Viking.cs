@@ -10,26 +10,33 @@ public class Viking : Selectable
     GameObject currentMark;
     LineRenderer currentLine;
     
-    [SerializeField] Animator _anim;
+    Animator _anim;
     string state = "Sleeping";
 
     public Enemy target;
     [SerializeField] float timerAttackMax;
     float timerAttack = 0f;
 
-    [SerializeField] int speed;
-    [SerializeField] public float damage = 1f;
+    int speed;
+    public float damage = 1f;
 
     public Button btnDraw;
     public Button btnRun;
 
-    public int priceGold;
+    GameObject body;
 
     public override void Start()
     {
         base.Start();
 
-        canBeSelected = true;
+        body = transform.Find("Body").gameObject;
+        body.SetActive(false);
+
+        _anim = body.GetComponent<Animator>(); 
+
+        canvas = transform.Find("CanvasUnit").gameObject;
+        btnDraw = canvas.transform.Find("Buttons").Find("Draw").GetComponent<Button>();
+        btnRun = canvas.transform.Find("Buttons").Find("Run").GetComponent<Button>();
 
         btnDraw.onClick.AddListener(() =>
         {
@@ -78,6 +85,21 @@ public class Viking : Selectable
 
     private void Update()
     {
+        //////////////////  CONSTRUCTION   //////////////////////////////
+        if (timeBuild <= 0 && !isBuilt)
+        {
+            isBuilt = true;
+            canBeSelected = true;
+            body.SetActive(true);
+        }
+        else
+        {
+            timeBuild -= Time.deltaTime;
+        }
+
+
+
+        //////////////////   STATE   ////////////////////////////////////
         if (state != "Sleeping") 
         {
             currentLine.SetPosition(0, transform.position);

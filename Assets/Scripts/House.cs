@@ -7,19 +7,20 @@ public class House : Selectable
     public List<GameObject> L_Vikings;
     public List<Button> L_Buttons;
     [SerializeField] Transform spawn;
-    [SerializeField] float timeBuildMax;
-    float timeBuild;
+    
     Animator animator;
-    bool isBuilt;
     Slider sliderBuilding;
-    public int priceReputation;
+
+    Viking currentViking = null;
+    Slider currentSliderViking = null;
+    bool isBuilding = false;
 
     public override void Start()
     {
         base.Start();
 
-        canBeSelected = false;
-        timeBuild = timeBuildMax;
+        canvas = transform.Find("CanvasBuilding").gameObject;
+
         animator = GetComponent<Animator>();
         animator.Play("Build");
 
@@ -30,10 +31,21 @@ public class House : Selectable
         {
             for (int i = 0; i < L_Buttons.Count; i++)
             {
+                Slider sliderViking = L_Buttons[i].transform.Find("Slider").GetComponent<Slider>();
+                sliderViking.gameObject.SetActive(false);
                 int n = i;
                 L_Buttons[i].onClick.AddListener(() =>
                 {
-                    GameManager.Instance.createViking(L_Vikings[n], spawn);
+                    if (!isBuilding)
+                    {
+                        currentViking = GameManager.Instance.createViking(L_Vikings[n], spawn).GetComponent<Viking>();
+                        if (currentViking != null)
+                        {
+                            sliderViking.gameObject.SetActive(true);
+                            currentSliderViking = sliderViking;
+                            isBuilding = true;
+                        }
+                    }
                 });
             }
         }
@@ -45,16 +57,31 @@ public class House : Selectable
 
     private void Update()
     {
+        /////////////////////////  BuildingHouse ///////////////////////
         if ( timeBuild <= 0 && !isBuilt)
         {
             animator.Play("Idle");
             isBuilt = true;
             canBeSelected = true;
+            sliderBuilding.gameObject.SetActive(false);
         }
         else
         {
             timeBuild -= Time.deltaTime;
             sliderBuilding.value = (timeBuildMax - timeBuild) / timeBuildMax;
+        }
+
+        /////////////////////////  BuildingViking ///////////////////////
+        if (isBuilding)
+        {
+            currentSliderViking.value = (currentViking.timeBuildMax - currentViking.timeBuild) / currentViking.timeBuildMax;
+            if (currentViking.isBuilt)
+            {
+                currentSliderViking.gameObject.SetActive(false);
+                isBuilding = false;
+                currentSliderViking = null;
+                currentViking = null;
+            }
         }
     }
 }

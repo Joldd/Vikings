@@ -5,18 +5,30 @@ using UnityEngine;
 
 public class Selectable : MonoBehaviour
 {
-    [SerializeField] GameObject select;
-    [SerializeField] GameObject canvas;
+    public GameObject select;
+    public GameObject canvas;
 
     public bool isSelect;
 
-    public bool canBeSelected;
+    public bool canBeSelected = false;
 
     public int PV;
+
+    public float timeBuildMax;
+    public bool isBuilt = false;
+    
+    public float timeBuild;
+
+    public int priceReputation;
+    public int priceGold;
 
     public virtual void Start()
     {
         canvas.SetActive(false);
+
+        timeBuild = timeBuildMax;
+
+        select = transform.Find("Select").gameObject;
     }
 
     public virtual void Die()
