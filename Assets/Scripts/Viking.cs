@@ -17,7 +17,7 @@ public class Viking : Selectable
     [SerializeField] float timerAttackMax;
     float timerAttack = 0f;
 
-    int speed;
+    [SerializeField] int speed;
     public float damage = 1f;
 
     public Button btnDraw;
