@@ -596,6 +596,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2020616396}
     - target: {fileID: 3066035433837198858, guid: 9d526bd18c0fbb347b90c78664365c8e, type: 3}
+      propertyPath: mainMenu
+      value: 
+      objectReference: {fileID: 1845121901}
+    - target: {fileID: 3066035433837198858, guid: 9d526bd18c0fbb347b90c78664365c8e, type: 3}
       propertyPath: textGold
       value: 
       objectReference: {fileID: 1103076487}
@@ -1117,6 +1121,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!223 &1845121901 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 7960682503401613876, guid: 4136d3ddf12737144876a6e32402401a, type: 3}
+  m_PrefabInstance: {fileID: 1103076486}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1963850771
 PrefabInstance:
   m_ObjectHideFlags: 0

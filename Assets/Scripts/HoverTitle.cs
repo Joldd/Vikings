@@ -16,13 +16,14 @@ public class HoverTitle : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public void OnPointerExit(PointerEventData eventData)
     {
         isOver = false;
+        GameManager.Instance.objectOver = null;
     }
 
     private void Update()
     {
         if (isOver)
         {
-            Debug.Log("Over");
+            GameManager.Instance.objectOver = this;
         }
     }
 }

@@ -32,10 +32,14 @@ public class GameManager : MonoBehaviour
     public GameObject buildings;
     public GameObject spawnsBuildings;
 
-    [SerializeField] TextMeshProUGUI textGold;
-    [SerializeField] TextMeshProUGUI textReputation;
+
+    [SerializeField] Canvas mainMenu;
+    TextMeshProUGUI textGold;
+    TextMeshProUGUI textReputation;
     public int gold;
     public int reputation;
+
+    public HoverTitle objectOver;
 
     private void Awake()
     {
@@ -54,6 +58,8 @@ public class GameManager : MonoBehaviour
        layer_mask = LayerMask.GetMask("Floor");
         StopBuilding();
 
+        textGold = mainMenu.gameObject.transform.Find("Ressources").Find("Gold").Find("Text").GetComponent<TextMeshProUGUI>();
+        textReputation = mainMenu.gameObject.transform.Find("Ressources").Find("Reputation").Find("Text").GetComponent<TextMeshProUGUI>();
         reputation = 0;
         gold = 0;
         updateRessources();
@@ -117,6 +123,8 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+
+        /////////////////////////////// PATH WAYPOINTS UNIT /////////////////////////////////////
         if (isPathing && Input.GetMouseButtonDown(0))
         {
             Vector3 currentPos = currentMark.transform.position;
@@ -142,6 +150,8 @@ public class GameManager : MonoBehaviour
                 v.btnRun.interactable = true;
             }
         }
+
+        /////////////////////////////// BUILDING /////////////////////////////////////
         if (isBuilding)
         {
             if (Input.GetKeyDown(KeyCode.Escape))
@@ -150,6 +160,12 @@ public class GameManager : MonoBehaviour
             }
         }
 
+
+        //////////////////////////////// HOVER UI ///////////////////////////////////////
+        if(objectOver != null)
+        {
+
+        }
 
 
         /////////////////////////////// CHEAT CODE /////////////////////////////////////
