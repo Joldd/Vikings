@@ -36,7 +36,7 @@ public class House : Selectable
                 int n = i;
                 L_Buttons[i].onClick.AddListener(() =>
                 {
-                    if (!isBuilding)
+                    if (!isBuilding && GameManager.Instance.gold >= L_Vikings[n].GetComponent<Viking>().priceGold)
                     {
                         currentViking = GameManager.Instance.createViking(L_Vikings[n], spawn).GetComponent<Viking>();
                         if (currentViking != null)

@@ -1035,6 +1035,7 @@ GameObject:
   - component: {fileID: 8713172895925514355}
   - component: {fileID: 3107854195015539957}
   - component: {fileID: 4077904815791423386}
+  - component: {fileID: 898101117605461011}
   m_Layer: 5
   m_Name: Paladin
   m_TagString: Untagged
@@ -1145,6 +1146,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &898101117605461011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7543922574560700348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09ac9186870743e499ab553d028d02c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isOver: 0
+  text: 
+  unit: {fileID: 8143974586233405072, guid: 962ffa1a0ed6881439deda31b6b8968e, type: 3}
 --- !u!1 &7668548526824061830
 GameObject:
   m_ObjectHideFlags: 0
@@ -1157,6 +1173,7 @@ GameObject:
   - component: {fileID: 2883041852838128775}
   - component: {fileID: 4152460449263281985}
   - component: {fileID: 1906803863501158367}
+  - component: {fileID: 3605747822990517753}
   m_Layer: 5
   m_Name: Viking
   m_TagString: Untagged
@@ -1267,6 +1284,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &3605747822990517753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7668548526824061830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09ac9186870743e499ab553d028d02c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isOver: 0
+  text: 
+  unit: {fileID: 8143974586233405072, guid: c1f0eaf837bc85047a503f81a64c640d, type: 3}
 --- !u!1 &9220640608860894265
 GameObject:
   m_ObjectHideFlags: 0

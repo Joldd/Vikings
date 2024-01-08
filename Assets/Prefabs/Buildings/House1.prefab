@@ -383,6 +383,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2707604274633037781, guid: 4209454fd92a28549ac75bd96fd906aa, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2707604274633037781, guid: 4209454fd92a28549ac75bd96fd906aa, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3301434400223605367, guid: 4209454fd92a28549ac75bd96fd906aa, type: 3}
       propertyPath: m_Name
       value: CanvasBuilding
@@ -405,6 +413,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4464982528902919166, guid: 4209454fd92a28549ac75bd96fd906aa, type: 3}
       propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6569971512051419219, guid: 4209454fd92a28549ac75bd96fd906aa, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6569971512051419219, guid: 4209454fd92a28549ac75bd96fd906aa, type: 3}
+      propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8600773397929658998, guid: 4209454fd92a28549ac75bd96fd906aa, type: 3}

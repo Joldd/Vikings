@@ -39,7 +39,8 @@ public class GameManager : MonoBehaviour
     public int gold;
     public int reputation;
 
-    public HoverTitle objectOver;
+    public HoverTitle objectHover;
+    public GameObject panelHover;
 
     private void Awake()
     {
@@ -63,6 +64,9 @@ public class GameManager : MonoBehaviour
         reputation = 0;
         gold = 0;
         updateRessources();
+
+        panelHover = mainMenu.gameObject.transform.Find("Hover").gameObject;
+        panelHover.SetActive(false);
     }
 
     public void createPath()
@@ -162,10 +166,6 @@ public class GameManager : MonoBehaviour
 
 
         //////////////////////////////// HOVER UI ///////////////////////////////////////
-        if(objectOver != null)
-        {
-
-        }
 
 
         /////////////////////////////// CHEAT CODE /////////////////////////////////////
