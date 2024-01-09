@@ -277,13 +277,16 @@ MonoBehaviour:
   isSelect: 0
   canBeSelected: 0
   PV: 0
+  timeBuildMax: 1
+  isBuilt: 0
+  timeBuild: 0
+  priceReputation: 0
+  priceGold: 0
   L_Vikings:
   - {fileID: 1429273588724494570, guid: 962ffa1a0ed6881439deda31b6b8968e, type: 3}
   L_Buttons:
   - {fileID: 8878223246678805109}
   spawn: {fileID: 1745729143058281864}
-  timeBuildMax: 1
-  priceReputation: 300
 --- !u!65 &7255845743970466150
 BoxCollider:
   m_ObjectHideFlags: 0

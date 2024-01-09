@@ -55,20 +55,21 @@ public class House : Selectable
         }
     }
 
-    private void Update()
+    public override void Update()
     {
+        base .Update();
+
         /////////////////////////  BuildingHouse ///////////////////////
+        if (!isBuilt)
+        {
+            timeBuild -= Time.deltaTime;
+            sliderBuilding.value = (timeBuildMax - timeBuild) / timeBuildMax;
+        }
         if ( timeBuild <= 0 && !isBuilt)
         {
             animator.Play("Idle");
             isBuilt = true;
-            canBeSelected = true;
             sliderBuilding.gameObject.SetActive(false);
-        }
-        else
-        {
-            timeBuild -= Time.deltaTime;
-            sliderBuilding.value = (timeBuildMax - timeBuild) / timeBuildMax;
         }
 
         /////////////////////////  BuildingViking ///////////////////////

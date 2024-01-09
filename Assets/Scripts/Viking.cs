@@ -13,17 +13,20 @@ public class Viking : Selectable
     Animator _anim;
     string state = "Sleeping";
 
-    public Enemy target;
+    public Selectable target;
     [SerializeField] float timerAttackMax;
     float timerAttack = 0f;
 
     [SerializeField] int speed;
-    public float damage = 1f;
+    [SerializeField] int range;
+    public int damage = 1;
 
     public Button btnDraw;
     public Button btnRun;
 
     GameObject body;
+
+    GameObject HUDCharacter;
 
     public override void Start()
     {
@@ -43,6 +46,9 @@ public class Viking : Selectable
             GameManager.Instance.createPath();
         });
         btnRun.interactable = false;
+
+        HUDCharacter = transform.Find("HUDCharacter").gameObject;
+        HUDCharacter.gameObject.SetActive(false);
     }
 
     public override void Select()
@@ -78,31 +84,36 @@ public class Viking : Selectable
 
     private void Attack()
     {
-        _anim.speed = 1f/timerAttackMax;
+        _anim.speed = 1f / timerAttackMax;
         _anim.Play("Attack");
-        
     }
 
-    private void Update()
+    public override void Update()
     {
+        base.Update();
+
         //////////////////  CONSTRUCTION   //////////////////////////////
-        if (timeBuild <= 0 && !isBuilt)
-        {
-            isBuilt = true;
-            canBeSelected = true;
-            body.SetActive(true);
-        }
-        else
+        if (!isBuilt)
         {
             timeBuild -= Time.deltaTime;
         }
-
-
+        if (timeBuild <= 0 && !isBuilt)
+        {
+            if (tag != "Enemy")
+            {
+                canBeSelected = true;
+            }
+            body.SetActive(true);
+            HUDCharacter.gameObject.SetActive(true);
+        }
 
         //////////////////   STATE   ////////////////////////////////////
         if (state != "Sleeping") 
         {
-            currentLine.SetPosition(0, transform.position);
+            if (tag != "Enemy")
+            {
+                currentLine.SetPosition(0, transform.position);
+            }
 
             if (state == "Running")
             {
@@ -124,9 +135,10 @@ public class Viking : Selectable
             
             if (state == "RunAttack")
             {
-                transform.position = Vector3.MoveTowards(transform.position, target.transform.position, speed * Time.deltaTime);
+                Vector3 targetPos = new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z);
+                transform.position = Vector3.MoveTowards(transform.position, targetPos, speed * Time.deltaTime);
                 transform.LookAt(new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z));
-                if (Vector3.Distance(transform.position, target.transform.position) < 1f)
+                if (Vector3.Distance(transform.position, target.transform.position) <= range)
                 {
                     state = "Attack";
                 }
@@ -137,28 +149,38 @@ public class Viking : Selectable
             }
             if (state == "Attack")
             {
-                timerAttack -= Time.deltaTime;
-                if (timerAttack <= 0)
+                if (target.PV <= 0)
                 {
-                    Attack();
-                    timerAttack = timerAttackMax;
-                }
-                if (Vector3.Distance(transform.position, target.transform.position) > 5f)
-                {
-                    timerAttack = timerAttackMax;
-                    state = "RunAttack";
+                    Destroy(target.gameObject);
+                    state = "Running";
                     _anim.Play("Run");
                 }
+                else
+                {
+                    timerAttack -= Time.deltaTime;
+                    if (timerAttack <= 0)
+                    {
+                        Attack();
+                        timerAttack = timerAttackMax;
+                    }
+                    if (Vector3.Distance(transform.position, target.transform.position) > 5f)
+                    {
+                        timerAttack = timerAttackMax;
+                        state = "RunAttack";
+                        _anim.Play("Run");
+                    }
+                }
             }
-        }  
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Enemy")
+        if ((other.tag == "Enemy" && tag == "Player") || (other.tag == "Player" && tag == "Enemy"))
         {
             state = "RunAttack";
-            target = other.gameObject.GetComponent<Enemy>();
+            _anim.Play("Run");
+            target = other.gameObject.GetComponent<Selectable>();
         }
     }
 }

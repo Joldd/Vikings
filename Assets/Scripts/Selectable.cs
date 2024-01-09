@@ -22,6 +22,8 @@ public class Selectable : MonoBehaviour
     public int priceReputation;
     public int priceGold;
 
+    public HealthBar healthBar;
+
     public virtual void Start()
     {
         canvas.SetActive(false);
@@ -29,6 +31,8 @@ public class Selectable : MonoBehaviour
         timeBuild = timeBuildMax;
 
         select = transform.Find("Select").gameObject;
+
+        healthBar = GetComponent<HealthBar>();
     }
 
     public virtual void Die()
@@ -61,6 +65,14 @@ public class Selectable : MonoBehaviour
             }
             GameManager.Instance.StopBuilding();
             Select();
+        }
+    }
+
+    public virtual void Update()
+    {
+        if ( isBuilt && tag != "Enemy" )
+        {
+            canBeSelected = true;
         }
     }
 }
