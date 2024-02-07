@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -47,6 +48,19 @@ public class WayPoints : MonoBehaviour
         else
         {
             return currentLine;
+        }
+    }
+
+    private void Update()
+    {
+        foreach(GameObject mark in marks)
+        {
+            if (mark.GetComponent<Mark>().isDragging)
+            {
+                int index = marks.IndexOf((GameObject) mark);
+                lines[index-1].SetPosition(1, mark.transform.position);
+                lines[index].SetPosition(0, mark.transform.position);
+            }
         }
     }
 }
