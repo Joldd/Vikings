@@ -53,13 +53,31 @@ public class WayPoints : MonoBehaviour
 
     private void Update()
     {
-        foreach(GameObject mark in marks)
+        for (int i = marks.Count - 1; i >= 0; i--)
         {
-            if (mark.GetComponent<Mark>().isDragging)
+            Mark mark = marks[i].GetComponent<Mark>();
+            if (mark.isDragging)
             {
-                int index = marks.IndexOf((GameObject) mark);
-                lines[index-1].SetPosition(1, mark.transform.position);
-                lines[index].SetPosition(0, mark.transform.position);
+                lines[i-1].SetPosition(1, mark.transform.position);
+                lines[i].SetPosition(0, mark.transform.position);
+            }
+            if (mark.deleted)
+            {
+                marks.RemoveAt(i);
+                Destroy(mark.gameObject);
+                if (i != marks.Count)
+                {
+                    LineRenderer l = lines[i];
+                    lines.Remove(l);
+                    Destroy(l);
+                    lines[i - 1].SetPosition(1, marks[i].transform.position);
+                }
+                else
+                {
+                    LineRenderer l = lines[i-1];
+                    lines.Remove(l);
+                    Destroy(l);
+                }      
             }
         }
     }

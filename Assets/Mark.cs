@@ -6,6 +6,7 @@ public class Mark : MonoBehaviour
 {
     int layer_mask;
     public bool isDragging;
+    public bool deleted;
 
     private void Start()
     {
@@ -26,5 +27,13 @@ public class Mark : MonoBehaviour
     private void OnMouseUp()
     {
         isDragging = false;
+    }
+
+    private void OnMouseOver()
+    {
+        if (Input.GetKeyDown(KeyCode.Delete))
+        {
+            deleted = true;
+        }
     }
 }
