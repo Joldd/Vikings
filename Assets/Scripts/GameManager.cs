@@ -10,9 +10,9 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] GameObject mark;
     List<GameObject> marks = new List<GameObject>();
-    GameObject currentMark;
+    public GameObject currentMark;
 
-    bool isPathing;
+    public bool isPathing;
 
     [SerializeField] LineRenderer _lr;
     LineRenderer currentLine;

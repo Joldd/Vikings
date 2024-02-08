@@ -44,3 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 774e3a58e63c4a649955e8b14b49f28f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  marks: []
+  lines: []
+  markGO: {fileID: 7358676295792338941, guid: 805a25c7c5ca1f5478544f0b814f93a1, type: 3}
