@@ -4,15 +4,15 @@ using UnityEngine.UI;
 
 public class House : Selectable
 {
-    public List<GameObject> L_Vikings;
+    public List<GameObject> L_Units;
     public List<Button> L_Buttons;
     [SerializeField] Transform spawn;
     
     Animator animator;
     Slider sliderBuilding;
 
-    Viking currentViking = null;
-    Slider currentSliderViking = null;
+    Selectable currentUnit = null;
+    Slider currentSliderUnit = null;
     bool isBuilding = false;
 
     public override void Start()
@@ -27,22 +27,22 @@ public class House : Selectable
         sliderBuilding = transform.Find("HUDBuilding").Find("SliderBuilding").GetComponent<Slider>();
         sliderBuilding.enabled = false;
 
-        if (L_Vikings.Count == L_Buttons.Count)
+        if (L_Units.Count == L_Buttons.Count)
         {
             for (int i = 0; i < L_Buttons.Count; i++)
             {
-                Slider sliderViking = L_Buttons[i].transform.Find("Slider").GetComponent<Slider>();
-                sliderViking.gameObject.SetActive(false);
+                Slider sliderUnit = L_Buttons[i].transform.Find("Slider").GetComponent<Slider>();
+                sliderUnit.gameObject.SetActive(false);
                 int n = i;
                 L_Buttons[i].onClick.AddListener(() =>
                 {
-                    if (!isBuilding && GameManager.Instance.gold >= L_Vikings[n].GetComponent<Viking>().priceGold)
+                    if (!isBuilding && GameManager.Instance.gold >= L_Units[n].GetComponent<Selectable>().priceGold)
                     {
-                        currentViking = GameManager.Instance.createViking(L_Vikings[n], spawn).GetComponent<Viking>();
-                        if (currentViking != null)
+                        currentUnit = GameManager.Instance.createUnit(L_Units[n], spawn).GetComponent<Selectable>();
+                        if (currentUnit != null)
                         {
-                            sliderViking.gameObject.SetActive(true);
-                            currentSliderViking = sliderViking;
+                            sliderUnit.gameObject.SetActive(true);
+                            currentSliderUnit = sliderUnit;
                             isBuilding = true;
                         }
                     }
@@ -75,13 +75,13 @@ public class House : Selectable
         /////////////////////////  BuildingViking ///////////////////////
         if (isBuilding)
         {
-            currentSliderViking.value = (currentViking.timeBuildMax - currentViking.timeBuild) / currentViking.timeBuildMax;
-            if (currentViking.isBuilt)
+            currentSliderUnit.value = (currentUnit.timeBuildMax - currentUnit.timeBuild) / currentUnit.timeBuildMax;
+            if (currentUnit.isBuilt)
             {
-                currentSliderViking.gameObject.SetActive(false);
+                currentSliderUnit.gameObject.SetActive(false);
                 isBuilding = false;
-                currentSliderViking = null;
-                currentViking = null;
+                currentSliderUnit = null;
+                currentUnit = null;
             }
         }
     }

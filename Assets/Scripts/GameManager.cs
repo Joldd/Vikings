@@ -95,13 +95,13 @@ public class GameManager : MonoBehaviour
         lines.Add(currentLine);
     }
 
-    public GameObject createViking(GameObject viking, Transform spawn)
+    public GameObject createUnit(GameObject unit, Transform spawn)
     {
-        if (gold >= viking.GetComponent<Viking>().priceGold)
+        if (gold >= unit.GetComponent<Selectable>().priceGold)
         {
-            GameObject v = Instantiate(viking);
+            GameObject v = Instantiate(unit);
             v.transform.position = spawn.transform.position;
-            gold -= viking.GetComponent<Viking>().priceGold;
+            gold -= unit.GetComponent<Selectable>().priceGold;
             updateRessources();
             return v;
         }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
@@ -59,10 +60,20 @@ public class Selectable : MonoBehaviour
     {
         if (canBeSelected)
         {
-            if (GameManager.Instance.selectedUnit != null)
+            Selectable selectedUnit = GameManager.Instance.selectedUnit;
+
+            if (selectedUnit != null)
             {
+                if (selectedUnit.TryGetComponent<Messenger>(out Messenger messenger))
+                {
+                    messenger.vikingSelected = this.gameObject.GetComponent<Viking>();
+                    return;
+                }
+
                 GameManager.Instance.selectedUnit.UnSelect();
+      
             }
+
             GameManager.Instance.StopBuilding();
             Select();
         }

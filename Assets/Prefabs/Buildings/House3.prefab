@@ -199,7 +199,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1bbf01fffbd53814386bfd6489c3cb29, type: 2}
+  - {fileID: 2100000, guid: 7946c029310d40846af0cc46b624e0bf, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -234,7 +234,7 @@ GameObject:
   - component: {fileID: 7255845743970466150}
   - component: {fileID: 7809602372743711312}
   m_Layer: 0
-  m_Name: House2
+  m_Name: House3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -284,7 +284,7 @@ MonoBehaviour:
   priceGold: 0
   healthBar: {fileID: 0}
   L_Units:
-  - {fileID: 1429273588724494570, guid: 962ffa1a0ed6881439deda31b6b8968e, type: 3}
+  - {fileID: 6230955363413056210, guid: 81487770799ee8447a8e2e4db6d48660, type: 3}
   L_Buttons:
   - {fileID: 8878223246678805109}
   spawn: {fileID: 1745729143058281864}
@@ -378,6 +378,18 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2707604274633037781, guid: 4209454fd92a28549ac75bd96fd906aa, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2707604274633037781, guid: 4209454fd92a28549ac75bd96fd906aa, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3107854195015539957, guid: 4209454fd92a28549ac75bd96fd906aa, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: a6cd8503535ff94498dc56e39970336c, type: 3}
     - target: {fileID: 3301434400223605367, guid: 4209454fd92a28549ac75bd96fd906aa, type: 3}
       propertyPath: m_Name
       value: CanvasBuilding
@@ -401,6 +413,16 @@ PrefabInstance:
     - target: {fileID: 4464982528902919166, guid: 4209454fd92a28549ac75bd96fd906aa, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6450051476932744466, guid: 4209454fd92a28549ac75bd96fd906aa, type: 3}
+      propertyPath: m_text
+      value: 'Messenger
+
+'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7543922574560700348, guid: 4209454fd92a28549ac75bd96fd906aa, type: 3}
+      propertyPath: m_Name
+      value: Messenger
       objectReference: {fileID: 0}
     - target: {fileID: 8600773397929658998, guid: 4209454fd92a28549ac75bd96fd906aa, type: 3}
       propertyPath: m_Pivot.x
