@@ -28,6 +28,9 @@ public class Viking : Selectable
 
     GameObject HUDCharacter;
 
+    [SerializeField] bool enemyStop;
+    bool checkEnemy;
+
     public override void Start()
     {
         base.Start();
@@ -152,6 +155,7 @@ public class Viking : Selectable
                 if (target.PV <= 0)
                 {
                     Destroy(target.gameObject);
+                    checkEnemy = true;
                     state = "Running";
                     _anim.Play("Run");
                 }
@@ -172,6 +176,13 @@ public class Viking : Selectable
                 }
             }
         }
+
+        //////////////////   ENEMY   ////////////////////////////////////
+        if (tag == "Enemy" && state != "Attack")
+        {
+            transform.position += speed * transform.forward * Time.deltaTime;
+            _anim.Play("Run");
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -181,6 +192,19 @@ public class Viking : Selectable
             state = "RunAttack";
             _anim.Play("Run");
             target = other.gameObject.GetComponent<Selectable>();
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (!checkEnemy) return;
+
+        if ((other.tag == "Enemy" && tag == "Player") || (other.tag == "Player" && tag == "Enemy"))
+        {
+            state = "RunAttack";
+            _anim.Play("Run");
+            target = other.gameObject.GetComponent<Selectable>();
+            checkEnemy = false;
         }
     }
 }
