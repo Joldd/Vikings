@@ -30,6 +30,7 @@ public class Viking : Selectable
 
     [SerializeField] bool enemyStop;
     bool checkEnemy;
+    Vector3 directionEnemy;
 
     public override void Start()
     {
@@ -52,6 +53,12 @@ public class Viking : Selectable
 
         HUDCharacter = transform.Find("HUDCharacter").gameObject;
         HUDCharacter.gameObject.SetActive(false);
+
+        if (tag == "Enemy")
+        {
+            state = "Enemy";
+            directionEnemy = transform.forward;
+        }
     }
 
     public override void Select()
@@ -138,6 +145,15 @@ public class Viking : Selectable
             
             if (state == "RunAttack")
             {
+                if (target == null)
+                {
+                    state = "Running";
+                    if (tag == "Enemy")
+                    {
+                        state = "Enemy";
+                        transform.LookAt(directionEnemy);
+                    }
+                }
                 Vector3 targetPos = new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z);
                 transform.position = Vector3.MoveTowards(transform.position, targetPos, speed * Time.deltaTime);
                 transform.LookAt(new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z));
@@ -155,9 +171,21 @@ public class Viking : Selectable
                 if (target.PV <= 0)
                 {
                     Destroy(target.gameObject);
+                    if (target.TryGetComponent<Viking>(out Viking v))
+                    {
+                        if (v.myWayPoints != null)
+                        {
+                            Destroy(v.myWayPoints.gameObject);
+                        }
+                    }
                     checkEnemy = true;
                     state = "Running";
                     _anim.Play("Run");
+                    if (tag == "Enemy")
+                    {
+                        state = "Enemy";
+                        transform.LookAt(directionEnemy);
+                    }
                 }
                 else
                 {
@@ -178,16 +206,16 @@ public class Viking : Selectable
         }
 
         //////////////////   ENEMY   ////////////////////////////////////
-        if (tag == "Enemy" && state != "Attack")
+        if (state == "Enemy")
         {
-            transform.position += speed * transform.forward * Time.deltaTime;
+            transform.position += speed * directionEnemy * Time.deltaTime;
             _anim.Play("Run");
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if ((other.tag == "Enemy" && tag == "Player") || (other.tag == "Player" && tag == "Enemy"))
+        if (((other.tag == "Enemy" && tag == "Player") || (other.tag == "Player" && tag == "Enemy")) && state != "Attack")
         {
             state = "RunAttack";
             _anim.Play("Run");

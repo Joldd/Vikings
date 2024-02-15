@@ -56,7 +56,7 @@ MonoBehaviour:
   canvas: {fileID: 7966732473850935902}
   isSelect: 0
   canBeSelected: 0
-  PV: 50
+  PV: 20
   timeBuildMax: 1
   isBuilt: 0
   timeBuild: 0
@@ -71,7 +71,7 @@ MonoBehaviour:
   damage: 2
   btnDraw: {fileID: 6959196083442489884}
   btnRun: {fileID: 3309147082853637746}
-  ennemyStop: 0
+  enemyStop: 0
 --- !u!54 &4142787646409458304
 Rigidbody:
   m_ObjectHideFlags: 0
