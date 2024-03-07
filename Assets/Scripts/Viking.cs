@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class Viking : Selectable
 {
     public WayPoints myWayPoints;
+    public WayPoints changingWayPoints;
     GameObject currentMark;
     LineRenderer currentLine;
     

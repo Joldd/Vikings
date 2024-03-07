@@ -42,6 +42,9 @@ public class GameManager : MonoBehaviour
     public HoverTitle objectHover;
     public GameObject panelHover;
 
+    public bool isChoosingMessager;
+    public bool isFirstMessage; 
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -82,6 +85,24 @@ public class GameManager : MonoBehaviour
             marks.Add(currentMark);
             createLine();
         }   
+    }
+
+    public void createNewPath()
+    {
+        if (!isPathing)
+        {
+            
+            isPathing = true;
+            currentWayPoints = Instantiate(wayPoints);
+            GameObject firstMark = Instantiate(mark, currentWayPoints.transform);
+            Messenger messenger = selectedUnit.GetComponent<Messenger>();
+            firstMark.transform.position = messenger.vikingSelected.transform.position;
+            marks.Add(firstMark);
+            currentMark = Instantiate(mark, currentWayPoints.transform);
+            marks.Add(currentMark);
+            createLine();
+            isFirstMessage = true;
+        }
     }
 
     void createLine()
@@ -129,13 +150,18 @@ public class GameManager : MonoBehaviour
     {
 
         /////////////////////////////// PATH WAYPOINTS UNIT /////////////////////////////////////
-        if (isPathing && Input.GetMouseButtonDown(0))
+        if (isPathing && Input.GetMouseButtonDown(0) && !isFirstMessage)
         {
             Vector3 currentPos = currentMark.transform.position;
             currentMark = Instantiate(mark, currentWayPoints.transform);
             marks.Add(currentMark);
             currentMark.transform.position = currentPos;
             createLine();
+        }
+
+        if (Input.GetMouseButton(0))
+        {
+            isFirstMessage = false;
         }
 
         if (isPathing && Input.GetKeyDown(KeyCode.Escape))

@@ -11,8 +11,15 @@ public class WayPoints : MonoBehaviour
 
     private void Start()
     {
-        viking = GameManager.Instance.selectedUnit.GetComponent<Viking>();
-        viking.myWayPoints = this;
+        if (GameManager.Instance.selectedUnit.TryGetComponent<Messenger>(out Messenger messenger)){
+            viking = messenger.vikingSelected;
+            viking.changingWayPoints = this;
+        }
+        else
+        {
+            viking = GameManager.Instance.selectedUnit.GetComponent<Viking>();
+            viking.myWayPoints = this;
+        }
     }
 
     public void setMarks(List<GameObject> m)

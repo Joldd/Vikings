@@ -66,14 +66,15 @@ public class Selectable : MonoBehaviour
             {
                 if (selectedUnit.TryGetComponent<Messenger>(out Messenger messenger))
                 {
-                    messenger.vikingSelected = this.gameObject.GetComponent<Viking>();
-                    return;
+                    if (GameManager.Instance.isChoosingMessager)
+                    {
+                        messenger.vikingSelected = this.GetComponent<Viking>();
+                        messenger.StopChooseViking();
+                        return;
+                    }
                 }
-
                 GameManager.Instance.selectedUnit.UnSelect();
-      
             }
-
             GameManager.Instance.StopBuilding();
             Select();
         }
