@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,14 +8,12 @@ public class GameManager : MonoBehaviour
     public WayPoints currentWayPoints;
 
     [SerializeField] GameObject mark;
-    List<GameObject> marks = new List<GameObject>();
     public GameObject currentMark;
 
     public bool isPathing;
 
     [SerializeField] LineRenderer _lr;
     LineRenderer currentLine;
-    List<LineRenderer> lines = new List<LineRenderer>();
     [SerializeField] float lineWidth = 0.2f;
 
     public static GameManager Instance { get; private set; }
@@ -80,9 +77,10 @@ public class GameManager : MonoBehaviour
             currentWayPoints = Instantiate(wayPoints);
             GameObject firstMark = Instantiate(mark, currentWayPoints.transform);
             firstMark.transform.position = selectedUnit.transform.position;
-            marks.Add(firstMark);
+            currentWayPoints.marks.Add(firstMark);
             currentMark = Instantiate(mark, currentWayPoints.transform);
-            marks.Add(currentMark);
+            currentWayPoints.marks.Add(currentMark);
+            currentWayPoints.lineColor = Color.red;
             createLine();
         }   
     }
@@ -97,9 +95,11 @@ public class GameManager : MonoBehaviour
             GameObject firstMark = Instantiate(mark, currentWayPoints.transform);
             Messenger messenger = selectedUnit.GetComponent<Messenger>();
             firstMark.transform.position = messenger.vikingSelected.transform.position;
-            marks.Add(firstMark);
+            currentWayPoints.marks.Add(firstMark);
             currentMark = Instantiate(mark, currentWayPoints.transform);
-            marks.Add(currentMark);
+            currentWayPoints.marks.Add(currentMark);
+            currentWayPoints.lineColor = Color.blue;
+            currentWayPoints.isNew = true;
             createLine();
             isFirstMessage = true;
         }
@@ -107,13 +107,14 @@ public class GameManager : MonoBehaviour
 
     void createLine()
     {
-        int index = marks.IndexOf(currentMark);
+        int index = currentWayPoints.marks.IndexOf(currentMark);
         currentLine = Instantiate(_lr, currentWayPoints.transform);
-        currentLine.SetPosition(0, marks[index - 1].transform.position);
+        currentLine.material.color = currentWayPoints.lineColor;
+        currentLine.SetPosition(0, currentWayPoints.marks[index - 1].transform.position);
         currentLine.SetPosition(1, currentMark.transform.position);
         currentLine.startWidth = lineWidth;
         currentLine.endWidth = lineWidth;
-        lines.Add(currentLine);
+        currentWayPoints.lines.Add(currentLine);
     }
 
     public GameObject createUnit(GameObject unit, Transform spawn)
@@ -154,7 +155,7 @@ public class GameManager : MonoBehaviour
         {
             Vector3 currentPos = currentMark.transform.position;
             currentMark = Instantiate(mark, currentWayPoints.transform);
-            marks.Add(currentMark);
+            currentWayPoints.marks.Add(currentMark);
             currentMark.transform.position = currentPos;
             createLine();
         }
@@ -166,13 +167,9 @@ public class GameManager : MonoBehaviour
 
         if (isPathing && Input.GetKeyDown(KeyCode.Escape))
         {
-            marks.Remove(currentMark);
+            currentWayPoints.marks.Remove(currentMark);
             DestroyImmediate(currentMark);
             DestroyImmediate(currentLine);
-            currentWayPoints.setMarks(marks);
-            marks.Clear();
-            currentWayPoints.setLines(lines);
-            lines.Clear();
             isPathing = false;
             if (selectedUnit.TryGetComponent<Viking>(out Viking v))
             {
