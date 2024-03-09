@@ -679,6 +679,7 @@ MonoBehaviour:
   panel: {fileID: 5955100606835109817}
   chooseColor: {r: 0.26032397, g: 0.6308657, b: 0.8490566, a: 1}
   speed: 10
+  messageBtn: {fileID: 6680807866762876882}
 --- !u!1 &7096209241645724445
 GameObject:
   m_ObjectHideFlags: 0
@@ -692,7 +693,7 @@ GameObject:
   - component: {fileID: 3729282433730634725}
   - component: {fileID: 6680807866762876882}
   m_Layer: 5
-  m_Name: Draw
+  m_Name: Message
   m_TagString: Draw
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -62,18 +62,26 @@ public class Viking : Selectable
     public override void Select()
     {
         base.Select();
-        if (myWayPoints != null)
+        if (myWayPoints)
         {
             myWayPoints.gameObject.SetActive(true);
+        }
+        if (changingWayPoints)
+        {
+            changingWayPoints.gameObject.SetActive(true);
         }
     }
 
     public override void UnSelect()
     {
         base.UnSelect();
-        if (myWayPoints != null)
+        if (myWayPoints)
         {
             myWayPoints.gameObject.SetActive(false);
+        }
+        if (changingWayPoints)
+        {
+            changingWayPoints.gameObject.SetActive(false);
         }
     }
 

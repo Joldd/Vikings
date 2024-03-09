@@ -13,6 +13,7 @@ public class Messenger : Selectable
     private Vector3 homePos;
     private GameObject body;
     private Animator _anim;
+    [SerializeField] private Button messageBtn;
 
     public override void Start()
     {
@@ -23,6 +24,58 @@ public class Messenger : Selectable
         body = transform.Find("Body").gameObject;
 
         _anim = body.GetComponent<Animator>();
+    }
+
+    public override void Select()
+    {
+        base.Select();
+
+        if (vikingSelected)
+        {
+            if (vikingSelected.myWayPoints)
+            {
+                vikingSelected.myWayPoints.gameObject.SetActive(true);
+            }
+            if (vikingSelected.changingWayPoints)
+            {
+                vikingSelected.changingWayPoints.gameObject.SetActive(true);
+            }
+        }
+
+    }
+
+    public override void UnSelect()
+    {
+        base.UnSelect();
+
+        if (vikingSelected)
+        {
+            if (vikingSelected.myWayPoints)
+            {
+                vikingSelected.myWayPoints.gameObject.SetActive(false);
+            }
+            if (vikingSelected.changingWayPoints)
+            {
+                vikingSelected.changingWayPoints.gameObject.SetActive(false);
+            }
+        }
+
+    }
+
+    private void QuitViking()
+    {
+        if (vikingSelected)
+        {
+            if (vikingSelected.myWayPoints)
+            {
+                vikingSelected.myWayPoints.gameObject.SetActive(false);
+            }
+            if (vikingSelected.changingWayPoints)
+            {
+                vikingSelected.changingWayPoints.gameObject.SetActive(false);
+            }
+            vikingSelected = null;
+        }
     }
 
     public override void Update()
@@ -48,12 +101,14 @@ public class Messenger : Selectable
         }
         else if (backHome)
         {
+            QuitViking();
             _anim.Play("Run");
             transform.LookAt(homePos);
             transform.position = Vector3.MoveTowards(transform.position, homePos, speed * Time.deltaTime);
             if (Vector3.Distance(transform.position, homePos) < 0.1f)
             {
                 backHome = false;
+                messageBtn.interactable = true;
             }
         }
         else
@@ -81,6 +136,7 @@ public class Messenger : Selectable
         GameManager.Instance.isChoosingMessager = !GameManager.Instance.isChoosingMessager;
         panel.color = startColor;
         GameManager.Instance.createNewPath();
+        messageBtn.interactable = false;
     }
 
     public void Go()
