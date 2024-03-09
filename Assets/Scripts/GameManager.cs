@@ -26,10 +26,6 @@ public class GameManager : MonoBehaviour
     public bool isBuilding = false;
     public House houseToBuild;
 
-    public GameObject buildings;
-    public GameObject spawnsBuildings;
-
-
     [SerializeField] Canvas mainMenu;
     TextMeshProUGUI textGold;
     TextMeshProUGUI textReputation;
@@ -187,10 +183,6 @@ public class GameManager : MonoBehaviour
             }
         }
 
-
-        //////////////////////////////// HOVER UI ///////////////////////////////////////
-
-
         /////////////////////////////// CHEAT CODE /////////////////////////////////////
         if (Input.GetKeyDown(KeyCode.L))
         {
@@ -205,8 +197,6 @@ public class GameManager : MonoBehaviour
     {
         isBuilding = false;
         houseToBuild = null;
-        buildings.SetActive(false);
-        spawnsBuildings.SetActive(false);
     }
 
     public void updateRessources()
