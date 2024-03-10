@@ -106,6 +106,21 @@ public class Viking : Selectable
         _anim.Play("Attack");
     }
 
+    public override void Die()
+    {
+        base.Die();
+
+        if (areaToCapture)
+        {
+            if (tag == "Enemy") areaToCapture.enemyCapturing = false;
+            if (tag == "Player") areaToCapture.playerCapturing = false;
+        }
+        if (myWayPoints)
+        {
+            Destroy(myWayPoints.gameObject);
+        }
+    }
+
     public override void Update()
     {
         base.Update();
@@ -179,21 +194,17 @@ public class Viking : Selectable
                 if (target.PV <= 0)
                 {
                     //DEATH
-                    Constructible area = target.GetComponent<Viking>().areaToCapture;
-                    if (area)
+                    if (target.TryGetComponent<Viking>(out Viking vikingTarget))
                     {
-                        if (target.tag == "Enemy") area.enemyCapturing = false;
-                        if (target.tag == "Player") area.playerCapturing = false;
+                        vikingTarget.Die();
                     }
+                    if (target.TryGetComponent<House>(out House houseTarget))
+                    {
+                        houseTarget.Die();
+                    }
+
                     Destroy(target.gameObject);
                     
-                    if (target.TryGetComponent<Viking>(out Viking v))
-                    {
-                        if (v.myWayPoints != null)
-                        {
-                            Destroy(v.myWayPoints.gameObject);
-                        }
-                    }
                     checkEnemy = true;
                     state = "Running";
                     _anim.Play("Run");

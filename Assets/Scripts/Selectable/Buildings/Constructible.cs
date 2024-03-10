@@ -7,10 +7,15 @@ public class Constructible : MonoBehaviour
 
     private GameObject basePlayer;
     private GameObject baseEnemy;
+
     private bool firstPlayerBuilder;
     private bool firstEnemyBuilder;
+    private bool needFirstPlayer;
+    private bool needFirstEnemy;
+
     public bool enemyCapturing;
     public bool playerCapturing;
+
     [SerializeField] private Builder PF_builder;
     private Builder playerBuilder;
     private Builder enemyBuilder;
@@ -23,6 +28,8 @@ public class Constructible : MonoBehaviour
     [SerializeField] private Image imageToBuild;
     [SerializeField] private List<HouseToBuild> L_HousesToBuild = new List<HouseToBuild>();
     private int currentImg = 0;
+
+    public bool houseDestroy;
 
     private void Start()
     {
@@ -37,9 +44,18 @@ public class Constructible : MonoBehaviour
         after.SetActive(true);
         if (playerBuilder) Destroy(playerBuilder.gameObject);
         if (enemyBuilder) Destroy(enemyBuilder.gameObject);
-        firstEnemyBuilder = false;
-        firstEnemyBuilder = false;
         isConstructible = true;
+    }
+
+    private void GoBackUnConstructible()
+    {
+        before.SetActive(true);
+        after.SetActive(false);
+        firstPlayerBuilder = false;
+        firstEnemyBuilder = false;
+        isConstructible = false;
+        HUD.SetActive(false);
+        houseDestroy = false;
     }
 
     private void OnMouseDown()
@@ -56,6 +72,7 @@ public class Constructible : MonoBehaviour
     {
         House house = Instantiate(L_HousesToBuild[currentImg].house, transform);
         house.transform.position = transform.position;
+        house.constructible = this;
         HUD.SetActive(false);
         after.SetActive(false);
     }
@@ -80,30 +97,25 @@ public class Constructible : MonoBehaviour
         imageToBuild.sprite = L_HousesToBuild[currentImg].sprite;
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
-        if (!firstPlayerBuilder && other.tag == "Player")
-        {
-            firstPlayerBuilder = true;
-            playerBuilder = Instantiate(PF_builder);
-            playerBuilder.transform.position = basePlayer.transform.position;
-            playerBuilder.constructible = this;
-        }
-        if (!firstEnemyBuilder && other.tag == "Enemy")
-        {
-            firstEnemyBuilder = true;
-            enemyBuilder = Instantiate(PF_builder);
-            enemyBuilder.transform.position = baseEnemy.transform.position;
-            enemyBuilder.constructible = this;
-        }
         if (other.tag == "Player")
         {
             playerCapturing = true;
-            other.GetComponent<Viking>().areaToCapture = this;
         }
         if (other.tag == "Enemy")
         {
             enemyCapturing = true;
+        }
+
+        if (other.tag == "Player" && !firstPlayerBuilder)
+        {
+            needFirstPlayer = true;
+            other.GetComponent<Viking>().areaToCapture = this;
+        }
+        if (other.tag == "Enemy" && !firstEnemyBuilder)
+        {
+            needFirstEnemy = true;
             other.GetComponent<Viking>().areaToCapture = this;
         }
     }
@@ -122,6 +134,23 @@ public class Constructible : MonoBehaviour
 
     private void Update()
     {
+        if (needFirstPlayer)
+        {
+            playerBuilder = Instantiate(PF_builder);
+            playerBuilder.transform.position = basePlayer.transform.position;
+            playerBuilder.constructible = this;
+            firstPlayerBuilder = true;
+            needFirstPlayer = false;
+        }
+        if (needFirstEnemy)
+        {
+            enemyBuilder = Instantiate(PF_builder);
+            enemyBuilder.transform.position = baseEnemy.transform.position;
+            enemyBuilder.constructible = this;
+            firstEnemyBuilder = true;
+            needFirstEnemy = false;
+        }
+
         if (playerCapturing && enemyCapturing)
         {
             if (playerBuilder) playerBuilder.isRunning = false;
@@ -141,6 +170,11 @@ public class Constructible : MonoBehaviour
         {
             if (playerBuilder) playerBuilder.isRunning = false;
             if (enemyBuilder) enemyBuilder.isRunning = false;
+        }
+
+        if (houseDestroy)
+        {
+            GoBackUnConstructible();
         }
     }
 }

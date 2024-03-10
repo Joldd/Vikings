@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.GraphicsBuffer;
 
 public class House : Selectable
 {
@@ -9,11 +10,12 @@ public class House : Selectable
     [SerializeField] Transform spawn;
     
     Animator animator;
-    Slider sliderBuilding;
 
     Selectable currentUnit = null;
     Slider currentSliderUnit = null;
     bool isBuilding = false;
+
+    public Constructible constructible;
 
     public override void Start()
     {
@@ -23,11 +25,7 @@ public class House : Selectable
 
         animator = GetComponent<Animator>();
 
-        sliderBuilding = transform.Find("HUDBuilding").Find("SliderBuilding").GetComponent<Slider>();
-        sliderBuilding.enabled = false;
-
         if (!isBuilt) animator.Play("Build");
-        else sliderBuilding.gameObject.SetActive(false);
 
         if (L_Units.Count == L_Buttons.Count)
         {
@@ -57,6 +55,13 @@ public class House : Selectable
         }
     }
 
+    public override void Die()
+    {
+        base.Die();
+
+        if (constructible) constructible.houseDestroy = true;
+    }
+
     public override void Update()
     {
         base .Update();
@@ -65,13 +70,12 @@ public class House : Selectable
         if (!isBuilt)
         {
             timeBuild -= Time.deltaTime;
-            sliderBuilding.value = (timeBuildMax - timeBuild) / timeBuildMax;
+            healthBar.slider.value = (timeBuildMax - timeBuild) / timeBuildMax;
         }
         if ( timeBuild <= 0 && !isBuilt)
         {
             animator.Play("Idle");
             isBuilt = true;
-            sliderBuilding.gameObject.SetActive(false);
         }
 
         /////////////////////////  BuildingViking ///////////////////////

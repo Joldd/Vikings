@@ -59,7 +59,7 @@ Transform:
   m_GameObject: {fileID: 4026966917022055749}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.503, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 0.001, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -165,7 +165,7 @@ Transform:
   m_GameObject: {fileID: 5065270541538383883}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -233,9 +233,10 @@ GameObject:
   - component: {fileID: 2582249866165288520}
   - component: {fileID: 7255845743970466150}
   - component: {fileID: 7809602372743711312}
+  - component: {fileID: -4633646404181240484}
   m_Layer: 0
   m_Name: House2
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -330,6 +331,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-4633646404181240484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5550205664086979457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10a35308b989cb94db8803b64d041604, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slider: {fileID: 0}
 --- !u!1001 &4873574097499321839
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -521,6 +535,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2983699032758682789, guid: b5c76bb22dc17834ba5aa149539720b2, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.148
+      objectReference: {fileID: 0}
     - target: {fileID: 4654499603350041241, guid: b5c76bb22dc17834ba5aa149539720b2, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -603,7 +621,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5923289634554251597, guid: b5c76bb22dc17834ba5aa149539720b2, type: 3}
       propertyPath: m_Name
-      value: HUDBuilding
+      value: HUD
+      objectReference: {fileID: 0}
+    - target: {fileID: 6007786534482470501, guid: b5c76bb22dc17834ba5aa149539720b2, type: 3}
+      propertyPath: m_Name
+      value: HealthBar
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
