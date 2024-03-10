@@ -3,12 +3,12 @@ using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour
 {
-    Slider slider;
+    public Slider slider;
     float maxPV;
 
     private void Start()
     {
-        slider = transform.Find("HUDCharacter").Find("HealthBar").GetComponent<Slider>();
+        slider = transform.Find("HUD").Find("HealthBar").GetComponent<Slider>();
         maxPV = GetComponent<Selectable>().PV;
     }
 

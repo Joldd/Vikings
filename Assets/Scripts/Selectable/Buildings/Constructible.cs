@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Constructible : MonoBehaviour
 {
@@ -12,24 +14,70 @@ public class Constructible : MonoBehaviour
     [SerializeField] private Builder PF_builder;
     private Builder playerBuilder;
     private Builder enemyBuilder;
+
     [SerializeField] GameObject before;
     [SerializeField] GameObject after;
+    private bool isConstructible;
 
+    [SerializeField] private GameObject HUD;
+    [SerializeField] private Image imageToBuild;
+    [SerializeField] private List<HouseToBuild> L_HousesToBuild = new List<HouseToBuild>();
+    private int currentImg = 0;
 
     private void Start()
     {
         basePlayer = GameObject.Find("BasePlayer");
         baseEnemy = GameObject.Find("BaseEnemy");
+        HUD.SetActive(false);
     }
 
     public void BecomeConstructible()
     {
         before.SetActive(false);
         after.SetActive(true);
-        Destroy(playerBuilder.gameObject);
-        Destroy(enemyBuilder.gameObject);
+        if (playerBuilder) Destroy(playerBuilder.gameObject);
+        if (enemyBuilder) Destroy(enemyBuilder.gameObject);
         firstEnemyBuilder = false;
         firstEnemyBuilder = false;
+        isConstructible = true;
+    }
+
+    private void OnMouseDown()
+    {
+        if (isConstructible)
+        {
+            HUD.SetActive(true);
+            imageToBuild.sprite = L_HousesToBuild[currentImg].sprite;
+            isConstructible = false;
+        }
+    }
+
+    public void Build()
+    {
+        House house = Instantiate(L_HousesToBuild[currentImg].house, transform);
+        house.transform.position = transform.position;
+        HUD.SetActive(false);
+        after.SetActive(false);
+    }
+
+    public void ChangeRight()
+    {
+        currentImg++;
+        if (currentImg >= L_HousesToBuild.Count)
+        {
+            currentImg = 0;
+        }
+        imageToBuild.sprite = L_HousesToBuild[currentImg].sprite;
+    }
+
+    public void ChangeLeft()
+    {
+        currentImg--;
+        if (currentImg < 0)
+        {
+            currentImg = L_HousesToBuild.Count - 1;
+        }
+        imageToBuild.sprite = L_HousesToBuild[currentImg].sprite;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -95,4 +143,11 @@ public class Constructible : MonoBehaviour
             if (enemyBuilder) enemyBuilder.isRunning = false;
         }
     }
+}
+
+[System.Serializable]
+public struct HouseToBuild
+{
+    public House house;
+    public Sprite sprite;
 }

@@ -51,7 +51,7 @@ public class Viking : Selectable
         });
         btnRun.interactable = false;
 
-        HUDCharacter = transform.Find("HUDCharacter").gameObject;
+        HUDCharacter = transform.Find("HUD").gameObject;
         HUDCharacter.gameObject.SetActive(false);
 
         if (tag == "Enemy")

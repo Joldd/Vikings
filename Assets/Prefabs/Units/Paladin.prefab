@@ -64,6 +64,7 @@ MonoBehaviour:
   priceGold: 0
   healthBar: {fileID: 0}
   myWayPoints: {fileID: 0}
+  changingWayPoints: {fileID: 0}
   target: {fileID: 0}
   timerAttackMax: 1
   speed: 3
@@ -72,6 +73,7 @@ MonoBehaviour:
   btnDraw: {fileID: 6959196083442489884}
   btnRun: {fileID: 3309147082853637746}
   enemyStop: 0
+  areaToCapture: {fileID: 0}
 --- !u!54 &4142787646409458304
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1584,7 +1586,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4807832559782477728, guid: 2d2f44a8c87284c45aef533e435076a9, type: 3}
       propertyPath: m_Name
-      value: HUDCharacter
+      value: HUD
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
