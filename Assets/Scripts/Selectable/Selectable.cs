@@ -7,7 +7,7 @@ public class Selectable : MonoBehaviour
 
     public bool isSelect;
 
-    public bool canBeSelected = false;
+    public bool canBeSelected;
 
     public int PV;
 
@@ -23,6 +23,9 @@ public class Selectable : MonoBehaviour
 
     public virtual void Start()
     {
+
+        canBeSelected = true;
+
         canvas.SetActive(false);
 
         timeBuild = timeBuildMax;
@@ -31,6 +34,11 @@ public class Selectable : MonoBehaviour
         select.SetActive(false);
 
         healthBar = GetComponent<HealthBar>();
+
+        if (tag == "Enemy")
+        {
+            canBeSelected = false;
+        }
     }
 
     public virtual void Die()
@@ -74,14 +82,6 @@ public class Selectable : MonoBehaviour
             }
             GameManager.Instance.StopBuilding();
             Select();
-        }
-    }
-
-    public virtual void Update()
-    {
-        if ( isBuilt && tag != "Enemy" )
-        {
-            canBeSelected = true;
         }
     }
 }

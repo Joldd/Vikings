@@ -113,22 +113,6 @@ public class GameManager : MonoBehaviour
         currentWayPoints.lines.Add(currentLine);
     }
 
-    public GameObject createUnit(GameObject unit, Transform spawn)
-    {
-        if (gold >= unit.GetComponent<Selectable>().priceGold)
-        {
-            GameObject v = Instantiate(unit);
-            v.transform.position = spawn.transform.position;
-            gold -= unit.GetComponent<Selectable>().priceGold;
-            updateRessources();
-            return v;
-        }
-        else
-        {
-            return null;
-        }
-    }
-
     private void FixedUpdate()
     {
         if (isPathing)

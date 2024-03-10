@@ -11,11 +11,13 @@ public class House : Selectable
     
     Animator animator;
 
-    Selectable currentUnit = null;
+    Selectable currentUnit;
     Slider currentSliderUnit = null;
     bool isBuilding = false;
 
     public Constructible constructible;
+
+    private float timer = 0;
 
     public override void Start()
     {
@@ -38,12 +40,13 @@ public class House : Selectable
                 {
                     if (!isBuilding && GameManager.Instance.gold >= L_Units[n].GetComponent<Selectable>().priceGold)
                     {
-                        currentUnit = GameManager.Instance.createUnit(L_Units[n], spawn).GetComponent<Selectable>();
-                        if (currentUnit != null)
+                        if (L_Units[n])
                         {
+                            currentUnit = L_Units[n].GetComponent<Selectable>();
                             sliderUnit.gameObject.SetActive(true);
                             currentSliderUnit = sliderUnit;
                             isBuilding = true;
+                            timer = currentUnit.timeBuildMax;
                         }
                     }
                 });
@@ -62,10 +65,19 @@ public class House : Selectable
         if (constructible) constructible.houseDestroy = true;
     }
 
-    public override void Update()
+    private void createUnit(Selectable unit, Transform spawn)
     {
-        base .Update();
+        if (GameManager.Instance.gold >= unit.GetComponent<Selectable>().priceGold)
+        {
+            Selectable v = Instantiate(unit);
+            v.transform.position = spawn.transform.position;
+            GameManager.Instance.gold -= unit.GetComponent<Selectable>().priceGold;
+            GameManager.Instance.updateRessources();
+        }
+    }
 
+    private void Update()
+    {
         /////////////////////////  BuildingHouse ///////////////////////
         if (!isBuilt)
         {
@@ -81,9 +93,14 @@ public class House : Selectable
         /////////////////////////  BuildingViking ///////////////////////
         if (isBuilding)
         {
-            currentSliderUnit.value = (currentUnit.timeBuildMax - currentUnit.timeBuild) / currentUnit.timeBuildMax;
-            if (currentUnit.isBuilt)
+            timer -= Time.deltaTime;
+
+            currentSliderUnit.value = (currentUnit.timeBuildMax - timer) / currentUnit.timeBuildMax;
+
+            if (currentSliderUnit.value >= 1)
             {
+                Debug.Log("go");
+                createUnit(currentUnit, spawn);
                 currentSliderUnit.gameObject.SetActive(false);
                 isBuilding = false;
                 currentSliderUnit = null;

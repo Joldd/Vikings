@@ -78,10 +78,8 @@ public class Messenger : Selectable
         }
     }
 
-    public override void Update()
+    private void Update()
     {
-        base.Update();
-
         if(bringMessage)
         {
             transform.position = Vector3.MoveTowards(transform.position, vikingSelected.transform.position, speed * Time.deltaTime);

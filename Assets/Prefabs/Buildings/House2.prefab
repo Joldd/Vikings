@@ -289,6 +289,7 @@ MonoBehaviour:
   L_Buttons:
   - {fileID: 8878223246678805109}
   spawn: {fileID: 1745729143058281864}
+  constructible: {fileID: 0}
 --- !u!65 &7255845743970466150
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -304,7 +305,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3

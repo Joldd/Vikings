@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 2843295892431864476}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.653, y: -0.5, z: 0}
+  m_LocalPosition: {x: 0.786, y: 0, z: -2.71}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -170,9 +170,9 @@ MonoBehaviour:
   canvas: {fileID: 7958815786874226584}
   isSelect: 0
   canBeSelected: 0
-  PV: 0
-  timeBuildMax: 3
-  isBuilt: 1
+  PV: 25
+  timeBuildMax: 0.1
+  isBuilt: 0
   timeBuild: 0
   priceReputation: 200
   priceGold: 0
@@ -184,6 +184,7 @@ MonoBehaviour:
   - {fileID: 6472866531753181744}
   - {fileID: 8878223246678805109}
   spawn: {fileID: 1745729143058281864}
+  constructible: {fileID: 0}
 --- !u!95 &4149537231043370423
 Animator:
   serializedVersion: 5

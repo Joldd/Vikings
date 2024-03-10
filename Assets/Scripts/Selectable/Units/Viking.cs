@@ -37,7 +37,6 @@ public class Viking : Selectable
         base.Start();
 
         body = transform.Find("Body").gameObject;
-        body.SetActive(false);
 
         _anim = body.GetComponent<Animator>(); 
 
@@ -121,34 +120,17 @@ public class Viking : Selectable
         }
     }
 
-    public override void Update()
+    private void Update()
     {
-        base.Update();
-
-        //////////////////  CONSTRUCTION   //////////////////////////////
-        if (!isBuilt)
-        {
-            timeBuild -= Time.deltaTime;
-        }
-        if (timeBuild <= 0 && !isBuilt)
-        {
-            if (tag != "Enemy")
-            {
-                canBeSelected = true;
-            }
-            body.SetActive(true);
-            HUDCharacter.gameObject.SetActive(true);
-        }
-
         //////////////////   STATE   ////////////////////////////////////
         if (state != "Sleeping") 
         {
-            if (tag != "Enemy")
+            if (tag != "Enemy" && myWayPoints)
             {
                 currentLine.SetPosition(0, transform.position);
             }
 
-            if (state == "Running")
+            if (state == "Running" && myWayPoints)
             {
                 transform.position = Vector3.MoveTowards(transform.position, currentMark.transform.position, speed * Time.deltaTime);
                 if (Vector3.Distance(transform.position, currentMark.transform.position) < 0.1f && myWayPoints.marks.IndexOf(currentMark) < myWayPoints.marks.Count - 1)
@@ -162,9 +144,14 @@ public class Viking : Selectable
                 if (Vector3.Distance(transform.position, currentMark.transform.position) < 0.1f && myWayPoints.marks.IndexOf(currentMark) == myWayPoints.marks.Count - 1)
                 {
                     //Destroy(myWayPoints.gameObject);
-                    _anim.Play("Idle");
+                    state = "Waiting";
                 }
-            } 
+            }
+            
+            if (state == "Waiting")
+            {
+                _anim.Play("Idle");
+            }
             
             if (state == "RunAttack")
             {
@@ -187,6 +174,7 @@ public class Viking : Selectable
                 if (Vector3.Distance(transform.position, target.transform.position) > 15f)
                 {
                     state = "Running";
+                    checkEnemy = false;
                 }
             }
             if (state == "Attack")
@@ -205,9 +193,18 @@ public class Viking : Selectable
 
                     Destroy(target.gameObject);
                     
-                    checkEnemy = true;
-                    state = "Running";
-                    _anim.Play("Run");
+                    checkEnemy = false;
+
+                    if (myWayPoints)
+                    {
+                        state = "Running";
+                        _anim.Play("Run");
+                    }
+                    else
+                    {
+                        state = "Waiting";
+                    }                 
+
                     if (tag == "Enemy")
                     {
                         state = "Enemy";
@@ -240,26 +237,16 @@ public class Viking : Selectable
         }
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (((other.tag == "Enemy" && tag == "Player") || (other.tag == "Player" && tag == "Enemy")) && state != "Attack")
-        {
-            state = "RunAttack";
-            _anim.Play("Run");
-            target = other.gameObject.GetComponent<Selectable>();
-        }
-    }
-
     private void OnTriggerStay(Collider other)
     {
-        if (!checkEnemy) return;
+        if (checkEnemy) return;
 
         if ((other.tag == "Enemy" && tag == "Player") || (other.tag == "Player" && tag == "Enemy"))
         {
             state = "RunAttack";
             _anim.Play("Run");
             target = other.gameObject.GetComponent<Selectable>();
-            checkEnemy = false;
+            checkEnemy = true;
         }
     }
 }
