@@ -9,6 +9,7 @@ public class Builder : MonoBehaviour
     public bool isRunning;
     private Animator _anim;
     private GameObject body;
+    public bool isPlayer;
 
     public void Start()
     {
@@ -31,7 +32,8 @@ public class Builder : MonoBehaviour
         }
 
         if (Vector3.Distance(transform.position, constructible.transform.position) < 0.1f){
-            constructible.BecomeConstructible();
+            if (isPlayer) constructible.BecomeConstructible();
+            else constructible.BecomeEnemy();
         }
     }
 }

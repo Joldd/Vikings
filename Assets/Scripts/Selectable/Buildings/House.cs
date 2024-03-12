@@ -99,7 +99,6 @@ public class House : Selectable
 
             if (currentSliderUnit.value >= 1)
             {
-                Debug.Log("go");
                 createUnit(currentUnit, spawn);
                 currentSliderUnit.gameObject.SetActive(false);
                 isBuilding = false;

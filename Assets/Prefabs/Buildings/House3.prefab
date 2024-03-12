@@ -277,7 +277,7 @@ MonoBehaviour:
   canvas: {fileID: 7958815786874226584}
   isSelect: 0
   canBeSelected: 0
-  PV: 0
+  PV: 10
   timeBuildMax: 1
   isBuilt: 0
   timeBuild: 0

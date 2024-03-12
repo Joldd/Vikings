@@ -31,6 +31,8 @@ public class Constructible : MonoBehaviour
 
     public bool houseDestroy;
 
+    [SerializeField] GameObject enemySpawner;
+
     private void Start()
     {
         basePlayer = GameObject.Find("BasePlayer");
@@ -45,6 +47,16 @@ public class Constructible : MonoBehaviour
         if (playerBuilder) Destroy(playerBuilder.gameObject);
         if (enemyBuilder) Destroy(enemyBuilder.gameObject);
         isConstructible = true;
+    }
+
+    public void BecomeEnemy()
+    {
+        before.SetActive(false);
+        after.SetActive(false);
+        if (playerBuilder) Destroy(playerBuilder.gameObject);
+        if (enemyBuilder) Destroy(enemyBuilder.gameObject);
+        GameObject enemyBuild = Instantiate(enemySpawner);
+        enemyBuild.transform.position = transform.position;
     }
 
     private void GoBackUnConstructible()
@@ -137,6 +149,7 @@ public class Constructible : MonoBehaviour
         if (needFirstPlayer)
         {
             playerBuilder = Instantiate(PF_builder);
+            playerBuilder.isPlayer = true;
             playerBuilder.transform.position = basePlayer.transform.position;
             playerBuilder.constructible = this;
             firstPlayerBuilder = true;
@@ -145,6 +158,7 @@ public class Constructible : MonoBehaviour
         if (needFirstEnemy)
         {
             enemyBuilder = Instantiate(PF_builder);
+            playerBuilder.isPlayer = false;
             enemyBuilder.transform.position = baseEnemy.transform.position;
             enemyBuilder.constructible = this;
             firstEnemyBuilder = true;
