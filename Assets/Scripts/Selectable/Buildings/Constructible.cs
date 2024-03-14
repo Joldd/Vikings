@@ -57,6 +57,7 @@ public class Constructible : MonoBehaviour
         if (enemyBuilder) Destroy(enemyBuilder.gameObject);
         GameObject enemyBuild = Instantiate(enemySpawner);
         enemyBuild.transform.position = transform.position;
+        enemyBuild.GetComponent<House>().constructible = this;
     }
 
     private void GoBackUnConstructible()
@@ -158,7 +159,7 @@ public class Constructible : MonoBehaviour
         if (needFirstEnemy)
         {
             enemyBuilder = Instantiate(PF_builder);
-            playerBuilder.isPlayer = false;
+            enemyBuilder.isPlayer = false;
             enemyBuilder.transform.position = baseEnemy.transform.position;
             enemyBuilder.constructible = this;
             firstEnemyBuilder = true;

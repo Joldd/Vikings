@@ -282,6 +282,10 @@ PrefabInstance:
       propertyPath: rotation
       value: -90
       objectReference: {fileID: 0}
+    - target: {fileID: 2307417907664494320, guid: c0d7b3901c217fa498d6d466877e7a99, type: 3}
+      propertyPath: timerMax
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 5550205664086979457, guid: c0d7b3901c217fa498d6d466877e7a99, type: 3}
       propertyPath: m_Name
       value: BaseEnemy

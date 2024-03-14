@@ -125,7 +125,7 @@ public class Viking : Selectable
         //////////////////   STATE   ////////////////////////////////////
         if (state != "Sleeping") 
         {
-            if (tag != "Enemy" && myWayPoints)
+            if (tag != "Enemy" && currentLine)
             {
                 currentLine.SetPosition(0, transform.position);
             }
@@ -158,23 +158,32 @@ public class Viking : Selectable
                 if (target == null)
                 {
                     state = "Running";
+                    checkEnemy = false;
                     if (tag == "Enemy")
                     {
                         state = "Enemy";
                         transform.LookAt(directionEnemy);
                     }
                 }
-                Vector3 targetPos = new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z);
-                transform.position = Vector3.MoveTowards(transform.position, targetPos, speed * Time.deltaTime);
-                transform.LookAt(new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z));
-                if (Vector3.Distance(transform.position, target.transform.position) <= range)
+                else
                 {
-                    state = "Attack";
-                }
-                if (Vector3.Distance(transform.position, target.transform.position) > 15f)
-                {
-                    state = "Running";
-                    checkEnemy = false;
+                    Vector3 targetPos = new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z);
+                    transform.position = Vector3.MoveTowards(transform.position, targetPos, speed * Time.deltaTime);
+                    transform.LookAt(new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z));
+                    if (Vector3.Distance(transform.position, target.transform.position) <= range)
+                    {
+                        state = "Attack";
+                    }
+                    if (Vector3.Distance(transform.position, target.transform.position) > 15f)
+                    {
+                        state = "Running";
+                        checkEnemy = false;
+                        if (tag == "Enemy")
+                        {
+                            state = "Enemy";
+                            transform.LookAt(directionEnemy);
+                        }
+                    }
                 }
             }
             if (state == "Attack")
