@@ -23,7 +23,6 @@ public class Selectable : MonoBehaviour
 
     public virtual void Start()
     {
-
         canBeSelected = true;
 
         canvas.SetActive(false);
@@ -33,8 +32,6 @@ public class Selectable : MonoBehaviour
         select = transform.Find("Select").gameObject;
         select.SetActive(false);
 
-        healthBar = GetComponent<HealthBar>();
-
         if (tag == "Enemy")
         {
             canBeSelected = false;
@@ -43,7 +40,7 @@ public class Selectable : MonoBehaviour
 
     public virtual void Die()
     {
-        Debug.Log(gameObject.name + " is dead");
+        Destroy(healthBar.gameObject);
     }
 
     public virtual void Select()

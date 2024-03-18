@@ -24,8 +24,6 @@ public class Viking : Selectable
 
     GameObject body;
 
-    GameObject HUDCharacter;
-
     [SerializeField] bool enemyStop;
     bool checkEnemy;
     Vector3 directionEnemy;
@@ -35,6 +33,11 @@ public class Viking : Selectable
     public override void Start()
     {
         base.Start();
+
+        //Health Bar
+        healthBar = Instantiate(healthBar, transform.position, Quaternion.identity);
+        healthBar.StartBar(gameObject);
+        healthBar.UpdateValue();
 
         body = transform.Find("Body").gameObject;
 
@@ -49,9 +52,6 @@ public class Viking : Selectable
             GameManager.Instance.createPath();
         });
         btnRun.interactable = false;
-
-        HUDCharacter = transform.Find("HUD").gameObject;
-        HUDCharacter.gameObject.SetActive(false);
 
         if (tag == "Enemy")
         {

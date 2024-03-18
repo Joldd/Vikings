@@ -23,6 +23,10 @@ public class House : Selectable
     {
         base.Start();
 
+        //Health Bar
+        healthBar = Instantiate(healthBar, transform.position, Quaternion.identity);
+        healthBar.StartBar(gameObject);
+
         canvas = transform.Find("CanvasBuilding").gameObject;
 
         animator = GetComponent<Animator>();

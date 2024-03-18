@@ -9,7 +9,6 @@ public class VikingHelper : MonoBehaviour
     public void Deal()
     {
         viking.target.PV -= viking.damage;
-        viking.target.healthBar.updateHealthBar();
+        viking.target.healthBar.UpdateValue();
     }
-
 }

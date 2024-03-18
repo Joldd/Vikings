@@ -3,25 +3,32 @@ using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour
 {
-    private GameObject canvas;
+    public Image healthSprite;
+    Selectable selectable;
+    RectTransform rectTransform;
+    [Range(0, 5)] public float healthBarUpOffset;
+    RectTransform canvasRectTransform;
     public Slider slider;
     float maxPV;
 
-    private void Start()
+    void Update()
     {
-        canvas = transform.Find("HUD").gameObject;
-        canvas.SetActive(true);
-        slider = transform.Find("HUD").Find("HealthBar").GetComponent<Slider>();
-        maxPV = GetComponent<Selectable>().PV;
+        Vector3 worldTargetPosition = selectable.transform.position + Vector3.up * healthBarUpOffset;
+        rectTransform.position = Camera.main.WorldToScreenPoint(worldTargetPosition);
     }
 
-    public void updateHealthBar()
+    public void StartBar(GameObject target)
     {
-        slider.value = GetComponent<Selectable>().PV / maxPV;
+        slider = GetComponent<Slider>();
+        rectTransform = GetComponent<RectTransform>();
+        canvasRectTransform = FindObjectOfType<HealthBarCanvas>().rectTransform;
+        transform.SetParent(canvasRectTransform);
+        selectable = target.GetComponent<Selectable>();
+        maxPV = selectable.PV;
     }
 
-    private void Update()
+    public void UpdateValue()
     {
-        canvas.transform.LookAt(Camera.main.transform);
+        slider.value = selectable.PV / maxPV;
     }
 }
