@@ -449,6 +449,9 @@ MonoBehaviour:
   rangeZoom: {x: 8, y: 25}
   rangeMoveX: {x: -20, y: 20}
   rangeMoveZ: {x: -20, y: 20}
+  cursorLeft: {fileID: 2800000, guid: 100ceffce9cf19f439426520cbb889cf, type: 3}
+  cursorMode: 0
+  hotSpot: {x: 0, y: 0}
 --- !u!1001 &1009811126
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -679,6 +682,14 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2051246456347395974, guid: 4136d3ddf12737144876a6e32402401a, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2051246456347395974, guid: 4136d3ddf12737144876a6e32402401a, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6720871799585484426, guid: 4136d3ddf12737144876a6e32402401a, type: 3}
       propertyPath: m_Name
       value: MainMenu
@@ -761,6 +772,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7869682750278789093, guid: 4136d3ddf12737144876a6e32402401a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8389430852053960843, guid: 4136d3ddf12737144876a6e32402401a, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8389430852053960843, guid: 4136d3ddf12737144876a6e32402401a, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8389430852053960843, guid: 4136d3ddf12737144876a6e32402401a, type: 3}
+      propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

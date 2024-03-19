@@ -9,7 +9,19 @@ public class CameraController : MonoBehaviour
     [SerializeField] Vector2 rangeMoveX;
     [SerializeField] Vector2 rangeMoveZ;
 
-    Vector3 newPos;
+    private Vector3 newPos;
+
+    private float delta = 10f;
+
+    public Texture2D cursorNormal;
+    public Texture2D cursorLeft;
+    public Texture2D cursorRight;
+    public Texture2D cursorUp;
+    public Texture2D cursorDown;
+    private CursorMode cursorMode = CursorMode.Auto;
+    private Vector2 hotSpot = Vector2.zero;
+
+    private bool goBackNormal;
 
     private void Start()
     {
@@ -57,6 +69,37 @@ public class CameraController : MonoBehaviour
         if (z < 0 && transform.position.z > rangeMoveZ.x)
         {
             newPos.z -= moveSpeed * Time.deltaTime;
+        }
+
+        if (Input.mousePosition.x >= Screen.width - delta)
+        {
+            newPos.x += moveSpeed * Time.deltaTime;
+            Cursor.SetCursor(cursorRight, hotSpot, cursorMode);
+        }
+        if (Input.mousePosition.x <= delta)
+        {
+            newPos.x -= moveSpeed * Time.deltaTime;
+            Cursor.SetCursor(cursorLeft, hotSpot, cursorMode);
+        }
+        if (Input.mousePosition.y >= Screen.height - delta)
+        {
+            newPos.z += moveSpeed * Time.deltaTime;
+            Cursor.SetCursor(cursorUp, hotSpot, cursorMode);
+        }
+        if (Input.mousePosition.y <= delta)
+        {
+            newPos.z -= moveSpeed * Time.deltaTime;
+            Cursor.SetCursor(cursorDown, hotSpot, cursorMode);
+        }
+
+        if (Input.mousePosition.x >= Screen.width - delta || Input.mousePosition.x <= delta || Input.mousePosition.y >= Screen.height - delta || Input.mousePosition.y <= delta)
+        {
+            goBackNormal = false;
+        }
+        else if (!goBackNormal)
+        {
+            Cursor.SetCursor(cursorNormal, hotSpot, cursorMode);
+            goBackNormal = true;
         }
     }
 }
