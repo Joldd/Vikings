@@ -24,6 +24,7 @@ public class Constructible : MonoBehaviour
     [SerializeField] GameObject before;
     [SerializeField] GameObject after;
     private bool isConstructible;
+    private bool isEmpty = true;
 
     [SerializeField] private GameObject HUD;
     [SerializeField] private Image imageToBuild;
@@ -62,6 +63,7 @@ public class Constructible : MonoBehaviour
         GameObject enemyBuild = Instantiate(enemySpawner);
         enemyBuild.transform.position = transform.position;
         enemyBuild.GetComponent<House>().constructible = this;
+        isEmpty = false;
     }
 
     private void GoBackUnConstructible()
@@ -73,6 +75,7 @@ public class Constructible : MonoBehaviour
         isConstructible = false;
         HUD.SetActive(false);
         houseDestroy = false;
+        isEmpty = true;
     }
 
     private void OnMouseDown()
@@ -99,6 +102,7 @@ public class Constructible : MonoBehaviour
         house.constructible = this;
         HUD.SetActive(false);
         after.SetActive(false);
+        isEmpty = false;
     }
 
     public void ChangeRight()
@@ -158,6 +162,13 @@ public class Constructible : MonoBehaviour
 
     private void Update()
     {
+        if (houseDestroy)
+        {
+            GoBackUnConstructible();
+        }
+
+        if (!isEmpty) return;
+
         if (needFirstPlayer)
         {
             playerBuilder = Instantiate(PF_builder);
@@ -196,11 +207,6 @@ public class Constructible : MonoBehaviour
         {
             if (playerBuilder) playerBuilder.isRunning = false;
             if (enemyBuilder) enemyBuilder.isRunning = false;
-        }
-
-        if (houseDestroy)
-        {
-            GoBackUnConstructible();
         }
     }
 }
