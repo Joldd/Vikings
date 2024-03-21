@@ -30,6 +30,8 @@ public class Viking : Selectable
 
     public Constructible areaToCapture;
 
+    [SerializeField] int goldToWin;
+
     public override void Start()
     {
         base.Start();
@@ -117,6 +119,12 @@ public class Viking : Selectable
         if (myWayPoints)
         {
             Destroy(myWayPoints.gameObject);
+        }
+
+        if (tag == "Enemy")
+        {
+            GameManager.Instance.gold += goldToWin;
+            GameManager.Instance.updateRessources();
         }
     }
 

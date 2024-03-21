@@ -59,8 +59,6 @@ public class GameManager : MonoBehaviour
 
         textGold = mainMenu.gameObject.transform.Find("Ressources").Find("Gold").Find("Text").GetComponent<TextMeshProUGUI>();
         textReputation = mainMenu.gameObject.transform.Find("Ressources").Find("Reputation").Find("Text").GetComponent<TextMeshProUGUI>();
-        reputation = 0;
-        gold = 0;
         updateRessources();
 
         panelHover = mainMenu.gameObject.transform.Find("Hover").gameObject;

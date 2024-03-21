@@ -52,6 +52,8 @@ public class House : Selectable
                             currentSliderUnit = sliderUnit;
                             isBuilding = true;
                             timer = currentUnit.timeBuildMax;
+                            GameManager.Instance.gold -= currentUnit.priceGold;
+                            GameManager.Instance.updateRessources();
                         }
                     }
                 });
@@ -76,13 +78,8 @@ public class House : Selectable
 
     private void createUnit(Selectable unit, Transform spawn)
     {
-        if (GameManager.Instance.gold >= unit.GetComponent<Selectable>().priceGold)
-        {
-            Selectable v = Instantiate(unit);
-            v.transform.position = spawn.transform.position;
-            GameManager.Instance.gold -= unit.GetComponent<Selectable>().priceGold;
-            GameManager.Instance.updateRessources();
-        }
+         Selectable v = Instantiate(unit);
+         v.transform.position = spawn.transform.position;     
     }
 
     private void Update()

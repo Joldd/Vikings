@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class Selectable : MonoBehaviour
 {
-    public GameObject select;
     public GameObject canvas;
 
     public bool isSelect;
@@ -31,9 +30,6 @@ public class Selectable : MonoBehaviour
 
         timeBuild = timeBuildMax;
 
-        select = transform.Find("Select").gameObject;
-        select.SetActive(false);
-
         if (tag == "Enemy")
         {
             canBeSelected = false;
@@ -54,12 +50,21 @@ public class Selectable : MonoBehaviour
         }
     }
 
-    private void goOutLine()
+    private void hoverOutline()
     {
         if (outline)
         {
             outline.OutlineMode = Outline.Mode.OutlineAll;
             outline.OutlineWidth = 2;
+        }
+    }
+
+    private void selectOutline()
+    {
+        if (outline)
+        {
+            outline.OutlineMode = Outline.Mode.OutlineAll;
+            outline.OutlineWidth = 4;
         }
     }
 
@@ -71,14 +76,14 @@ public class Selectable : MonoBehaviour
     public virtual void Select()
     {
         GameManager.Instance.selectedUnit = this;
-        select.SetActive(true);
+        selectOutline();
         isSelect = true;
         canvas.SetActive(true);
     }
 
     public virtual void UnSelect()
     {
-        select.SetActive(false);
+        noOutLine();
         isSelect = false;
         canvas.SetActive(false);
     }
@@ -109,11 +114,17 @@ public class Selectable : MonoBehaviour
 
     private void OnMouseOver()
     {
-        goOutLine();
+        if (!isSelect)
+        {
+            hoverOutline();
+        }
     }
 
     private void OnMouseExit()
     {
-        noOutLine();
+        if (!isSelect)
+        {
+            noOutLine();
+        }
     }
 }
