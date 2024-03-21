@@ -21,6 +21,8 @@ public class Selectable : MonoBehaviour
 
     public HealthBar healthBar;
 
+    private Outline outline;
+
     public virtual void Start()
     {
         canBeSelected = true;
@@ -35,6 +37,29 @@ public class Selectable : MonoBehaviour
         if (tag == "Enemy")
         {
             canBeSelected = false;
+        }
+        else
+        {
+            outline = gameObject.AddComponent<Outline>();
+            outline.OutlineColor = Color.yellow;
+            noOutLine();
+        }
+    }
+
+    public void noOutLine()
+    {
+        if (outline)
+        {
+            outline.OutlineMode = Outline.Mode.Nothing;
+        }
+    }
+
+    private void goOutLine()
+    {
+        if (outline)
+        {
+            outline.OutlineMode = Outline.Mode.OutlineAll;
+            outline.OutlineWidth = 2;
         }
     }
 
@@ -80,5 +105,15 @@ public class Selectable : MonoBehaviour
             GameManager.Instance.StopBuilding();
             Select();
         }
+    }
+
+    private void OnMouseOver()
+    {
+        goOutLine();
+    }
+
+    private void OnMouseExit()
+    {
+        noOutLine();
     }
 }
