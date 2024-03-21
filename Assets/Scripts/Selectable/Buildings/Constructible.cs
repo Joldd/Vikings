@@ -103,6 +103,8 @@ public class Constructible : MonoBehaviour
         HUD.SetActive(false);
         after.SetActive(false);
         isEmpty = false;
+        GameManager.Instance.reputation -= house.priceReputation;
+        GameManager.Instance.updateRessources();
     }
 
     public void ChangeRight()

@@ -115,7 +115,7 @@ MonoBehaviour:
   myWayPoints: {fileID: 0}
   changingWayPoints: {fileID: 0}
   target: {fileID: 0}
-  timerAttackMax: 2
+  timerAttackMax: 1
   speed: 5
   range: 2
   damage: 2
