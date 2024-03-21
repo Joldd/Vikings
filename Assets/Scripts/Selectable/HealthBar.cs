@@ -29,6 +29,6 @@ public class HealthBar : MonoBehaviour
 
     public void UpdateValue()
     {
-        slider.value = selectable.PV / maxPV;
+        slider.value = (float)selectable.PV / (float)maxPV;
     }
 }

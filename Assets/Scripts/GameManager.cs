@@ -1,5 +1,8 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -123,11 +126,11 @@ public class GameManager : MonoBehaviour
                 currentMark.transform.position = hit.point;
                 currentLine.SetPosition(1, hit.point);            
             }
-        }      
+        }
     }
 
     private void Update()
-    {
+    {   
         /////////////////////////////// PATH WAYPOINTS UNIT /////////////////////////////////////
         if (isPathing && Input.GetMouseButtonDown(0) && !isFirstMessage)
         {
@@ -143,7 +146,8 @@ public class GameManager : MonoBehaviour
             isFirstMessage = false;
         }
 
-        if (isPathing && Input.GetKeyDown(KeyCode.Escape))
+        //////// STOP PATHING
+        if (isPathing && (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButton(1)))
         {
             currentWayPoints.marks.Remove(currentMark);
             DestroyImmediate(currentMark);
@@ -155,9 +159,16 @@ public class GameManager : MonoBehaviour
                 v.btnRun.interactable = true;
             }
         }
+        ////// GAME PAUSE
         else if (Input.GetKeyDown(KeyCode.Escape))
         {
             UIManager.Instance.Pause();
+        }
+        ////// UNSELECT UNIT
+        else if (Input.GetMouseButtonDown(1))
+        {
+            selectedUnit.UnSelect();
+            selectedUnit = null;
         }
 
         /////////////////////////////// BUILDING /////////////////////////////////////
