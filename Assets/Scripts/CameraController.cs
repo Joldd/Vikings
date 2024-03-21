@@ -26,6 +26,7 @@ public class CameraController : MonoBehaviour
     private void Start()
     {
         newPos = transform.position;
+        Cursor.lockState = CursorLockMode.Confined;
     }
 
     private void Update()
@@ -71,28 +72,32 @@ public class CameraController : MonoBehaviour
             newPos.z -= moveSpeed * Time.deltaTime;
         }
 
-        if (Input.mousePosition.x >= Screen.width - delta)
+        //RIGHT
+        if (Input.mousePosition.x >= Screen.width - 3*delta)
         {
             newPos.x += moveSpeed * Time.deltaTime;
             Cursor.SetCursor(cursorRight, hotSpot, cursorMode);
         }
+        //LEFT
         if (Input.mousePosition.x <= delta)
         {
             newPos.x -= moveSpeed * Time.deltaTime;
             Cursor.SetCursor(cursorLeft, hotSpot, cursorMode);
         }
+        //UP
         if (Input.mousePosition.y >= Screen.height - delta)
         {
             newPos.z += moveSpeed * Time.deltaTime;
             Cursor.SetCursor(cursorUp, hotSpot, cursorMode);
         }
-        if (Input.mousePosition.y <= delta)
+        //DOWN
+        if (Input.mousePosition.y <= 3*delta)
         {
             newPos.z -= moveSpeed * Time.deltaTime;
             Cursor.SetCursor(cursorDown, hotSpot, cursorMode);
         }
 
-        if (Input.mousePosition.x >= Screen.width - delta || Input.mousePosition.x <= delta || Input.mousePosition.y >= Screen.height - delta || Input.mousePosition.y <= delta)
+        if (Input.mousePosition.x >= Screen.width - 3*delta || Input.mousePosition.x <= delta || Input.mousePosition.y >= Screen.height - delta || Input.mousePosition.y <= 3*delta)
         {
             goBackNormal = false;
         }

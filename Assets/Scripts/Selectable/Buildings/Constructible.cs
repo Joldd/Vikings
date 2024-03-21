@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -32,6 +33,9 @@ public class Constructible : MonoBehaviour
     public bool houseDestroy;
 
     [SerializeField] GameObject enemySpawner;
+
+    [SerializeField] TextMeshProUGUI nameTMP;
+    [SerializeField] TextMeshProUGUI costTMP;
 
     private void Start()
     {
@@ -76,9 +80,16 @@ public class Constructible : MonoBehaviour
         if (isConstructible)
         {
             HUD.SetActive(true);
-            imageToBuild.sprite = L_HousesToBuild[currentImg].sprite;
+            UpdateHouseToBuild();
             isConstructible = false;
         }
+    }
+
+    private void UpdateHouseToBuild()
+    {
+        imageToBuild.sprite = L_HousesToBuild[currentImg].sprite;
+        costTMP.text = L_HousesToBuild[currentImg].house.priceReputation + " renommée";
+        nameTMP.text = L_HousesToBuild[currentImg].house.name;
     }
 
     public void Build()
@@ -97,7 +108,7 @@ public class Constructible : MonoBehaviour
         {
             currentImg = 0;
         }
-        imageToBuild.sprite = L_HousesToBuild[currentImg].sprite;
+        UpdateHouseToBuild();
     }
 
     public void ChangeLeft()
@@ -107,7 +118,7 @@ public class Constructible : MonoBehaviour
         {
             currentImg = L_HousesToBuild.Count - 1;
         }
-        imageToBuild.sprite = L_HousesToBuild[currentImg].sprite;
+        UpdateHouseToBuild();
     }
 
     private void OnTriggerStay(Collider other)

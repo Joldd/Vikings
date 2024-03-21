@@ -275,8 +275,8 @@ MonoBehaviour:
   canvas: {fileID: 7958815786874226584}
   isSelect: 0
   canBeSelected: 0
-  PV: 10
-  timeBuildMax: 1
+  PV: 15
+  timeBuildMax: 2
   isBuilt: 0
   timeBuild: 0
   priceReputation: 0
@@ -288,6 +288,7 @@ MonoBehaviour:
   - {fileID: 8878223246678805109}
   spawn: {fileID: 1745729143058281864}
   constructible: {fileID: 0}
+  isBase: 0
 --- !u!65 &7255845743970466150
 BoxCollider:
   m_ObjectHideFlags: 0
