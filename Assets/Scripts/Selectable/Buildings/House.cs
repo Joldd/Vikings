@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEngine.GraphicsBuffer;
 
 public class House : Selectable
 {
@@ -18,6 +17,8 @@ public class House : Selectable
     public Constructible constructible;
 
     private float timer = 0;
+
+    public bool isBase;
 
     public override void Start()
     {
@@ -67,6 +68,10 @@ public class House : Selectable
         base.Die();
 
         if (constructible) constructible.houseDestroy = true;
+
+        if (isBase && tag == "Player") UIManager.Instance.Defeat();
+
+        if (isBase && tag == "Enemy") UIManager.Instance.Victory();
     }
 
     private void createUnit(Selectable unit, Transform spawn)

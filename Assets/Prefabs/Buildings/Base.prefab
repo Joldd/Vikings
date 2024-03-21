@@ -183,6 +183,7 @@ MonoBehaviour:
   - {fileID: 8878223246678805109}
   spawn: {fileID: 1745729143058281864}
   constructible: {fileID: 0}
+  isBase: 1
 --- !u!95 &4149537231043370423
 Animator:
   serializedVersion: 5
