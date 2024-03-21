@@ -69,6 +69,7 @@ public class GameManager : MonoBehaviour
     {
         if (!isPathing)
         {
+            UIManager.Instance.canPause = false;
             isPathing = true;
             currentWayPoints = Instantiate(wayPoints);
             GameObject firstMark = Instantiate(mark, currentWayPoints.transform);
@@ -85,7 +86,7 @@ public class GameManager : MonoBehaviour
     {
         if (!isPathing)
         {
-            
+            UIManager.Instance.canPause = false;
             isPathing = true;
             currentWayPoints = Instantiate(wayPoints);
             GameObject firstMark = Instantiate(mark, currentWayPoints.transform);
@@ -129,7 +130,6 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-
         /////////////////////////////// PATH WAYPOINTS UNIT /////////////////////////////////////
         if (isPathing && Input.GetMouseButtonDown(0) && !isFirstMessage)
         {
@@ -147,6 +147,7 @@ public class GameManager : MonoBehaviour
 
         if (isPathing && Input.GetKeyDown(KeyCode.Escape))
         {
+            UIManager.Instance.canPause = true;
             currentWayPoints.marks.Remove(currentMark);
             DestroyImmediate(currentMark);
             DestroyImmediate(currentLine);
@@ -156,6 +157,11 @@ public class GameManager : MonoBehaviour
                 v.btnDraw.interactable = false;
                 v.btnRun.interactable = true;
             }
+        }
+        else if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            UIManager.Instance.pauseMenu.SetActive(true);
+            Time.timeScale = 0f;
         }
 
         /////////////////////////////// BUILDING /////////////////////////////////////

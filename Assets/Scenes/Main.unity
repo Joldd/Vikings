@@ -449,9 +449,11 @@ MonoBehaviour:
   rangeZoom: {x: 8, y: 25}
   rangeMoveX: {x: -20, y: 20}
   rangeMoveZ: {x: -20, y: 20}
-  cursorLeft: {fileID: 2800000, guid: 100ceffce9cf19f439426520cbb889cf, type: 3}
-  cursorMode: 0
-  hotSpot: {x: 0, y: 0}
+  cursorNormal: {fileID: 2800000, guid: 469b899cb5241dd4b83168537aa33813, type: 3}
+  cursorLeft: {fileID: 2800000, guid: 5476eee5e95261c498f784f2b3250cff, type: 3}
+  cursorRight: {fileID: 2800000, guid: 4ba7873594155404baddaec25df495ea, type: 3}
+  cursorUp: {fileID: 2800000, guid: 9d0757660d58f224688e75377071e805, type: 3}
+  cursorDown: {fileID: 2800000, guid: b2c23952603b7f542876a37a855d4fbe, type: 3}
 --- !u!1001 &1009811126
 PrefabInstance:
   m_ObjectHideFlags: 0
