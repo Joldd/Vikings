@@ -124,6 +124,7 @@ MonoBehaviour:
   enemyStop: 0
   areaToCapture: {fileID: 0}
   goldToWin: 0
+  type: 1
 --- !u!54 &3591437508285536758
 Rigidbody:
   m_ObjectHideFlags: 0

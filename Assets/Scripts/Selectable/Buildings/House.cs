@@ -20,6 +20,11 @@ public class House : Selectable
 
     public bool isBase;
 
+    private List<Viking> L_Vikings = new List<Viking>();
+    private List<Troop> L_Troop = new List<Troop>();
+
+    [SerializeField] private Troop troopGO;
+
     public override void Start()
     {
         base.Start();
@@ -78,8 +83,40 @@ public class House : Selectable
 
     private void createUnit(Selectable unit, Transform spawn)
     {
-         Selectable v = Instantiate(unit);
-         v.transform.position = spawn.transform.position;     
+        Selectable s = Instantiate(unit);
+        s.transform.position = spawn.transform.position;
+        bool createTroop = false;
+        bool isTroop = false;
+        if (s.TryGetComponent<Viking>(out Viking v))
+        {
+            foreach(Troop t in L_Troop)
+            {
+                if (t.type == v.type)
+                {
+                    isTroop = true;
+                    t.AddUnit(v);
+                }
+            }
+            if (isTroop) return;
+            foreach(Viking vik in L_Vikings)
+            {
+                if (vik.type == v.type)
+                {
+                    Troop troop = Instantiate(troopGO);
+                    L_Troop.Add(troop);
+                    troop.type = v.type;
+                    troop.transform.position = spawn.transform.position;
+                    troop.AddUnit(vik);
+                    troop.AddUnit(v);
+                    createTroop = true;
+                    L_Vikings.Remove(vik);
+                }
+            }
+            if (!createTroop)
+            {
+                L_Vikings.Add(v);
+            }
+        }
     }
 
     private void Update()

@@ -103,6 +103,7 @@ MonoBehaviour:
   spawn: {fileID: 1745729143058281864}
   constructible: {fileID: 0}
   isBase: 0
+  troopGO: {fileID: 8628637800018457173, guid: c4ae4464363fbbc47b67d3e72b2ece80, type: 3}
 --- !u!65 &7255845743970466150
 BoxCollider:
   m_ObjectHideFlags: 0

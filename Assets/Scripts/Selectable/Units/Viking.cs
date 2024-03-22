@@ -1,6 +1,13 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum Type
+{
+    Paladin,
+    Guard,
+    Mutant
+}
+
 public class Viking : Selectable
 {
     public WayPoints myWayPoints;
@@ -31,6 +38,8 @@ public class Viking : Selectable
     public Constructible areaToCapture;
 
     [SerializeField] int goldToWin;
+
+    public Type type;
 
     public override void Start()
     {
