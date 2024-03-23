@@ -110,6 +110,7 @@ public class House : Selectable
                     troop.AddUnit(v);
                     createTroop = true;
                     L_Vikings.Remove(vik);
+                    break;
                 }
             }
             if (!createTroop)

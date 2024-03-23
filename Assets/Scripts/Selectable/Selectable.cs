@@ -59,7 +59,7 @@ public class Selectable : MonoBehaviour
         }
     }
 
-    private void selectOutline()
+    public void selectOutline()
     {
         if (outline)
         {

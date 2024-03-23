@@ -41,6 +41,8 @@ public class Viking : Selectable
 
     public Type type;
 
+    public Troop myTroop;
+
     public override void Start()
     {
         base.Start();
@@ -82,6 +84,10 @@ public class Viking : Selectable
         {
             changingWayPoints.gameObject.SetActive(true);
         }
+        if (myTroop)
+        {
+            myTroop.Select();
+        }
     }
 
     public override void UnSelect()
@@ -94,6 +100,10 @@ public class Viking : Selectable
         if (changingWayPoints)
         {
             changingWayPoints.gameObject.SetActive(false);
+        }
+        if (myTroop)
+        {
+            myTroop.UnSelect();
         }
     }
 
