@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,21 +9,20 @@ public enum Type
     Mutant
 }
 
-public class Viking : Selectable
+public class Viking : Unit
 {
     public WayPoints myWayPoints;
     public WayPoints changingWayPoints;
     GameObject currentMark;
     LineRenderer currentLine;
     
-    Animator _anim;
     string state = "Sleeping";
 
-    public Selectable target;
+    public Unit target;
     [SerializeField] float timerAttackMax;
     float timerAttack = 0f;
 
-    [SerializeField] int speed;
+    public int speed;
     [SerializeField] int range;
     public int damage = 1;
 
@@ -47,25 +47,10 @@ public class Viking : Selectable
     {
         base.Start();
 
-        //Health Bar
-        healthBar = Instantiate(healthBar, transform.position, Quaternion.identity);
-        healthBar.StartBar(gameObject);
         healthBar.UpdateValue();
 
         body = transform.Find("Body").gameObject;
-
-        _anim = body.GetComponent<Animator>(); 
-
-        canvas = transform.Find("CanvasUnit").gameObject;
-        btnDraw = canvas.transform.Find("Buttons").Find("Draw").GetComponent<Button>();
-        btnRun = canvas.transform.Find("Buttons").Find("Run").GetComponent<Button>();
-
-        btnDraw.onClick.AddListener(() =>
-        {
-            GameManager.Instance.createPath();
-        });
-        btnRun.interactable = false;
-
+        
         if (tag == "Enemy")
         {
             state = "Enemy";
@@ -73,57 +58,57 @@ public class Viking : Selectable
         }
     }
 
-    public override void Select()
-    {
-        base.Select();
-        if (myWayPoints)
-        {
-            myWayPoints.gameObject.SetActive(true);
-        }
-        if (changingWayPoints)
-        {
-            changingWayPoints.gameObject.SetActive(true);
-        }
-        if (myTroop)
-        {
-            myTroop.Select();
-        }
-    }
+    //public override void Select()
+    //{
+    //    base.Select();
+    //    if (myWayPoints)
+    //    {
+    //        myWayPoints.gameObject.SetActive(true);
+    //    }
+    //    if (changingWayPoints)
+    //    {
+    //        changingWayPoints.gameObject.SetActive(true);
+    //    }
+    //    if (myTroop)
+    //    {
+    //        myTroop.Select();
+    //    }
+    //}
 
-    public override void UnSelect()
-    {
-        base.UnSelect();
-        if (myWayPoints)
-        {
-            myWayPoints.gameObject.SetActive(false);
-        }
-        if (changingWayPoints)
-        {
-            changingWayPoints.gameObject.SetActive(false);
-        }
-        if (myTroop)
-        {
-            myTroop.UnSelect();
-        }
-    }
+    //public override void UnSelect()
+    //{
+    //    base.UnSelect();
+    //    if (myWayPoints)
+    //    {
+    //        myWayPoints.gameObject.SetActive(false);
+    //    }
+    //    if (changingWayPoints)
+    //    {
+    //        changingWayPoints.gameObject.SetActive(false);
+    //    }
+    //    if (myTroop)
+    //    {
+    //        myTroop.UnSelect();
+    //    }
+    //}
 
     public void Run()
     {
-        state = "Running";
-        currentMark = myWayPoints.marks[0];
-        transform.position = currentMark.transform.position;
-        currentMark.SetActive(false);
-        currentMark = myWayPoints.nextPoint(currentMark);
-        currentLine = myWayPoints.lines[0];
-        transform.LookAt(currentMark.transform);
-        _anim.Play("Run");
-        btnRun.interactable = false;
+        //state = "Running";
+        //currentMark = myWayPoints.marks[0];
+        //transform.position = currentMark.transform.position;
+        //currentMark.SetActive(false);
+        //currentMark = myWayPoints.nextPoint(currentMark);
+        //currentLine = myWayPoints.lines[0];
+        //transform.LookAt(currentMark.transform);
+        //_anim.Play("Run");
+        //btnRun.interactable = false;
     }
 
     private void Attack()
     {
-        _anim.speed = 1f / timerAttackMax;
-        _anim.Play("Attack");
+        animator.speed = 1f / timerAttackMax;
+        animator.Play("Attack");
     }
 
     public override void Die()
@@ -152,32 +137,15 @@ public class Viking : Selectable
         //////////////////   STATE   ////////////////////////////////////
         if (state != "Sleeping") 
         {
-            if (tag != "Enemy" && currentLine)
-            {
-                currentLine.SetPosition(0, transform.position);
-            }
-
+         
             if (state == "Running" && myWayPoints)
             {
-                transform.position = Vector3.MoveTowards(transform.position, currentMark.transform.position, speed * Time.deltaTime);
-                if (Vector3.Distance(transform.position, currentMark.transform.position) < 0.1f && myWayPoints.marks.IndexOf(currentMark) < myWayPoints.marks.Count - 1)
-                {
-                    currentMark.SetActive(false);
-                    currentMark = myWayPoints.nextPoint(currentMark);
-                    currentLine.gameObject.SetActive(false);
-                    currentLine = myWayPoints.nextLine(currentLine);
-                    transform.LookAt(currentMark.transform);
-                }
-                if (Vector3.Distance(transform.position, currentMark.transform.position) < 0.1f && myWayPoints.marks.IndexOf(currentMark) == myWayPoints.marks.Count - 1)
-                {
-                    //Destroy(myWayPoints.gameObject);
-                    state = "Waiting";
-                }
+                
             }
             
             if (state == "Waiting")
             {
-                _anim.Play("Idle");
+                //_anim.Play("Idle");
             }
             
             if (state == "RunAttack")
@@ -222,7 +190,7 @@ public class Viking : Selectable
                     {
                         vikingTarget.Die();
                     }
-                    if (target.TryGetComponent<House>(out House houseTarget))
+                    if (target.TryGetComponent<UnitHouse>(out UnitHouse houseTarget))
                     {
                         houseTarget.Die();
                     }
@@ -234,7 +202,7 @@ public class Viking : Selectable
                     if (myWayPoints)
                     {
                         state = "Running";
-                        _anim.Play("Run");
+                        animator.Play("Run");
                     }
                     else
                     {
@@ -259,7 +227,7 @@ public class Viking : Selectable
                     {
                         timerAttack = timerAttackMax;
                         state = "RunAttack";
-                        _anim.Play("Run");
+                        animator.Play("Run");
                     }
                 }
             }
@@ -269,7 +237,7 @@ public class Viking : Selectable
         if (state == "Enemy")
         {
             transform.position += speed * directionEnemy * Time.deltaTime;
-            _anim.Play("Run");
+            animator.Play("Run");
         }
     }
 
@@ -280,8 +248,8 @@ public class Viking : Selectable
         if ((other.tag == "Enemy" && tag == "Player") || (other.tag == "Player" && tag == "Enemy"))
         {
             state = "RunAttack";
-            _anim.Play("Run");
-            target = other.gameObject.GetComponent<Selectable>();
+            animator.Play("Run");
+            target = other.gameObject.GetComponent<Unit>();
             checkEnemy = true;
         }
     }

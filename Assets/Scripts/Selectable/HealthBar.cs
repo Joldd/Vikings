@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class HealthBar : MonoBehaviour
 {
     public Image healthSprite;
-    Selectable selectable;
+    Unit unit;
     RectTransform rectTransform;
     [Range(0, 5)] public float healthBarUpOffset;
     RectTransform canvasRectTransform;
@@ -13,7 +13,7 @@ public class HealthBar : MonoBehaviour
 
     void Update()
     {
-        Vector3 worldTargetPosition = selectable.transform.position + Vector3.up * healthBarUpOffset;
+        Vector3 worldTargetPosition = unit.transform.position + Vector3.up * healthBarUpOffset;
         rectTransform.position = Camera.main.WorldToScreenPoint(worldTargetPosition);
     }
 
@@ -23,12 +23,12 @@ public class HealthBar : MonoBehaviour
         rectTransform = GetComponent<RectTransform>();
         canvasRectTransform = FindObjectOfType<HealthBarCanvas>().rectTransform;
         transform.SetParent(canvasRectTransform);
-        selectable = target.GetComponent<Selectable>();
-        maxPV = selectable.PV;
+        unit = target.GetComponent<Unit>();
+        maxPV = unit.PV;
     }
 
     public void UpdateValue()
     {
-        slider.value = (float)selectable.PV / (float)maxPV;
+        slider.value = (float)unit.PV / (float)maxPV;
     }
 }

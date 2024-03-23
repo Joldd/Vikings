@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 2582249866165288520}
   - component: {fileID: 4149537231043370423}
   - component: {fileID: 3282904566614883579}
+  - component: {fileID: 6063827804139834327}
   m_Layer: 0
   m_Name: Base
   m_TagString: Player
@@ -83,16 +84,9 @@ MonoBehaviour:
   canvas: {fileID: 7958815786874226584}
   isSelect: 0
   canBeSelected: 0
-  PV: 50
-  timeBuildMax: 0.1
-  isBuilt: 0
-  timeBuild: 0
-  priceReputation: 200
-  priceGold: 0
-  healthBar: {fileID: 1119104912643297415, guid: f17337097d63c1e4ebbea0de56ce28ea, type: 3}
   L_Units:
-  - {fileID: 1429273588724494570, guid: c1f0eaf837bc85047a503f81a64c640d, type: 3}
-  - {fileID: 1429273588724494570, guid: 962ffa1a0ed6881439deda31b6b8968e, type: 3}
+  - {fileID: 8143974586233405072, guid: c1f0eaf837bc85047a503f81a64c640d, type: 3}
+  - {fileID: 8143974586233405072, guid: 962ffa1a0ed6881439deda31b6b8968e, type: 3}
   L_Buttons:
   - {fileID: 6472866531753181744}
   - {fileID: 8878223246678805109}
@@ -142,6 +136,26 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 3.3637881, y: 2.986239, z: 3.3215954}
   m_Center: {x: 0.13100266, y: 1.4853141, z: 0.037888408}
+--- !u!114 &6063827804139834327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5550205664086979457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2af75026737cf24a898bd9687f60475, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthBar: {fileID: 1119104912643297415, guid: f17337097d63c1e4ebbea0de56ce28ea, type: 3}
+  animator: {fileID: 0}
+  PV: 50
+  timeBuildMax: 1
+  isBuilt: 1
+  timeBuild: 0
+  priceReputation: 200
+  priceGold: 0
 --- !u!1001 &4873574097499321839
 PrefabInstance:
   m_ObjectHideFlags: 0

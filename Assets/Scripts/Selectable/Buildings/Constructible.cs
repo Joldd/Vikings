@@ -91,7 +91,7 @@ public class Constructible : MonoBehaviour
     private void UpdateHouseToBuild()
     {
         imageToBuild.sprite = L_HousesToBuild[currentImg].sprite;
-        costTMP.text = L_HousesToBuild[currentImg].house.priceReputation + " renommée";
+        costTMP.text = L_HousesToBuild[currentImg].unit.priceReputation + " renommée";
         nameTMP.text = L_HousesToBuild[currentImg].house.name;
     }
 
@@ -103,7 +103,7 @@ public class Constructible : MonoBehaviour
         HUD.SetActive(false);
         after.SetActive(false);
         isEmpty = false;
-        GameManager.Instance.reputation -= house.priceReputation;
+        GameManager.Instance.reputation -= L_HousesToBuild[currentImg].unit.priceReputation;
         GameManager.Instance.updateRessources();
     }
 
@@ -217,5 +217,6 @@ public class Constructible : MonoBehaviour
 public struct HouseToBuild
 {
     public House house;
+    public UnitHouse unit;
     public Sprite sprite;
 }

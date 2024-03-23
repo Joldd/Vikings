@@ -8,27 +8,11 @@ public class Selectable : MonoBehaviour
 
     public bool canBeSelected;
 
-    public int PV;
-
-    public float timeBuildMax;
-    public bool isBuilt = false;
-    
-    public float timeBuild;
-
-    public int priceReputation;
-    public int priceGold;
-
-    public HealthBar healthBar;
-
     private Outline outline;
 
     public virtual void Start()
     {
         canBeSelected = true;
-
-        canvas.SetActive(false);
-
-        timeBuild = timeBuildMax;
 
         if (tag == "Enemy")
         {
@@ -36,6 +20,7 @@ public class Selectable : MonoBehaviour
         }
         else
         {
+            Debug.Log("add");
             outline = gameObject.AddComponent<Outline>();
             outline.OutlineColor = Color.yellow;
             noOutLine();
@@ -50,7 +35,7 @@ public class Selectable : MonoBehaviour
         }
     }
 
-    private void hoverOutline()
+    public void hoverOutline()
     {
         if (outline)
         {
@@ -66,11 +51,6 @@ public class Selectable : MonoBehaviour
             outline.OutlineMode = Outline.Mode.OutlineAll;
             outline.OutlineWidth = 4;
         }
-    }
-
-    public virtual void Die()
-    {
-        Destroy(healthBar.gameObject);
     }
 
     public virtual void Select()

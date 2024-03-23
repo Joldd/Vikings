@@ -4,13 +4,11 @@ using UnityEngine.UI;
 
 public class House : Selectable
 {
-    public List<GameObject> L_Units;
+    public List<Unit> L_Units;
     public List<Button> L_Buttons;
     [SerializeField] Transform spawn;
-    
-    Animator animator;
 
-    Selectable currentUnit;
+    Unit currentUnit;
     Slider currentSliderUnit = null;
     bool isBuilding = false;
 
@@ -20,7 +18,6 @@ public class House : Selectable
 
     public bool isBase;
 
-    private List<Viking> L_Vikings = new List<Viking>();
     private List<Troop> L_Troop = new List<Troop>();
 
     [SerializeField] private Troop troopGO;
@@ -29,15 +26,9 @@ public class House : Selectable
     {
         base.Start();
 
-        //Health Bar
-        healthBar = Instantiate(healthBar, transform.position, Quaternion.identity);
-        healthBar.StartBar(gameObject);
+        canvas.SetActive(false);
 
         canvas = transform.Find("CanvasBuilding").gameObject;
-
-        animator = GetComponent<Animator>();
-
-        if (!isBuilt) animator.Play("Build");
 
         if (L_Units.Count == L_Buttons.Count)
         {
@@ -48,11 +39,12 @@ public class House : Selectable
                 int n = i;
                 L_Buttons[i].onClick.AddListener(() =>
                 {
-                    if (!isBuilding && GameManager.Instance.gold >= L_Units[n].GetComponent<Selectable>().priceGold)
+
+                    if (!isBuilding && GameManager.Instance.gold >= L_Units[n].priceGold)
                     {
                         if (L_Units[n])
                         {
-                            currentUnit = L_Units[n].GetComponent<Selectable>();
+                            currentUnit = L_Units[n];
                             sliderUnit.gameObject.SetActive(true);
                             currentSliderUnit = sliderUnit;
                             isBuilding = true;
@@ -70,25 +62,14 @@ public class House : Selectable
         }
     }
 
-    public override void Die()
+    private void createUnit(Unit unit, Transform spawn)
     {
-        base.Die();
-
-        if (constructible) constructible.houseDestroy = true;
-
-        if (isBase && tag == "Player") UIManager.Instance.Defeat();
-
-        if (isBase && tag == "Enemy") UIManager.Instance.Victory();
-    }
-
-    private void createUnit(Selectable unit, Transform spawn)
-    {
-        Selectable s = Instantiate(unit);
-        s.transform.position = spawn.transform.position;
-        bool createTroop = false;
+        Unit u = Instantiate(unit);
+        u.transform.position = spawn.transform.position;
         bool isTroop = false;
-        if (s.TryGetComponent<Viking>(out Viking v))
+        if (u.TryGetComponent<Viking>(out Viking v))
         {
+            //IF ALREADY TROOP
             foreach(Troop t in L_Troop)
             {
                 if (t.type == v.type)
@@ -98,42 +79,18 @@ public class House : Selectable
                 }
             }
             if (isTroop) return;
-            foreach(Viking vik in L_Vikings)
-            {
-                if (vik.type == v.type)
-                {
-                    Troop troop = Instantiate(troopGO);
-                    L_Troop.Add(troop);
-                    troop.type = v.type;
-                    troop.transform.position = spawn.transform.position;
-                    troop.AddUnit(vik);
-                    troop.AddUnit(v);
-                    createTroop = true;
-                    L_Vikings.Remove(vik);
-                    break;
-                }
-            }
-            if (!createTroop)
-            {
-                L_Vikings.Add(v);
-            }
+
+            //ELSE CREATE TROOP
+            Troop troop = Instantiate(troopGO);
+            L_Troop.Add(troop);
+            troop.type = v.type;
+            troop.transform.position = spawn.transform.position;
+            troop.AddUnit(v);
         }
     }
 
     private void Update()
     {
-        /////////////////////////  BuildingHouse ///////////////////////
-        if (!isBuilt)
-        {
-            timeBuild -= Time.deltaTime;
-            healthBar.slider.value = (timeBuildMax - timeBuild) / timeBuildMax;
-        }
-        if ( timeBuild <= 0 && !isBuilt)
-        {
-            animator.Play("Idle");
-            isBuilt = true;
-        }
-
         /////////////////////////  BuildingViking ///////////////////////
         if (isBuilding)
         {

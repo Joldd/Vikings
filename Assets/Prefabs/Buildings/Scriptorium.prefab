@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 2582249866165288520}
   - component: {fileID: 7255845743970466150}
   - component: {fileID: 7809602372743711312}
+  - component: {fileID: 6453369459477819003}
   m_Layer: 0
   m_Name: Scriptorium
   m_TagString: Player
@@ -89,13 +90,6 @@ MonoBehaviour:
   canvas: {fileID: 7958815786874226584}
   isSelect: 0
   canBeSelected: 0
-  PV: 30
-  timeBuildMax: 2
-  isBuilt: 0
-  timeBuild: 0
-  priceReputation: 150
-  priceGold: 0
-  healthBar: {fileID: 1119104912643297415, guid: f17337097d63c1e4ebbea0de56ce28ea, type: 3}
   L_Units:
   - {fileID: 6230955363413056210, guid: 81487770799ee8447a8e2e4db6d48660, type: 3}
   L_Buttons:
@@ -146,6 +140,26 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &6453369459477819003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5550205664086979457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2af75026737cf24a898bd9687f60475, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthBar: {fileID: 1119104912643297415, guid: f17337097d63c1e4ebbea0de56ce28ea, type: 3}
+  animator: {fileID: 0}
+  PV: 30
+  timeBuildMax: 2
+  isBuilt: 0
+  timeBuild: 0
+  priceReputation: 170
+  priceGold: 0
 --- !u!1001 &871327485288439792
 PrefabInstance:
   m_ObjectHideFlags: 0
