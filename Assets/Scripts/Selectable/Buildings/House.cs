@@ -39,8 +39,9 @@ public class House : Selectable
                 int n = i;
                 L_Buttons[i].onClick.AddListener(() =>
                 {
-
-                    if (!isBuilding && GameManager.Instance.gold >= L_Units[n].priceGold)
+                    if (!isBuilding && GameManager.Instance.gold >= L_Units[n].priceGold
+                        && (!GetTroop(L_Units[n].GetComponent<Viking>())
+                            || GetTroop(L_Units[n].GetComponent<Viking>()).L_Vikings.Count < GetTroop(L_Units[n].GetComponent<Viking>()).maxTroop))
                     {
                         if (L_Units[n])
                         {
@@ -60,6 +61,18 @@ public class House : Selectable
         {
             Debug.LogWarning("The Building " + name + " miss units or buttons");
         }
+    }
+
+    private Troop GetTroop(Viking v)
+    {
+        foreach (Troop t in L_Troop)
+        {
+            if (t.type == v.type)
+            {
+                return t;
+            }
+        }
+        return null;
     }
 
     private void createUnit(Unit unit, Transform spawn)
@@ -86,7 +99,14 @@ public class House : Selectable
             troop.type = v.type;
             troop.transform.position = spawn.transform.position;
             troop.AddUnit(v);
+            troop.myHouse = this;
         }
+    }
+
+    public void DetachTroop(Troop troop)
+    {
+        L_Troop.Remove(troop);
+        troop.myHouse = null;
     }
 
     private void Update()

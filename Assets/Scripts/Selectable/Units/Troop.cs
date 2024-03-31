@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.GraphicsBuffer;
 
 public enum State
 {
@@ -20,12 +21,15 @@ public class Troop : Selectable
     public State state;
     public bool checkEnemy;
     public bool isOver;
+    private Unit target;
+    Vector3 directionEnemy;
+    public House myHouse;
 
     public Button btnDraw;
     public Button btnRun;
     private GameObject canvasUnit;
 
-    //WAYpoints
+    //Waypoints
     public WayPoints myWayPoints;
     public WayPoints changingWayPoints;
     GameObject currentMark;
@@ -33,12 +37,19 @@ public class Troop : Selectable
 
     //STATS
     private int speed;
+    private int range;
+    private float timerAttackMax;
+    private float timerAttack = 0f;
+    public int maxTroop;
 
     public override void Start()
     {
         base.Start();
 
         speed = L_Vikings[0].speed;
+        range = L_Vikings[0].range;
+        timerAttackMax = L_Vikings[0].timerAttackMax;
+        maxTroop = L_Vikings[0].maxTroop;
 
         canvasUnit = transform.Find("CanvasUnit").gameObject;
         btnDraw = canvasUnit.transform.Find("Buttons").Find("Draw").GetComponent<Button>();
@@ -51,6 +62,12 @@ public class Troop : Selectable
         btnRun.interactable = false;
 
         canvasUnit.SetActive(false);
+
+        if (tag == "Enemy")
+        {
+            state = State.ENEMY;
+            directionEnemy = transform.forward;
+        }
     }
 
     public void AddUnit(Viking viking)
@@ -73,6 +90,32 @@ public class Troop : Selectable
         }
     }
 
+    private void Attack()
+    {
+        foreach (Viking viking in L_Vikings)
+        {
+            viking.Attack();
+        }
+    }
+
+    private void GiveTarget()
+    {
+        foreach (Viking viking in L_Vikings)
+        {
+            viking.target = target;
+        }
+    }
+
+    private void KillTarget()
+    {
+        Destroy(target.gameObject);
+        target = null;
+        foreach (Viking viking in L_Vikings)
+        {
+            viking.target = null;
+        }
+    }
+
     public void Run()
     {
         state = State.RUNNING;
@@ -84,13 +127,11 @@ public class Troop : Selectable
         transform.LookAt(currentMark.transform);
         PlayAnimation("Run");
         btnRun.interactable = false;
+        myHouse.DetachTroop(this);
     }
 
     private void Update()
     {
-        //OUTLINE
-        
-
         //////////////////   STATE   ////////////////////////////////////
         if (state != State.SLEEPING)
         {
@@ -121,6 +162,90 @@ public class Troop : Selectable
             {
                 PlayAnimation("Idle");
             }
+
+            //////////////// FIGHTING  ////////////////
+            if (state == State.RUNATTACK)
+            {
+                if (target == null)
+                {
+                    state = State.RUNNING;
+                    checkEnemy = false;
+
+                    if (tag == "Enemy")
+                    {
+                        state = State.ENEMY;
+                        transform.LookAt(directionEnemy);
+                    }
+                }
+                else
+                {
+                    Vector3 targetPos = new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z);
+                    transform.position = Vector3.MoveTowards(transform.position, targetPos, speed * Time.deltaTime);
+                    transform.LookAt(new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z));
+                    if (Vector3.Distance(transform.position, target.transform.position) <= range)
+                    {
+                        state = State.ATTACK;
+                    }
+                    if (Vector3.Distance(transform.position, target.transform.position) > 15f)
+                    {
+                        state = State.RUNNING;
+                        checkEnemy = false;
+                        if (tag == "Enemy")
+                        {
+                            state = State.ENEMY;
+                            transform.LookAt(directionEnemy);
+                        }
+                    }
+                }
+            }
+            if (state == State.ATTACK && target)
+            {
+                if (target.PV <= 0)
+                {
+                    //DEATH
+                    if (target.TryGetComponent<Viking>(out Viking vikingTarget))
+                    {
+                        vikingTarget.Die();
+                    }
+                    if (target.TryGetComponent<UnitHouse>(out UnitHouse houseTarget))
+                    {
+                        houseTarget.Die();
+                    }
+
+                    KillTarget();
+
+                    state = State.RUNATTACK;
+
+                    if (tag == "Enemy")
+                    {
+                        state = State.ENEMY;
+                        transform.LookAt(directionEnemy);
+                    }
+                }
+                else
+                {
+                    timerAttack -= Time.deltaTime;
+                    if (timerAttack <= 0)
+                    {
+                        Attack();
+                        timerAttack = timerAttackMax;
+                    }
+                    if (Vector3.Distance(transform.position, target.transform.position) > 5f)
+                    {
+                        timerAttack = timerAttackMax;
+                        state = State.RUNATTACK;
+                        PlayAnimation("Run");
+                    }
+                }
+            }
+            
+        }
+
+        //////////////////   ENEMY   ////////////////////////////////////
+        if (state == State.ENEMY)
+        {
+            transform.position += speed * directionEnemy * Time.deltaTime;
+            PlayAnimation("Run");
         }
     }
 
@@ -131,36 +256,10 @@ public class Troop : Selectable
         if ((other.tag == "Enemy" && tag == "Player") || (other.tag == "Player" && tag == "Enemy"))
         {
             state = State.RUNATTACK;
-            ChangeState(State.RUNATTACK);
             PlayAnimation("Run");
-            GiveTarget(other.gameObject.GetComponent<Unit>());
+            target = other.gameObject.GetComponent<Unit>();
+            GiveTarget();
             checkEnemy = true;
-        }
-    }
-
-    public void ChangeState(State state)
-    {
-        foreach (Viking viking in L_Vikings)
-        {
-            viking.state = state;
-        }
-    }
-
-    private void GiveTarget(Unit target)
-    {
-        foreach (Viking viking in L_Vikings)
-        {
-            viking.target = target;
-        }
-    }
-
-    public void KillTarget(Unit target)
-    {
-        Destroy(target.gameObject);
-        target = null;
-        foreach (Viking viking in L_Vikings)
-        {
-            viking.target = null;
         }
     }
 }

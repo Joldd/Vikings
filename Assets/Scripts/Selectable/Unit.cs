@@ -24,6 +24,7 @@ public class Unit : MonoBehaviour
         //Health Bar
         healthBar = Instantiate(healthBar, transform.position, Quaternion.identity);
         healthBar.StartBar(gameObject);
+        healthBar.UpdateValue();
     }
 
     public virtual void Die()

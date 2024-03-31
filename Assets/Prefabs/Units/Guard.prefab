@@ -101,26 +101,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 894a9a6d59d6ffb4a9c005ccce7997cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvas: {fileID: 0}
-  isSelect: 0
-  canBeSelected: 0
+  healthBar: {fileID: 1119104912643297415, guid: f17337097d63c1e4ebbea0de56ce28ea, type: 3}
+  animator: {fileID: 0}
   PV: 30
   timeBuildMax: 2
   isBuilt: 0
   timeBuild: 0
   priceReputation: 0
   priceGold: 200
-  healthBar: {fileID: 1119104912643297415, guid: f17337097d63c1e4ebbea0de56ce28ea, type: 3}
-  myWayPoints: {fileID: 0}
-  changingWayPoints: {fileID: 0}
-  _anim: {fileID: 0}
+  state: 0
   target: {fileID: 0}
   timerAttackMax: 1
   speed: 5
   range: 2
   damage: 2
-  btnDraw: {fileID: 0}
-  btnRun: {fileID: 0}
+  maxTroop: 2
   enemyStop: 0
   areaToCapture: {fileID: 0}
   goldToWin: 0

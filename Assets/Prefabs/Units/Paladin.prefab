@@ -55,15 +55,13 @@ MonoBehaviour:
   timeBuild: 0
   priceReputation: 0
   priceGold: 100
-  myWayPoints: {fileID: 0}
-  changingWayPoints: {fileID: 0}
+  state: 0
   target: {fileID: 0}
   timerAttackMax: 1
   speed: 3
   range: 2
   damage: 2
-  btnDraw: {fileID: 0}
-  btnRun: {fileID: 0}
+  maxTroop: 3
   enemyStop: 0
   areaToCapture: {fileID: 0}
   goldToWin: 0
