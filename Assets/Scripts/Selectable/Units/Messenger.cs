@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class Messenger : Selectable
 {
-    public Viking vikingSelected;
+    public Troop troopSelected;
     [SerializeField] private Image panel;
     private Color startColor;
     [SerializeField] private Color chooseColor;
@@ -30,15 +30,15 @@ public class Messenger : Selectable
     {
         base.Select();
 
-        if (vikingSelected)
+        if (troopSelected)
         {
-            if (vikingSelected.myWayPoints)
+            if (troopSelected.myWayPoints)
             {
-                vikingSelected.myWayPoints.gameObject.SetActive(true);
+                troopSelected.myWayPoints.gameObject.SetActive(true);
             }
-            if (vikingSelected.changingWayPoints)
+            if (troopSelected.changingWayPoints)
             {
-                vikingSelected.changingWayPoints.gameObject.SetActive(true);
+                troopSelected.changingWayPoints.gameObject.SetActive(true);
             }
         }
 
@@ -48,15 +48,15 @@ public class Messenger : Selectable
     {
         base.UnSelect();
 
-        if (vikingSelected)
+        if (troopSelected)
         {
-            if (vikingSelected.myWayPoints)
+            if (troopSelected.myWayPoints)
             {
-                vikingSelected.myWayPoints.gameObject.SetActive(false);
+                troopSelected.myWayPoints.gameObject.SetActive(false);
             }
-            if (vikingSelected.changingWayPoints)
+            if (troopSelected.changingWayPoints)
             {
-                vikingSelected.changingWayPoints.gameObject.SetActive(false);
+                troopSelected.changingWayPoints.gameObject.SetActive(false);
             }
         }
 
@@ -64,17 +64,17 @@ public class Messenger : Selectable
 
     private void QuitViking()
     {
-        if (vikingSelected)
+        if (troopSelected)
         {
-            if (vikingSelected.myWayPoints)
+            if (troopSelected.myWayPoints)
             {
-                vikingSelected.myWayPoints.gameObject.SetActive(false);
+                troopSelected.myWayPoints.gameObject.SetActive(false);
             }
-            if (vikingSelected.changingWayPoints)
+            if (troopSelected.changingWayPoints)
             {
-                vikingSelected.changingWayPoints.gameObject.SetActive(false);
+                troopSelected.changingWayPoints.gameObject.SetActive(false);
             }
-            vikingSelected = null;
+            troopSelected = null;
         }
     }
 
@@ -82,18 +82,18 @@ public class Messenger : Selectable
     {
         if(bringMessage)
         {
-            transform.position = Vector3.MoveTowards(transform.position, vikingSelected.transform.position, speed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, troopSelected.transform.position, speed * Time.deltaTime);
             _anim.Play("Run");
-            transform.LookAt(vikingSelected.transform);
-            if (Vector3.Distance(transform.position, vikingSelected.transform.position) < 0.1f )
+            transform.LookAt(troopSelected.transform);
+            if (Vector3.Distance(transform.position, troopSelected.transform.position) < 0.1f )
             {
                 bringMessage = false;
-                if (vikingSelected.myWayPoints)
+                if (troopSelected.myWayPoints)
                 {
-                    Destroy(vikingSelected.myWayPoints.gameObject);
+                    Destroy(troopSelected.myWayPoints.gameObject);
                 }
-                vikingSelected.myWayPoints = vikingSelected.changingWayPoints;
-                vikingSelected.Run();
+                troopSelected.myWayPoints = troopSelected.changingWayPoints;
+                troopSelected.Run();
                 backHome = true;
             }
         }

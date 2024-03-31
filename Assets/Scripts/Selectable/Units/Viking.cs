@@ -11,12 +11,7 @@ public enum Type
 
 public class Viking : Unit
 {
-    public WayPoints myWayPoints;
-    public WayPoints changingWayPoints;
-    GameObject currentMark;
-    LineRenderer currentLine;
-    
-    string state = "Sleeping";
+    public State state = State.SLEEPING;
 
     public Unit target;
     [SerializeField] float timerAttackMax;
@@ -25,9 +20,6 @@ public class Viking : Unit
     public int speed;
     [SerializeField] int range;
     public int damage = 1;
-
-    public Button btnDraw;
-    public Button btnRun;
 
     GameObject body;
 
@@ -50,59 +42,13 @@ public class Viking : Unit
         healthBar.UpdateValue();
 
         body = transform.Find("Body").gameObject;
+        animator = body.GetComponent<Animator>();
         
         if (tag == "Enemy")
         {
-            state = "Enemy";
+            state = State.ENEMY;
             directionEnemy = transform.forward;
         }
-    }
-
-    //public override void Select()
-    //{
-    //    base.Select();
-    //    if (myWayPoints)
-    //    {
-    //        myWayPoints.gameObject.SetActive(true);
-    //    }
-    //    if (changingWayPoints)
-    //    {
-    //        changingWayPoints.gameObject.SetActive(true);
-    //    }
-    //    if (myTroop)
-    //    {
-    //        myTroop.Select();
-    //    }
-    //}
-
-    //public override void UnSelect()
-    //{
-    //    base.UnSelect();
-    //    if (myWayPoints)
-    //    {
-    //        myWayPoints.gameObject.SetActive(false);
-    //    }
-    //    if (changingWayPoints)
-    //    {
-    //        changingWayPoints.gameObject.SetActive(false);
-    //    }
-    //    if (myTroop)
-    //    {
-    //        myTroop.UnSelect();
-    //    }
-    //}
-
-    public void Run()
-    {
-        //state = "Running";
-        //currentMark = myWayPoints.marks[0];
-        //transform.position = currentMark.transform.position;
-        //currentMark.SetActive(false);
-        //currentMark = myWayPoints.nextPoint(currentMark);
-        //currentLine = myWayPoints.lines[0];
-        //transform.LookAt(currentMark.transform);
-        //_anim.Play("Run");
-        //btnRun.interactable = false;
     }
 
     private void Attack()
@@ -120,43 +66,37 @@ public class Viking : Unit
             if (tag == "Enemy") areaToCapture.enemyCapturing = false;
             if (tag == "Player") areaToCapture.playerCapturing = false;
         }
-        if (myWayPoints)
-        {
-            Destroy(myWayPoints.gameObject);
-        }
 
         if (tag == "Enemy")
         {
             GameManager.Instance.gold += goldToWin;
             GameManager.Instance.updateRessources();
         }
+
+        if (myTroop) myTroop.L_Vikings.Remove(this);
     }
 
     private void Update()
     {
         //////////////////   STATE   ////////////////////////////////////
-        if (state != "Sleeping") 
-        {
-         
-            if (state == "Running" && myWayPoints)
-            {
-                
-            }
-            
-            if (state == "Waiting")
-            {
-                //_anim.Play("Idle");
-            }
-            
-            if (state == "RunAttack")
+        if (state != State.SLEEPING) 
+        {         
+            if (state == State.RUNATTACK)
             {
                 if (target == null)
                 {
-                    state = "Running";
+                    state = State.RUNNING;
                     checkEnemy = false;
+
+                    if (myTroop)
+                    {
+                        myTroop.state = State.RUNNING;
+                        myTroop.checkEnemy = false;
+                    }
+
                     if (tag == "Enemy")
                     {
-                        state = "Enemy";
+                        state = State.ENEMY;
                         transform.LookAt(directionEnemy);
                     }
                 }
@@ -167,21 +107,21 @@ public class Viking : Unit
                     transform.LookAt(new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z));
                     if (Vector3.Distance(transform.position, target.transform.position) <= range)
                     {
-                        state = "Attack";
+                        state = State.ATTACK;
                     }
                     if (Vector3.Distance(transform.position, target.transform.position) > 15f)
                     {
-                        state = "Running";
+                        state = State.RUNNING;
                         checkEnemy = false;
                         if (tag == "Enemy")
                         {
-                            state = "Enemy";
+                            state = State.ENEMY;
                             transform.LookAt(directionEnemy);
                         }
                     }
                 }
             }
-            if (state == "Attack")
+            if (state == State.ATTACK && target)
             {
                 if (target.PV <= 0)
                 {
@@ -194,24 +134,22 @@ public class Viking : Unit
                     {
                         houseTarget.Die();
                     }
-
-                    Destroy(target.gameObject);
                     
-                    checkEnemy = false;
-
-                    if (myWayPoints)
+                    if (myTroop)
                     {
-                        state = "Running";
-                        animator.Play("Run");
+                        myTroop.KillTarget(target);
+                        myTroop.state = State.RUNNING;
                     }
                     else
                     {
-                        state = "Waiting";
-                    }                 
+                        Destroy(target.gameObject);
+                    }
+
+                    state = State.RUNATTACK;
 
                     if (tag == "Enemy")
                     {
-                        state = "Enemy";
+                        state = State.ENEMY;
                         transform.LookAt(directionEnemy);
                     }
                 }
@@ -226,7 +164,7 @@ public class Viking : Unit
                     if (Vector3.Distance(transform.position, target.transform.position) > 5f)
                     {
                         timerAttack = timerAttackMax;
-                        state = "RunAttack";
+                        state = State.RUNATTACK;
                         animator.Play("Run");
                     }
                 }
@@ -234,20 +172,23 @@ public class Viking : Unit
         }
 
         //////////////////   ENEMY   ////////////////////////////////////
-        if (state == "Enemy")
+        if (state == State.ENEMY)
         {
             transform.position += speed * directionEnemy * Time.deltaTime;
             animator.Play("Run");
         }
     }
 
+
+    //JUST FOR ENEMY ACTUALLY 
     private void OnTriggerStay(Collider other)
     {
+        if (tag == "Player") return;
         if (checkEnemy) return;
 
         if ((other.tag == "Enemy" && tag == "Player") || (other.tag == "Player" && tag == "Enemy"))
         {
-            state = "RunAttack";
+            state = State.RUNATTACK;
             animator.Play("Run");
             target = other.gameObject.GetComponent<Unit>();
             checkEnemy = true;

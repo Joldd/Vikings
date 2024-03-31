@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: -8462005934276393835}
   m_Layer: 0
   m_Name: Troop
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -46,13 +46,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9302ee12651a0294e911dee7eb5db140, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvas: {fileID: 0}
+  canvas: {fileID: 6793418259572571882}
   isSelect: 0
   canBeSelected: 0
   L_Vikings: []
   type: 0
   state: 
   isOver: 0
+  btnDraw: {fileID: 0}
+  btnRun: {fileID: 0}
   myWayPoints: {fileID: 0}
   changingWayPoints: {fileID: 0}
 --- !u!54 &-8462005934276393835
@@ -254,5 +256,10 @@ PrefabInstance:
 --- !u!224 &345098387639928555 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8600773397929658998, guid: a4a8e66797d27c248a763f542c7945b7, type: 3}
+  m_PrefabInstance: {fileID: 8328876384947309725}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6793418259572571882 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3301434400223605367, guid: a4a8e66797d27c248a763f542c7945b7, type: 3}
   m_PrefabInstance: {fileID: 8328876384947309725}
   m_PrefabAsset: {fileID: 0}

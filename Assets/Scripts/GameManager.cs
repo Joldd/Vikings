@@ -93,7 +93,7 @@ public class GameManager : MonoBehaviour
             currentWayPoints = Instantiate(wayPoints);
             GameObject firstMark = Instantiate(mark, currentWayPoints.transform);
             Messenger messenger = selectedUnit.GetComponent<Messenger>();
-            firstMark.transform.position = messenger.vikingSelected.transform.position;
+            firstMark.transform.position = messenger.troopSelected.transform.position;
             currentWayPoints.marks.Add(firstMark);
             currentMark = Instantiate(mark, currentWayPoints.transform);
             currentWayPoints.marks.Add(currentMark);
@@ -154,10 +154,10 @@ public class GameManager : MonoBehaviour
             DestroyImmediate(currentMark);
             DestroyImmediate(currentLine);
             isPathing = false;
-            if (selectedUnit.TryGetComponent<Viking>(out Viking v))
+            if (selectedUnit.TryGetComponent<Troop>(out Troop troop))
             {
-                v.btnDraw.interactable = false;
-                v.btnRun.interactable = true;
+                troop.btnDraw.interactable = false;
+                troop.btnRun.interactable = true;
             }
         }
         ////// GAME PAUSE
@@ -168,7 +168,7 @@ public class GameManager : MonoBehaviour
         ////// UNSELECT UNIT
         else if (Input.GetMouseButtonDown(1))
         {
-            selectedUnit.UnSelect();
+            if (selectedUnit) selectedUnit.UnSelect();
             selectedUnit = null;
         }
 

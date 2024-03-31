@@ -6,19 +6,19 @@ public class WayPoints : MonoBehaviour
     public List<GameObject> marks;
     public List<LineRenderer> lines;
     public Color lineColor;
-    Viking viking;
+    Troop myTroop;
     public bool isNew;
 
     private void Start()
     {
         if (GameManager.Instance.selectedUnit.TryGetComponent<Messenger>(out Messenger messenger)){
-            viking = messenger.vikingSelected;
-            viking.changingWayPoints = this;
+            myTroop = messenger.troopSelected;
+            myTroop.changingWayPoints = this;
         }
         else
         {
-            viking = GameManager.Instance.selectedUnit.GetComponent<Viking>();
-            viking.myWayPoints = this;
+            myTroop = GameManager.Instance.selectedUnit.GetComponent<Troop>();
+            myTroop.myWayPoints = this;
         }
     }
 
@@ -102,7 +102,7 @@ public class WayPoints : MonoBehaviour
         if (isNew && marks.Count > 0)
         {
 
-            marks[0].transform.position = viking.transform.position;
+            marks[0].transform.position = myTroop.transform.position;
             lines[0].SetPosition(0, marks[0].transform.position);
         }
     }

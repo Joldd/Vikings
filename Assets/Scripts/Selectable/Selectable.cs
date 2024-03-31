@@ -20,7 +20,6 @@ public class Selectable : MonoBehaviour
         }
         else
         {
-            Debug.Log("add");
             outline = gameObject.AddComponent<Outline>();
             outline.OutlineColor = Color.yellow;
             noOutLine();
@@ -80,7 +79,7 @@ public class Selectable : MonoBehaviour
                 {
                     if (GameManager.Instance.isChoosingMessager)
                     {
-                        messenger.vikingSelected = this.GetComponent<Viking>();
+                        messenger.troopSelected = this.GetComponent<Troop>();
                         messenger.StopChooseViking();
                         return;
                     }
