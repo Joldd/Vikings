@@ -521,6 +521,7 @@ GameObject:
   - component: {fileID: 454007600415714394}
   - component: {fileID: 8832144208627769007}
   - component: {fileID: 8978655514157494650}
+  - component: {fileID: 4050722255122359469}
   m_Layer: 0
   m_Name: Messenger
   m_TagString: Untagged
@@ -583,18 +584,32 @@ MonoBehaviour:
   canvas: {fileID: 5454081365878655199}
   isSelect: 0
   canBeSelected: 1
-  PV: 2
-  timeBuildMax: 1
-  isBuilt: 0
-  timeBuild: 0
-  priceReputation: 0
-  priceGold: 0
-  healthBar: {fileID: 0}
-  vikingSelected: {fileID: 0}
+  outline: {fileID: 0}
+  troopSelected: {fileID: 0}
   panel: {fileID: 5955100606835109817}
   chooseColor: {r: 0.26032397, g: 0.6308657, b: 0.8490566, a: 1}
   speed: 10
   messageBtn: {fileID: 6680807866762876882}
+--- !u!114 &4050722255122359469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6230955363413056210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f541d1c94592ac4a936ad6dacbe7036, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthBar: {fileID: 0}
+  animator: {fileID: 0}
+  PV: 0
+  timeBuildMax: 2
+  isBuilt: 0
+  timeBuild: 0
+  priceReputation: 0
+  priceGold: 100
 --- !u!1 &7096209241645724445
 GameObject:
   m_ObjectHideFlags: 0

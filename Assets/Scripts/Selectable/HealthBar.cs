@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class HealthBar : MonoBehaviour
 {
     public Image healthSprite;
-    Unit unit;
+    Entity unit;
     RectTransform rectTransform;
     [Range(0, 5)] public float healthBarUpOffset;
     RectTransform canvasRectTransform;
@@ -23,7 +23,7 @@ public class HealthBar : MonoBehaviour
         rectTransform = GetComponent<RectTransform>();
         canvasRectTransform = FindObjectOfType<HealthBarCanvas>().rectTransform;
         transform.SetParent(canvasRectTransform);
-        unit = target.GetComponent<Unit>();
+        unit = target.GetComponent<Entity>();
         maxPV = unit.PV;
     }
 

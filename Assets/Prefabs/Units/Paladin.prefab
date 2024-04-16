@@ -67,6 +67,7 @@ MonoBehaviour:
   goldToWin: 0
   type: 0
   myTroop: {fileID: 0}
+  outline: {fileID: 0}
 --- !u!136 &9103238300217284742
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1169,4 +1170,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 241fea5e031bd0a449ba3dcef751435e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viking: {fileID: 8143974586233405072}
+  unit: {fileID: 8143974586233405072}

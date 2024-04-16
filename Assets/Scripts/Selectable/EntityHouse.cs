@@ -1,7 +1,7 @@
 
 using UnityEngine;
 
-public class UnitHouse : Unit
+public class UnitHouse : Entity
 {
     private House house;
 

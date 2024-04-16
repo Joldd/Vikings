@@ -9,11 +9,11 @@ public enum Type
     Mutant
 }
 
-public class Viking : Unit
+public class EntityUnit : Entity
 {
     public State state = State.SLEEPING;
 
-    public Unit target;
+    public Entity target;
     public float timerAttackMax;
     float timerAttack = 0f;
 
@@ -25,7 +25,6 @@ public class Viking : Unit
     GameObject body;
 
     [SerializeField] bool enemyStop;
-    bool checkEnemy;
 
     public Constructible areaToCapture;
 
@@ -34,6 +33,8 @@ public class Viking : Unit
     public Type type;
 
     public Troop myTroop;
+
+    public Outline outline;
 
     public override void Start()
     {
@@ -67,6 +68,6 @@ public class Viking : Unit
             GameManager.Instance.updateRessources();
         }
 
-        if (myTroop) myTroop.L_Vikings.Remove(this);
+        if (myTroop) myTroop.L_Units.Remove(this);
     }
 }

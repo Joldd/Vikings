@@ -4,11 +4,11 @@ using UnityEngine.UI;
 
 public class House : Selectable
 {
-    public List<Unit> L_Units;
+    public List<Entity> L_Units;
     public List<Button> L_Buttons;
     [SerializeField] Transform spawn;
 
-    Unit currentUnit;
+    Entity currentUnit;
     Slider currentSliderUnit = null;
     bool isBuilding = false;
 
@@ -40,8 +40,8 @@ public class House : Selectable
                 L_Buttons[i].onClick.AddListener(() =>
                 {
                     if (!isBuilding && GameManager.Instance.gold >= L_Units[n].priceGold
-                        && (!GetTroop(L_Units[n].GetComponent<Viking>())
-                            || GetTroop(L_Units[n].GetComponent<Viking>()).L_Vikings.Count < GetTroop(L_Units[n].GetComponent<Viking>()).maxTroop))
+                        && (!GetTroop(L_Units[n].GetComponent<EntityUnit>())
+                            || GetTroop(L_Units[n].GetComponent<EntityUnit>()).L_Units.Count < GetTroop(L_Units[n].GetComponent<EntityUnit>()).maxTroop))
                     {
                         if (L_Units[n])
                         {
@@ -63,7 +63,7 @@ public class House : Selectable
         }
     }
 
-    private Troop GetTroop(Viking v)
+    private Troop GetTroop(EntityUnit v)
     {
         foreach (Troop t in L_Troop)
         {
@@ -75,12 +75,12 @@ public class House : Selectable
         return null;
     }
 
-    private void createUnit(Unit unit, Transform spawn)
+    private void createUnit(Entity unit, Transform spawn)
     {
-        Unit u = Instantiate(unit);
+        Entity u = Instantiate(unit);
         u.transform.position = spawn.transform.position;
         bool isTroop = false;
-        if (u.TryGetComponent<Viking>(out Viking v))
+        if (u.TryGetComponent<EntityUnit>(out EntityUnit v))
         {
             //IF ALREADY TROOP
             foreach(Troop t in L_Troop)
@@ -111,7 +111,7 @@ public class House : Selectable
 
     private void Update()
     {
-        /////////////////////////  BuildingViking ///////////////////////
+        /////////////////////////  BuildingUnit && Troop ///////////////////////
         if (isBuilding)
         {
             timer -= Time.deltaTime;

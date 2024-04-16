@@ -141,12 +141,12 @@ public class Constructible : MonoBehaviour
         if (other.tag == "Player" && !firstPlayerBuilder)
         {
             needFirstPlayer = true;
-            other.GetComponent<Viking>().areaToCapture = this;
+            other.GetComponent<EntityUnit>().areaToCapture = this;
         }
         if (other.tag == "Enemy" && !firstEnemyBuilder)
         {
             needFirstEnemy = true;
-            other.GetComponent<Viking>().areaToCapture = this;
+            other.GetComponent<EntityUnit>().areaToCapture = this;
         }
     }
 

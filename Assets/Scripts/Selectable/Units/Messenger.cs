@@ -62,7 +62,7 @@ public class Messenger : Selectable
 
     }
 
-    private void QuitViking()
+    private void QuitTroop()
     {
         if (troopSelected)
         {
@@ -99,7 +99,7 @@ public class Messenger : Selectable
         }
         else if (backHome)
         {
-            QuitViking();
+            QuitTroop();
             _anim.Play("Run");
             transform.LookAt(homePos);
             transform.position = Vector3.MoveTowards(transform.position, homePos, speed * Time.deltaTime);
@@ -115,7 +115,7 @@ public class Messenger : Selectable
         }
     }
 
-    public void ChooseViking()
+    public void ChooseTroop()
     {
         if (!GameManager.Instance.isChoosingMessager)
         {
@@ -129,7 +129,7 @@ public class Messenger : Selectable
         }
     }
 
-    public void StopChooseViking()
+    public void StopChooseTroop()
     {
         GameManager.Instance.isChoosingMessager = !GameManager.Instance.isChoosingMessager;
         panel.color = startColor;

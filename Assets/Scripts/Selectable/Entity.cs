@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Unit : MonoBehaviour
+public class Entity : MonoBehaviour
 {
     public HealthBar healthBar;
     public Animator animator;

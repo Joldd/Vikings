@@ -8,7 +8,7 @@ public class Selectable : MonoBehaviour
 
     public bool canBeSelected;
 
-    private Outline outline;
+    public Outline outline;
 
     public virtual void Start()
     {
@@ -18,15 +18,13 @@ public class Selectable : MonoBehaviour
         {
             canBeSelected = false;
         }
-        else
-        {
-            outline = gameObject.AddComponent<Outline>();
-            outline.OutlineColor = Color.yellow;
-            noOutLine();
-        }
+
+        outline = gameObject.AddComponent<Outline>();
+        outline.OutlineColor = Color.yellow;
+        noOutLine();    
     }
 
-    public void noOutLine()
+    public virtual void noOutLine()
     {
         if (outline)
         {
@@ -34,7 +32,7 @@ public class Selectable : MonoBehaviour
         }
     }
 
-    public void hoverOutline()
+    public virtual void hoverOutline()
     {
         if (outline)
         {
@@ -43,7 +41,7 @@ public class Selectable : MonoBehaviour
         }
     }
 
-    public void selectOutline()
+    public virtual void selectOutline()
     {
         if (outline)
         {
@@ -80,7 +78,7 @@ public class Selectable : MonoBehaviour
                     if (GameManager.Instance.isChoosingMessager)
                     {
                         messenger.troopSelected = this.GetComponent<Troop>();
-                        messenger.StopChooseViking();
+                        messenger.StopChooseTroop();
                         return;
                     }
                 }

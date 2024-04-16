@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEngine.GraphicsBuffer;
 
 public enum State
 {
@@ -15,13 +14,13 @@ public enum State
 
 public class Troop : Selectable
 {
-    public List<Viking> L_Vikings = new List<Viking>();
+    public List<EntityUnit> L_Units = new List<EntityUnit>();
     private float radius = 0.8f;
     public Type type;
     public State state;
     public bool checkEnemy;
     public bool isOver;
-    private Unit target;
+    private Entity target;
     Vector3 directionEnemy;
     public House myHouse;
 
@@ -46,10 +45,12 @@ public class Troop : Selectable
     {
         base.Start();
 
-        speed = L_Vikings[0].speed;
-        range = L_Vikings[0].range;
-        timerAttackMax = L_Vikings[0].timerAttackMax;
-        maxTroop = L_Vikings[0].maxTroop;
+        outline.enabled = false;
+
+        speed = L_Units[0].speed;
+        range = L_Units[0].range;
+        timerAttackMax = L_Units[0].timerAttackMax;
+        maxTroop = L_Units[0].maxTroop;
 
         canvasUnit = transform.Find("CanvasUnit").gameObject;
         btnDraw = canvasUnit.transform.Find("Buttons").Find("Draw").GetComponent<Button>();
@@ -70,39 +71,81 @@ public class Troop : Selectable
         }
     }
 
-    public void AddUnit(Viking viking)
+    public void AddUnit(EntityUnit unit)
     {
-        viking.transform.SetParent(transform);
-        L_Vikings.Add(viking);
-        viking.myTroop = this;
-        for (int i = 0; i < L_Vikings.Count; i++)
+        unit.transform.SetParent(transform);
+        L_Units.Add(unit);
+        unit.myTroop = this;
+        for (int i = 0; i < L_Units.Count; i++)
         {
-            Viking v = L_Vikings[i];
-            v.transform.position = new Vector3(transform.position.x + radius * Mathf.Cos(i * 2 * Mathf.PI / L_Vikings.Count), transform.position.y, transform.position.z + radius * Mathf.Sin(i * 2 * Mathf.PI / L_Vikings.Count));
+            EntityUnit v = L_Units[i];
+            v.transform.position = new Vector3(transform.position.x + radius * Mathf.Cos(i * 2 * Mathf.PI / L_Units.Count), transform.position.y, transform.position.z + radius * Mathf.Sin(i * 2 * Mathf.PI / L_Units.Count));
+        }
+        unit.outline = unit.gameObject.AddComponent<Outline>();
+        unit.outline.OutlineColor = Color.yellow;
+        noOutLine();
+    }
+
+    public override void noOutLine()
+    {
+        foreach (EntityUnit unit in L_Units)
+        {
+            if (unit.outline)
+            {
+                unit.outline.OutlineMode = Outline.Mode.Nothing;
+            }
+        }
+    }
+
+    public override void hoverOutline()
+    {
+        if (tag == "Enemy") return;
+
+        foreach (EntityUnit unit in L_Units)
+        {
+            if (unit.outline)
+            {
+                unit.outline.OutlineMode = Outline.Mode.OutlineAll;
+                unit.outline.OutlineWidth = 2;
+            }
+        }
+    }
+
+    public override void selectOutline()
+    {
+        if (tag == "Enemy") return;
+
+        foreach (EntityUnit unit in L_Units)
+        {
+            if (unit.outline)
+            {
+                unit.outline.OutlineMode = Outline.Mode.OutlineAll;
+                unit.outline.OutlineWidth = 4;
+            }
         }
     }
 
     private void PlayAnimation(string name)
     {
-        foreach (Viking viking in L_Vikings)
+        foreach (EntityUnit unit in L_Units)
         {
-            viking.animator.Play(name);
+            unit.animator.Play(name);
         }
     }
 
     private void Attack()
     {
-        foreach (Viking viking in L_Vikings)
+        foreach (EntityUnit unit in L_Units)
         {
-            viking.Attack();
+            unit.Attack();
         }
     }
 
     private void GiveTarget()
     {
-        foreach (Viking viking in L_Vikings)
+        foreach (EntityUnit unit in L_Units)
         {
-            viking.target = target;
+            unit.target = target;
         }
     }
 
@@ -110,9 +153,9 @@ public class Troop : Selectable
     {
         Destroy(target.gameObject);
         target = null;
-        foreach (Viking viking in L_Vikings)
+        foreach (EntityUnit unit in L_Units)
         {
-            viking.target = null;
+            unit.target = null;
         }
     }
 
@@ -203,9 +246,9 @@ public class Troop : Selectable
                 if (target.PV <= 0)
                 {
                     //DEATH
-                    if (target.TryGetComponent<Viking>(out Viking vikingTarget))
+                    if (target.TryGetComponent<EntityUnit>(out EntityUnit unitTarget))
                     {
-                        vikingTarget.Die();
+                        unitTarget.Die();
                     }
                     if (target.TryGetComponent<UnitHouse>(out UnitHouse houseTarget))
                     {
@@ -257,7 +300,7 @@ public class Troop : Selectable
         {
             state = State.RUNATTACK;
             PlayAnimation("Run");
-            target = other.gameObject.GetComponent<Unit>();
+            target = other.gameObject.GetComponent<Entity>();
             GiveTarget();
             checkEnemy = true;
         }
