@@ -19,9 +19,8 @@ public class Selectable : MonoBehaviour
             canBeSelected = false;
         }
 
-        outline = gameObject.AddComponent<Outline>();
-        outline.OutlineColor = Color.yellow;
-        noOutLine();    
+        outline = GetComponent<Outline>();
+        if (outline) noOutLine();    
     }
 
     public virtual void noOutLine()

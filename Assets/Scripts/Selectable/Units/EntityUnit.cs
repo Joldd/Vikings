@@ -44,6 +44,9 @@ public class EntityUnit : Entity
 
         body = transform.Find("Body").gameObject;
         animator = body.GetComponent<Animator>();
+
+        outline = GetComponent<Outline>();
+        if (outline) outline.OutlineMode = Outline.Mode.Nothing; 
     }
 
     public void Attack()

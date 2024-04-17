@@ -53,8 +53,6 @@ public class Troop : Selectable
     {
         base.Start();
 
-        outline.enabled = false;
-
         speed = L_Units[0].speed;
         range = L_Units[0].range;
         timerAttackMax = L_Units[0].timerAttackMax;
@@ -96,8 +94,6 @@ public class Troop : Selectable
             EntityUnit v = L_Units[i];
             v.transform.position = new Vector3(transform.position.x + radius * Mathf.Cos(i * 2 * Mathf.PI / L_Units.Count), transform.position.y, transform.position.z + radius * Mathf.Sin(i * 2 * Mathf.PI / L_Units.Count));
         }
-        unit.outline = unit.gameObject.AddComponent<Outline>();
-        unit.outline.OutlineColor = Color.yellow;
         noOutLine();
     }
 
