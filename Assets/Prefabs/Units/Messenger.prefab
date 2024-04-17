@@ -84,7 +84,7 @@ MonoBehaviour:
   speed: 10
   range: 0
   damage: 1
-  maxTroop: 0
+  maxTroop: 1
   body: {fileID: 0}
   enemyStop: 0
   areaToCapture: {fileID: 0}
