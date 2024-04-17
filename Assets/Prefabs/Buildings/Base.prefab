@@ -95,7 +95,7 @@ MonoBehaviour:
   spawn: {fileID: 1745729143058281864}
   constructible: {fileID: 0}
   isBase: 1
-  troopGO: {fileID: 8628637800018457173, guid: c4ae4464363fbbc47b67d3e72b2ece80, type: 3}
+  troopGO: {fileID: 2953771740510689689, guid: c4ae4464363fbbc47b67d3e72b2ece80, type: 3}
 --- !u!95 &4149537231043370423
 Animator:
   serializedVersion: 5

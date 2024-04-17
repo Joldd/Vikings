@@ -113,8 +113,9 @@ MonoBehaviour:
   target: {fileID: 0}
   timerAttackMax: 1
   speed: 3
+  range: 0.5
   aoeRange: 8
-  flankRange: 4
+  flankRange: 3
   damage: 2
   maxTroop: 2
   body: {fileID: 0}

@@ -3,6 +3,12 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
 
+public enum FlankValues
+{
+    FRONT = 1,
+    SIDES = 2,
+    BACK = 3
+}
 public enum State
 {
     SLEEPING = 00,
@@ -46,6 +52,7 @@ public class Troop : Selectable
 
     //STATS
     private int speed;
+    private float range;
     private int aoeRange;
     private int flankRange;
     private float timerAttackMax;
@@ -66,6 +73,7 @@ public class Troop : Selectable
 
         speed = unitRef.speed;
         navMeshAgent.speed = speed;
+        range = unitRef.range;
         aoeRange = unitRef.aoeRange;
         flankRange = unitRef.flankRange;
         timerAttackMax = unitRef.timerAttackMax;
@@ -106,7 +114,7 @@ public class Troop : Selectable
         for (int i = 0; i < L_Units.Count; i++)
         {
             EntityUnit v = L_Units[i];
-            v.transform.position = new Vector3(transform.position.x + radius * Mathf.Cos(i * 2 * Mathf.PI / L_Units.Count), transform.position.y, transform.position.z + radius * Mathf.Sin(i * 2 * Mathf.PI / L_Units.Count));
+            v.transform.position = L_Units.Count > 1 ? new Vector3(transform.position.x + radius * Mathf.Cos(i * 2 * Mathf.PI / L_Units.Count), transform.position.y, transform.position.z + radius * Mathf.Sin(i * 2 * Mathf.PI / L_Units.Count)) : transform.position;
         }
         noOutLine();
     }
@@ -196,11 +204,12 @@ public class Troop : Selectable
         }
     }
 
-    private void GiveTarget()
+    private void GiveTarget(FlankValues flankValue = FlankValues.FRONT)
     {
         foreach (EntityUnit unit in L_Units)
         {
             unit.target = target;
+            //TODO Give bonus to units
         }
     }
 
@@ -221,6 +230,17 @@ public class Troop : Selectable
         }
 
         return nearestUnit;
+    }
+
+    private void GetTargeted(Troop enemyTroop)
+    {
+        if (target == null)
+        {
+            target = enemyTroop.GetNearestUnitFromTroop(transform.position);
+            checkEnemy = true;
+            GiveTarget();
+            state = State.RUNATTACK;
+        }
     }
 
     private void KillTarget()
@@ -311,18 +331,15 @@ public class Troop : Selectable
                 }
                 else
                 {
+                    PlayAnimation("Run");
                     navMeshAgent.enabled = false;
                     Vector3 targetPos = new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z);
                     // navMeshAgent.SetDestination(targetPos);
                     transform.position = Vector3.MoveTowards(transform.position, targetPos, speed * Time.deltaTime);
                     transform.LookAt(new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z));
-                    if (Vector3.Distance(transform.position, target.transform.position) <= aoeRange)
+                    if (Vector3.Distance(transform.position, target.transform.position) <= range)
                     {
                         state = State.ATTACK;
-                        // // Check flank 
-                        // Debug.LogError(target.transform.forward);
-                        // Debug.LogError(transform.forward);
-                        // Debug.LogError(Vector3.Angle(target.transform.forward, transform.forward));
                     }
                     if (Vector3.Distance(transform.position, target.transform.position) > 15f)
                     {
@@ -401,9 +418,11 @@ public class Troop : Selectable
                         state = State.RUNATTACK;
                         PlayAnimation("Run");
                         target = enemyTroop.GetNearestUnitFromTroop(transform.position);
-                        GiveTarget();
-                        Debug.LogError("Flank");
+                        // Check flank 
+                        TargetEnemyFlank(Vector3.Angle(enemyTroop.transform.forward, transform.forward));
+                        enemyTroop.GetTargeted(this);
                         checkEnemy = true;
+                        break;
                     }
                 }
             }
@@ -423,12 +442,23 @@ public class Troop : Selectable
                         PlayAnimation("Run");
                         target = enemyTroop.GetNearestUnitFromTroop(transform.position);
                         GiveTarget();
-                        Debug.LogError("Normal Aggro");
                         checkEnemy = true;
                     }
                 }
             }
         }
+    }
+
+    private void TargetEnemyFlank(float angleFlank)
+    {
+        FlankValues value = angleFlank switch
+        {
+            <= 45 => FlankValues.BACK,
+            <= 135 => FlankValues.SIDES,
+            >= 136 => FlankValues.FRONT,
+        };
+        Debug.LogError(angleFlank + " " + value);
+        GiveTarget(value);
     }
     
     void OnDrawGizmosSelected()

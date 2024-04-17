@@ -20,6 +20,7 @@ public class EntityUnit : Entity
     public float timerAttackMax;
 
     public int speed;
+    public float range;
     public int aoeRange;
     public int flankRange;
     public int damage = 1;
