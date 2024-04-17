@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using static FischlWorks_FogWar.csFogWar;
 
 public enum State
 {
@@ -49,9 +50,16 @@ public class Troop : Selectable
     private float timerAttack = 0f;
     public int maxTroop;
 
+    //FOGWAR
+    [SerializeField] GameObject ward;
+    private float timerWardMax = 2f;
+    private float timerWard;
+
     public override void Start()
     {
         base.Start();
+
+        timerWard = timerWardMax;
 
         speed = L_Units[0].speed;
         range = L_Units[0].range;
@@ -323,6 +331,20 @@ public class Troop : Selectable
                 }
             }
             
+        }
+
+        //VISION FOGWAR
+        if (state != State.ENEMY && state != State.SLEEPING && state != State.WAITING)
+        {
+            timerWard -= Time.deltaTime;
+            if (timerWard <= 0)
+            {
+                GameObject w = Instantiate(ward);
+                w.transform.position = transform.position;
+                FogRevealer fogRevealer = new FogRevealer(w.transform, 10, false);
+                GameManager.Instance.fogWar._FogRevealers.Add(fogRevealer);
+                timerWard = timerWardMax;
+            }
         }
 
         //////////////////   ENEMY   ////////////////////////////////////

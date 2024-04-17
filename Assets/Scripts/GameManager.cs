@@ -1,3 +1,4 @@
+using FischlWorks_FogWar;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -43,6 +44,8 @@ public class GameManager : MonoBehaviour
     public bool isFirstMessage;
 
     public bool isPause;
+
+    public csFogWar fogWar;
 
     private void Awake()
     {

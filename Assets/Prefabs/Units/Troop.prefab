@@ -67,6 +67,7 @@ MonoBehaviour:
   myWayPoints: {fileID: 0}
   changingWayPoints: {fileID: 0}
   maxTroop: 0
+  ward: {fileID: 6568633019215398634, guid: fcb80284e09ebde4aa4118a87a9dbddd, type: 3}
 --- !u!54 &-8462005934276393835
 Rigidbody:
   m_ObjectHideFlags: 0
