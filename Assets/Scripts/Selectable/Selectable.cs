@@ -73,13 +73,16 @@ public class Selectable : MonoBehaviour
 
             if (selectedUnit != null)
             {
-                if (selectedUnit.TryGetComponent<Messenger>(out Messenger messenger))
+                if (selectedUnit.TryGetComponent<Troop>(out Troop troopMsg))
                 {
-                    if (GameManager.Instance.isChoosingMessager)
+                    if (troopMsg.L_Units[0].TryGetComponent<Messenger>(out Messenger messenger))
                     {
-                        messenger.troopSelected = this.GetComponent<Troop>();
-                        messenger.StopChooseTroop();
-                        return;
+                        if (GameManager.Instance.isChoosingMessager)
+                        {
+                            messenger.troopSelected = this.GetComponent<Troop>();
+                            messenger.StopChooseTroop();
+                            return;
+                        }
                     }
                 }
                 GameManager.Instance.selectedUnit.UnSelect();

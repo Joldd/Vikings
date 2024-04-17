@@ -24,9 +24,17 @@ public class Troop : Selectable
     Vector3 directionEnemy;
     public House myHouse;
 
+    //UI
+    [SerializeField] private GameObject canvasUnit;
+    //UI Units
+    [SerializeField] private GameObject btnsUnit;
     public Button btnDraw;
     public Button btnRun;
-    private GameObject canvasUnit;
+    //UI Messenger
+    public Image panelMsg;
+    [SerializeField] private GameObject btnsMsg;
+    public Button btnDrawMsg;
+    public Button btnGoMsg;
 
     //Waypoints
     public WayPoints myWayPoints;
@@ -52,10 +60,6 @@ public class Troop : Selectable
         timerAttackMax = L_Units[0].timerAttackMax;
         maxTroop = L_Units[0].maxTroop;
 
-        canvasUnit = transform.Find("CanvasUnit").gameObject;
-        btnDraw = canvasUnit.transform.Find("Buttons").Find("Draw").GetComponent<Button>();
-        btnRun = canvasUnit.transform.Find("Buttons").Find("Run").GetComponent<Button>();
-
         btnDraw.onClick.AddListener(() =>
         {
             GameManager.Instance.createPath();
@@ -68,6 +72,17 @@ public class Troop : Selectable
         {
             state = State.ENEMY;
             directionEnemy = transform.forward;
+        }
+
+        if (type == Type.Messenger)
+        {
+            btnsMsg.SetActive(true);
+            btnsUnit.SetActive(false);
+        }
+        else
+        {
+            btnsMsg.SetActive(false);
+            btnsUnit.SetActive(true);
         }
     }
 
@@ -125,6 +140,20 @@ public class Troop : Selectable
         }
     }
 
+    public override void Select()
+    {
+        base.Select();
+
+        if (myWayPoints) myWayPoints.gameObject.SetActive(true);
+    }
+
+    public override void UnSelect()
+    {
+        base.UnSelect();
+
+        if (myWayPoints) myWayPoints.gameObject.SetActive(false);
+    }
+
     private void PlayAnimation(string name)
     {
         foreach (EntityUnit unit in L_Units)
@@ -170,7 +199,7 @@ public class Troop : Selectable
         transform.LookAt(currentMark.transform);
         PlayAnimation("Run");
         btnRun.interactable = false;
-        myHouse.DetachTroop(this);
+        if (myHouse) myHouse.DetachTroop(this);
     }
 
     private void Update()

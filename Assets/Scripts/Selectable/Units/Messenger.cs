@@ -1,66 +1,65 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Messenger : Selectable
+public class Messenger : EntityUnit
 {
     public Troop troopSelected;
-    [SerializeField] private Image panel;
     private Color startColor;
     [SerializeField] private Color chooseColor;
     private bool bringMessage;
     private bool backHome;
-    [SerializeField] private float speed;
     private Vector3 homePos;
-    private GameObject body;
-    private Animator _anim;
     [SerializeField] private Button messageBtn;
 
     public override void Start()
     {
         base.Start();
-        startColor = panel.color;
+
+        startColor = myTroop.panelMsg.color;
+
         homePos = transform.position;
 
-        body = transform.Find("Body").gameObject;
+        healthBar.gameObject.SetActive(false);
 
-        _anim = body.GetComponent<Animator>();
+        myTroop.btnDrawMsg.onClick.AddListener(() => ChooseTroop());
+        myTroop.btnGoMsg.onClick.AddListener(() => Go());
     }
 
-    public override void Select()
-    {
-        base.Select();
+    //public override void Select()
+    //{
+    //    base.Select();
 
-        if (troopSelected)
-        {
-            if (troopSelected.myWayPoints)
-            {
-                troopSelected.myWayPoints.gameObject.SetActive(true);
-            }
-            if (troopSelected.changingWayPoints)
-            {
-                troopSelected.changingWayPoints.gameObject.SetActive(true);
-            }
-        }
+    //    if (troopSelected)
+    //    {
+    //        if (troopSelected.myWayPoints)
+    //        {
+    //            troopSelected.myWayPoints.gameObject.SetActive(true);
+    //        }
+    //        if (troopSelected.changingWayPoints)
+    //        {
+    //            troopSelected.changingWayPoints.gameObject.SetActive(true);
+    //        }
+    //    }
 
-    }
+    //}
 
-    public override void UnSelect()
-    {
-        base.UnSelect();
+    //public override void UnSelect()
+    //{
+    //    base.UnSelect();
 
-        if (troopSelected)
-        {
-            if (troopSelected.myWayPoints)
-            {
-                troopSelected.myWayPoints.gameObject.SetActive(false);
-            }
-            if (troopSelected.changingWayPoints)
-            {
-                troopSelected.changingWayPoints.gameObject.SetActive(false);
-            }
-        }
+    //    if (troopSelected)
+    //    {
+    //        if (troopSelected.myWayPoints)
+    //        {
+    //            troopSelected.myWayPoints.gameObject.SetActive(false);
+    //        }
+    //        if (troopSelected.changingWayPoints)
+    //        {
+    //            troopSelected.changingWayPoints.gameObject.SetActive(false);
+    //        }
+    //    }
 
-    }
+    //}
 
     private void QuitTroop()
     {
@@ -83,7 +82,7 @@ public class Messenger : Selectable
         if(bringMessage)
         {
             transform.position = Vector3.MoveTowards(transform.position, troopSelected.transform.position, speed * Time.deltaTime);
-            _anim.Play("Run");
+            animator.Play("Run");
             transform.LookAt(troopSelected.transform);
             if (Vector3.Distance(transform.position, troopSelected.transform.position) < 0.1f )
             {
@@ -100,18 +99,18 @@ public class Messenger : Selectable
         else if (backHome)
         {
             QuitTroop();
-            _anim.Play("Run");
+            animator.Play("Run");
             transform.LookAt(homePos);
             transform.position = Vector3.MoveTowards(transform.position, homePos, speed * Time.deltaTime);
             if (Vector3.Distance(transform.position, homePos) < 0.1f)
             {
                 backHome = false;
-                messageBtn.interactable = true;
+                myTroop.btnDrawMsg.interactable = true;
             }
         }
         else
         {
-            _anim.Play("Idle");
+            animator.Play("Idle");
         }
     }
 
@@ -120,21 +119,21 @@ public class Messenger : Selectable
         if (!GameManager.Instance.isChoosingMessager)
         {
             GameManager.Instance.isChoosingMessager = true;
-            panel.color = chooseColor;
+            myTroop.panelMsg.color = chooseColor;
         }
         else if (GameManager.Instance.isChoosingMessager)
         {
             GameManager.Instance.isChoosingMessager = false;
-            panel.color = startColor;
+            myTroop.panelMsg.color = startColor;
         }
     }
 
     public void StopChooseTroop()
     {
         GameManager.Instance.isChoosingMessager = !GameManager.Instance.isChoosingMessager;
-        panel.color = startColor;
+        myTroop.panelMsg.color = startColor;
         GameManager.Instance.createNewPath();
-        messageBtn.interactable = false;
+        myTroop.btnDrawMsg.interactable = false;
     }
 
     public void Go()

@@ -92,15 +92,28 @@ public class GameManager : MonoBehaviour
             isPathing = true;
             currentWayPoints = Instantiate(wayPoints);
             GameObject firstMark = Instantiate(mark, currentWayPoints.transform);
-            Messenger messenger = selectedUnit.GetComponent<Messenger>();
-            firstMark.transform.position = messenger.troopSelected.transform.position;
-            currentWayPoints.marks.Add(firstMark);
-            currentMark = Instantiate(mark, currentWayPoints.transform);
-            currentWayPoints.marks.Add(currentMark);
-            currentWayPoints.lineColor = Color.blue;
-            currentWayPoints.isNew = true;
-            createLine();
-            isFirstMessage = true;
+            if (selectedUnit.TryGetComponent<Troop>(out Troop troopMsg))
+            {
+                if (troopMsg.L_Units[0].TryGetComponent<Messenger>(out Messenger messenger))
+                {
+                    firstMark.transform.position = messenger.troopSelected.transform.position;
+                    currentWayPoints.marks.Add(firstMark);
+                    currentMark = Instantiate(mark, currentWayPoints.transform);
+                    currentWayPoints.marks.Add(currentMark);
+                    currentWayPoints.lineColor = Color.blue;
+                    currentWayPoints.isNew = true;
+                    createLine();
+                    isFirstMessage = true;
+                }
+                else
+                {
+                    Debug.LogWarning("No Messegner");
+                }
+            }
+            else
+            {
+                Debug.LogWarning("No Troop");
+            }
         }
     }
 
