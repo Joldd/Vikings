@@ -8,7 +8,8 @@ public enum Type
 {
     Paladin,
     Guard,
-    Mutant
+    Mutant,
+    Messenger
 }
 
 public class EntityUnit : Entity
@@ -17,7 +18,6 @@ public class EntityUnit : Entity
 
     public Entity target;
     public float timerAttackMax;
-    float timerAttack = 0f;
 
     public int speed;
     public int aoeRange;
@@ -25,7 +25,7 @@ public class EntityUnit : Entity
     public int damage = 1;
     public int maxTroop;
 
-    GameObject body;
+    public GameObject body;
 
     [SerializeField] bool enemyStop;
 
@@ -49,6 +49,9 @@ public class EntityUnit : Entity
 
         body = transform.Find("Body").gameObject;
         animator = body.GetComponent<Animator>();
+
+        outline = GetComponent<Outline>();
+        if (outline) outline.OutlineMode = Outline.Mode.Nothing; 
     }
 
     public void Attack()

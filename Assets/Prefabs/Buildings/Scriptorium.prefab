@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 7255845743970466150}
   - component: {fileID: 7809602372743711312}
   - component: {fileID: 6453369459477819003}
+  - component: {fileID: -5579216080697185382}
   m_Layer: 0
   m_Name: Scriptorium
   m_TagString: Player
@@ -91,8 +92,8 @@ MonoBehaviour:
   isSelect: 0
   canBeSelected: 0
   outline: {fileID: 0}
-  L_Units:
-  - {fileID: 6230955363413056210, guid: 81487770799ee8447a8e2e4db6d48660, type: 3}
+  L_EntityUnits:
+  - {fileID: 8978655514157494650, guid: 81487770799ee8447a8e2e4db6d48660, type: 3}
   L_Buttons:
   - {fileID: 8878223246678805109}
   spawn: {fileID: 1745729143058281864}
@@ -161,6 +162,24 @@ MonoBehaviour:
   timeBuild: 0
   priceReputation: 170
   priceGold: 0
+--- !u!114 &-5579216080697185382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5550205664086979457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 1, g: 0.92941177, b: 0, a: 1}
+  outlineWidth: 2
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!1001 &871327485288439792
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -459,11 +478,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2707604274633037781, guid: 4209454fd92a28549ac75bd96fd906aa, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0.548
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2707604274633037781, guid: 4209454fd92a28549ac75bd96fd906aa, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3107854195015539957, guid: 4209454fd92a28549ac75bd96fd906aa, type: 3}
       propertyPath: m_Sprite
@@ -479,19 +498,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4464982528902919166, guid: 4209454fd92a28549ac75bd96fd906aa, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4464982528902919166, guid: 4209454fd92a28549ac75bd96fd906aa, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4464982528902919166, guid: 4209454fd92a28549ac75bd96fd906aa, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 530
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4464982528902919166, guid: 4209454fd92a28549ac75bd96fd906aa, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -59
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6450051476932744466, guid: 4209454fd92a28549ac75bd96fd906aa, type: 3}
       propertyPath: m_text
@@ -502,10 +521,6 @@ PrefabInstance:
     - target: {fileID: 7543922574560700348, guid: 4209454fd92a28549ac75bd96fd906aa, type: 3}
       propertyPath: m_Name
       value: Messenger
-      objectReference: {fileID: 0}
-    - target: {fileID: 7543922574560700348, guid: 4209454fd92a28549ac75bd96fd906aa, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8600773397929658998, guid: 4209454fd92a28549ac75bd96fd906aa, type: 3}
       propertyPath: m_Pivot.x

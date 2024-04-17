@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class WayPoints : MonoBehaviour
@@ -11,14 +12,18 @@ public class WayPoints : MonoBehaviour
 
     private void Start()
     {
-        if (GameManager.Instance.selectedUnit.TryGetComponent<Messenger>(out Messenger messenger)){
-            myTroop = messenger.troopSelected;
-            myTroop.changingWayPoints = this;
-        }
-        else
+        if (GameManager.Instance.selectedUnit.TryGetComponent<Troop>(out Troop troopMsg))
         {
-            myTroop = GameManager.Instance.selectedUnit.GetComponent<Troop>();
-            myTroop.myWayPoints = this;
+            if (troopMsg.L_Units[0].TryGetComponent<Messenger>(out Messenger messenger))
+            {
+                myTroop = messenger.troopSelected;
+                myTroop.changingWayPoints = this;
+            }
+            else
+            {
+                myTroop = GameManager.Instance.selectedUnit.GetComponent<Troop>();
+                myTroop.myWayPoints = this;
+            }
         }
     }
 

@@ -405,14 +405,11 @@ MonoBehaviour:
   HUD: {fileID: 9098325439169183585}
   imageToBuild: {fileID: 2996125616307888493}
   L_HousesToBuild:
-  - house: {fileID: 2582249866165288520, guid: 2405cf64d8602b74fa05e8413d4d0a1f, type: 3}
-    unit: {fileID: -180440964511468996, guid: 2405cf64d8602b74fa05e8413d4d0a1f, type: 3}
+  - PB_House: {fileID: 5550205664086979457, guid: 2405cf64d8602b74fa05e8413d4d0a1f, type: 3}
     sprite: {fileID: 21300000, guid: 6f017b32d01f75c4a848ccb7df4976e4, type: 3}
-  - house: {fileID: 2582249866165288520, guid: 495a27a39144e34469cea576e0906dc8, type: 3}
-    unit: {fileID: 3758545980846810826, guid: 495a27a39144e34469cea576e0906dc8, type: 3}
+  - PB_House: {fileID: 5550205664086979457, guid: 495a27a39144e34469cea576e0906dc8, type: 3}
     sprite: {fileID: 21300000, guid: 2e1465179539ccb45af7834e3f2104fc, type: 3}
-  - house: {fileID: 2582249866165288520, guid: b5dfbe64c612c2f40a6238fb0d5d3258, type: 3}
-    unit: {fileID: 6453369459477819003, guid: b5dfbe64c612c2f40a6238fb0d5d3258, type: 3}
+  - PB_House: {fileID: 5550205664086979457, guid: b5dfbe64c612c2f40a6238fb0d5d3258, type: 3}
     sprite: {fileID: 21300000, guid: 12de04e8a6bca654bbde2cd3267f5d45, type: 3}
   houseDestroy: 0
   enemySpawner: {fileID: 5550205664086979457, guid: 326e4d3d72f53f54590fce64e2161d00, type: 3}

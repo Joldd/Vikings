@@ -64,6 +64,7 @@ GameObject:
   - component: {fileID: 7573587994892062493}
   - component: {fileID: 8143974586233405072}
   - component: {fileID: 92392525905619517}
+  - component: {fileID: 8139109814352621096}
   m_Layer: 0
   m_Name: Guard
   m_TagString: Player
@@ -116,6 +117,7 @@ MonoBehaviour:
   flankRange: 4
   damage: 2
   maxTroop: 2
+  body: {fileID: 0}
   enemyStop: 0
   areaToCapture: {fileID: 0}
   goldToWin: 0
@@ -145,6 +147,24 @@ CapsuleCollider:
   m_Height: 1.5
   m_Direction: 1
   m_Center: {x: 0, y: 0.8, z: 0}
+--- !u!114 &8139109814352621096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1429273588724494570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 1, g: 0.92941177, b: 0, a: 1}
+  outlineWidth: 2
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!1001 &3906282797064924911
 PrefabInstance:
   m_ObjectHideFlags: 0

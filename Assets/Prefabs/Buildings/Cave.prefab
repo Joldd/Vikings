@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 7255845743970466150}
   - component: {fileID: 7809602372743711312}
   - component: {fileID: 3758545980846810826}
+  - component: {fileID: 9095287807567057100}
   m_Layer: 0
   m_Name: Cave
   m_TagString: Player
@@ -88,8 +89,9 @@ MonoBehaviour:
   canvas: {fileID: 7958815786874226584}
   isSelect: 0
   canBeSelected: 0
-  L_Units:
-  - {fileID: 1429273588724494570, guid: 962ffa1a0ed6881439deda31b6b8968e, type: 3}
+  outline: {fileID: 0}
+  L_EntityUnits:
+  - {fileID: 8143974586233405072, guid: 962ffa1a0ed6881439deda31b6b8968e, type: 3}
   L_Buttons:
   - {fileID: 8878223246678805109}
   spawn: {fileID: 1745729143058281864}
@@ -158,6 +160,24 @@ MonoBehaviour:
   timeBuild: 0
   priceReputation: 120
   priceGold: 0
+--- !u!114 &9095287807567057100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5550205664086979457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 1, g: 0.92941177, b: 0, a: 1}
+  outlineWidth: 2
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!1001 &2685818150615860949
 PrefabInstance:
   m_ObjectHideFlags: 0

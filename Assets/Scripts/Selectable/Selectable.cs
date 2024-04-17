@@ -19,9 +19,8 @@ public class Selectable : MonoBehaviour
             canBeSelected = false;
         }
 
-        outline = gameObject.AddComponent<Outline>();
-        outline.OutlineColor = Color.yellow;
-        noOutLine();    
+        outline = GetComponent<Outline>();
+        if (outline) noOutLine();    
     }
 
     public virtual void noOutLine()
@@ -73,13 +72,16 @@ public class Selectable : MonoBehaviour
 
             if (selectedUnit != null)
             {
-                if (selectedUnit.TryGetComponent<Messenger>(out Messenger messenger))
+                if (selectedUnit.TryGetComponent<Troop>(out Troop troopMsg))
                 {
-                    if (GameManager.Instance.isChoosingMessager)
+                    if (troopMsg.L_Units[0].TryGetComponent<Messenger>(out Messenger messenger))
                     {
-                        messenger.troopSelected = this.GetComponent<Troop>();
-                        messenger.StopChooseTroop();
-                        return;
+                        if (GameManager.Instance.isChoosingMessager)
+                        {
+                            messenger.troopSelected = this.GetComponent<Troop>();
+                            messenger.StopChooseTroop();
+                            return;
+                        }
                     }
                 }
                 GameManager.Instance.selectedUnit.UnSelect();

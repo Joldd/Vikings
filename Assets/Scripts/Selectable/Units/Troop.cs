@@ -26,10 +26,18 @@ public class Troop : Selectable
     Vector3 directionEnemy;
     public House myHouse;
 
+    //UI
+    [SerializeField] private GameObject canvasUnit;
+    //UI Units
+    [SerializeField] private GameObject btnsUnit;
     public Button btnDraw;
     public Button btnRun;
-    private GameObject canvasUnit;
-    
+    //UI Messenger
+    public Image panelMsg;
+    [SerializeField] private GameObject btnsMsg;
+    public Button btnDrawMsg;
+    public Button btnGoMsg;
+
     //Waypoints
     public WayPoints myWayPoints;
     public WayPoints changingWayPoints;
@@ -63,10 +71,6 @@ public class Troop : Selectable
         timerAttackMax = unitRef.timerAttackMax;
         maxTroop = unitRef.maxTroop;
 
-        canvasUnit = transform.Find("CanvasUnit").gameObject;
-        btnDraw = canvasUnit.transform.Find("Buttons").Find("Draw").GetComponent<Button>();
-        btnRun = canvasUnit.transform.Find("Buttons").Find("Run").GetComponent<Button>();
-
         btnDraw.onClick.AddListener(() =>
         {
             GameManager.Instance.createPath();
@@ -79,6 +83,17 @@ public class Troop : Selectable
         {
             state = State.ENEMY;
             directionEnemy = transform.forward;
+        }
+
+        if (type == Type.Messenger)
+        {
+            btnsMsg.SetActive(true);
+            btnsUnit.SetActive(false);
+        }
+        else
+        {
+            btnsMsg.SetActive(false);
+            btnsUnit.SetActive(true);
         }
     }
 
@@ -93,8 +108,6 @@ public class Troop : Selectable
             EntityUnit v = L_Units[i];
             v.transform.position = new Vector3(transform.position.x + radius * Mathf.Cos(i * 2 * Mathf.PI / L_Units.Count), transform.position.y, transform.position.z + radius * Mathf.Sin(i * 2 * Mathf.PI / L_Units.Count));
         }
-        unit.outline = unit.gameObject.AddComponent<Outline>();
-        unit.outline.OutlineColor = Color.yellow;
         noOutLine();
     }
 
@@ -133,6 +146,36 @@ public class Troop : Selectable
             {
                 unit.outline.OutlineMode = Outline.Mode.OutlineAll;
                 unit.outline.OutlineWidth = 4;
+            }
+        }
+    }
+
+    public override void Select()
+    {
+        base.Select();
+
+        if (myWayPoints) myWayPoints.gameObject.SetActive(true);
+
+        if (type == Type.Messenger)
+        {
+            if (L_Units[0].TryGetComponent<Messenger>(out Messenger messenger))
+            {
+                messenger.Select();
+            }
+        }
+    }
+
+    public override void UnSelect()
+    {
+        base.UnSelect();
+
+        if (myWayPoints) myWayPoints.gameObject.SetActive(false);
+
+        if (type == Type.Messenger)
+        {
+            if (L_Units[0].TryGetComponent<Messenger>(out Messenger messenger))
+            {
+                messenger.UnSelect();
             }
         }
     }
@@ -201,7 +244,7 @@ public class Troop : Selectable
         currentLine = myWayPoints.lines[0];
         //transform.LookAt(currentMark.transform);
         btnRun.interactable = false;
-        myHouse.DetachTroop(this);
+        if (myHouse) myHouse.DetachTroop(this);
 
     }
 
