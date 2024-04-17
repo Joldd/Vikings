@@ -90,8 +90,9 @@ MonoBehaviour:
   canvas: {fileID: 7958815786874226584}
   isSelect: 0
   canBeSelected: 0
-  L_Units:
-  - {fileID: 6230955363413056210, guid: 81487770799ee8447a8e2e4db6d48660, type: 3}
+  outline: {fileID: 0}
+  L_EntityUnits:
+  - {fileID: 780734778844847046, guid: 81487770799ee8447a8e2e4db6d48660, type: 3}
   L_Buttons:
   - {fileID: 8878223246678805109}
   spawn: {fileID: 1745729143058281864}

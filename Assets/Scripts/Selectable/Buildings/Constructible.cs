@@ -91,19 +91,19 @@ public class Constructible : MonoBehaviour
     private void UpdateHouseToBuild()
     {
         imageToBuild.sprite = L_HousesToBuild[currentImg].sprite;
-        costTMP.text = L_HousesToBuild[currentImg].unit.priceReputation + " renommée";
-        nameTMP.text = L_HousesToBuild[currentImg].house.name;
+        costTMP.text = L_HousesToBuild[currentImg].PB_House.GetComponent<EntityHouse>().priceReputation + " renommée";
+        nameTMP.text = L_HousesToBuild[currentImg].PB_House.GetComponent<House>().name;
     }
 
     public void Build()
     {
-        House house = Instantiate(L_HousesToBuild[currentImg].house, transform);
-        house.transform.position = transform.position;
-        house.constructible = this;
+        GameObject houseInstanced = Instantiate(L_HousesToBuild[currentImg].PB_House, transform);
+        houseInstanced.transform.position = transform.position;
+        houseInstanced.GetComponent<House>().constructible = this;
         HUD.SetActive(false);
         after.SetActive(false);
         isEmpty = false;
-        GameManager.Instance.reputation -= L_HousesToBuild[currentImg].unit.priceReputation;
+        GameManager.Instance.reputation -= L_HousesToBuild[currentImg].PB_House.GetComponent<EntityHouse>().priceReputation;
         GameManager.Instance.updateRessources();
     }
 
@@ -216,7 +216,6 @@ public class Constructible : MonoBehaviour
 [System.Serializable]
 public struct HouseToBuild
 {
-    public House house;
-    public UnitHouse unit;
+    public GameObject PB_House;
     public Sprite sprite;
 }

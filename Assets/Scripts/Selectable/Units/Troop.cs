@@ -250,7 +250,7 @@ public class Troop : Selectable
                     {
                         unitTarget.Die();
                     }
-                    if (target.TryGetComponent<UnitHouse>(out UnitHouse houseTarget))
+                    if (target.TryGetComponent<EntityHouse>(out EntityHouse houseTarget))
                     {
                         houseTarget.Die();
                     }

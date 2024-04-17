@@ -84,7 +84,8 @@ MonoBehaviour:
   canvas: {fileID: 7958815786874226584}
   isSelect: 0
   canBeSelected: 0
-  L_Units:
+  outline: {fileID: 0}
+  L_EntityUnits:
   - {fileID: 8143974586233405072, guid: c1f0eaf837bc85047a503f81a64c640d, type: 3}
   - {fileID: 8143974586233405072, guid: 962ffa1a0ed6881439deda31b6b8968e, type: 3}
   L_Buttons:

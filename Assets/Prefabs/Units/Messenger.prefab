@@ -521,7 +521,7 @@ GameObject:
   - component: {fileID: 454007600415714394}
   - component: {fileID: 8832144208627769007}
   - component: {fileID: 8978655514157494650}
-  - component: {fileID: 4050722255122359469}
+  - component: {fileID: 780734778844847046}
   m_Layer: 0
   m_Name: Messenger
   m_TagString: Untagged
@@ -590,7 +590,7 @@ MonoBehaviour:
   chooseColor: {r: 0.26032397, g: 0.6308657, b: 0.8490566, a: 1}
   speed: 10
   messageBtn: {fileID: 6680807866762876882}
---- !u!114 &4050722255122359469
+--- !u!114 &780734778844847046
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -599,7 +599,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6230955363413056210}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f541d1c94592ac4a936ad6dacbe7036, type: 3}
+  m_Script: {fileID: 11500000, guid: 894a9a6d59d6ffb4a9c005ccce7997cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   healthBar: {fileID: 0}
@@ -609,7 +609,20 @@ MonoBehaviour:
   isBuilt: 0
   timeBuild: 0
   priceReputation: 0
-  priceGold: 100
+  priceGold: 0
+  state: 0
+  target: {fileID: 0}
+  timerAttackMax: 0
+  speed: 0
+  range: 0
+  damage: 1
+  maxTroop: 0
+  enemyStop: 0
+  areaToCapture: {fileID: 0}
+  goldToWin: 0
+  type: 0
+  myTroop: {fileID: 0}
+  outline: {fileID: 0}
 --- !u!1 &7096209241645724445
 GameObject:
   m_ObjectHideFlags: 0

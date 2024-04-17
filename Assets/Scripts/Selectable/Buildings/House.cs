@@ -4,11 +4,11 @@ using UnityEngine.UI;
 
 public class House : Selectable
 {
-    public List<Entity> L_Units;
+    [SerializeField] public List<EntityUnit> L_EntityUnits;
     public List<Button> L_Buttons;
     [SerializeField] Transform spawn;
 
-    Entity currentUnit;
+    EntityUnit currentUnit;
     Slider currentSliderUnit = null;
     bool isBuilding = false;
 
@@ -30,7 +30,7 @@ public class House : Selectable
 
         canvas = transform.Find("CanvasBuilding").gameObject;
 
-        if (L_Units.Count == L_Buttons.Count)
+        if (L_EntityUnits.Count == L_Buttons.Count)
         {
             for (int i = 0; i < L_Buttons.Count; i++)
             {
@@ -39,13 +39,13 @@ public class House : Selectable
                 int n = i;
                 L_Buttons[i].onClick.AddListener(() =>
                 {
-                    if (!isBuilding && GameManager.Instance.gold >= L_Units[n].priceGold
-                        && (!GetTroop(L_Units[n].GetComponent<EntityUnit>())
-                            || GetTroop(L_Units[n].GetComponent<EntityUnit>()).L_Units.Count < GetTroop(L_Units[n].GetComponent<EntityUnit>()).maxTroop))
+                    if (!isBuilding && GameManager.Instance.gold >= L_EntityUnits[n].priceGold
+                        && (!GetTroop(L_EntityUnits[n].GetComponent<EntityUnit>())
+                            || GetTroop(L_EntityUnits[n].GetComponent<EntityUnit>()).L_Units.Count < GetTroop(L_EntityUnits[n].GetComponent<EntityUnit>()).maxTroop))
                     {
-                        if (L_Units[n])
+                        if (L_EntityUnits[n])
                         {
-                            currentUnit = L_Units[n];
+                            currentUnit = L_EntityUnits[n];
                             sliderUnit.gameObject.SetActive(true);
                             currentSliderUnit = sliderUnit;
                             isBuilding = true;
@@ -75,9 +75,9 @@ public class House : Selectable
         return null;
     }
 
-    private void createUnit(Entity unit, Transform spawn)
+    private void createUnit(EntityUnit unit, Transform spawn)
     {
-        Entity u = Instantiate(unit);
+        EntityUnit u = Instantiate(unit);
         u.transform.position = spawn.transform.position;
         bool isTroop = false;
         if (u.TryGetComponent<EntityUnit>(out EntityUnit v))
