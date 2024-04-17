@@ -1,5 +1,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public enum Type
@@ -18,7 +20,8 @@ public class EntityUnit : Entity
     float timerAttack = 0f;
 
     public int speed;
-    public int range;
+    public int aoeRange;
+    public int flankRange;
     public int damage = 1;
     public int maxTroop;
 
@@ -35,6 +38,8 @@ public class EntityUnit : Entity
     public Troop myTroop;
 
     public Outline outline;
+
+
 
     public override void Start()
     {
@@ -68,6 +73,6 @@ public class EntityUnit : Entity
             GameManager.Instance.updateRessources();
         }
 
-        if (myTroop) myTroop.L_Units.Remove(this);
+        if (myTroop) myTroop.RemoveUnit(this);
     }
 }

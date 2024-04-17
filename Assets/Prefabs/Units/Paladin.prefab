@@ -59,7 +59,8 @@ MonoBehaviour:
   target: {fileID: 0}
   timerAttackMax: 1
   speed: 3
-  range: 2
+  aoeRange: 8
+  flankRange: 4
   damage: 2
   maxTroop: 3
   enemyStop: 0
@@ -107,7 +108,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8372718913737479951
 Transform:
   m_ObjectHideFlags: 0

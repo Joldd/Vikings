@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1905360751054800917
 Transform:
   m_ObjectHideFlags: 0
@@ -111,14 +111,15 @@ MonoBehaviour:
   state: 0
   target: {fileID: 0}
   timerAttackMax: 1
-  speed: 5
-  range: 2
+  speed: 3
+  aoeRange: 8
+  flankRange: 4
   damage: 2
   maxTroop: 2
   enemyStop: 0
   areaToCapture: {fileID: 0}
   goldToWin: 0
-  type: 1
+  type: 0
   myTroop: {fileID: 0}
   outline: {fileID: 0}
 --- !u!136 &92392525905619517

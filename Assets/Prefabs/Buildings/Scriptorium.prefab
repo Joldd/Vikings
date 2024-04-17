@@ -90,6 +90,7 @@ MonoBehaviour:
   canvas: {fileID: 7958815786874226584}
   isSelect: 0
   canBeSelected: 0
+  outline: {fileID: 0}
   L_Units:
   - {fileID: 6230955363413056210, guid: 81487770799ee8447a8e2e4db6d48660, type: 3}
   L_Buttons:
@@ -458,11 +459,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2707604274633037781, guid: 4209454fd92a28549ac75bd96fd906aa, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 0.548
       objectReference: {fileID: 0}
     - target: {fileID: 2707604274633037781, guid: 4209454fd92a28549ac75bd96fd906aa, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3107854195015539957, guid: 4209454fd92a28549ac75bd96fd906aa, type: 3}
       propertyPath: m_Sprite
@@ -478,19 +479,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4464982528902919166, guid: 4209454fd92a28549ac75bd96fd906aa, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4464982528902919166, guid: 4209454fd92a28549ac75bd96fd906aa, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4464982528902919166, guid: 4209454fd92a28549ac75bd96fd906aa, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 530
       objectReference: {fileID: 0}
     - target: {fileID: 4464982528902919166, guid: 4209454fd92a28549ac75bd96fd906aa, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -59
       objectReference: {fileID: 0}
     - target: {fileID: 6450051476932744466, guid: 4209454fd92a28549ac75bd96fd906aa, type: 3}
       propertyPath: m_text
@@ -501,6 +502,10 @@ PrefabInstance:
     - target: {fileID: 7543922574560700348, guid: 4209454fd92a28549ac75bd96fd906aa, type: 3}
       propertyPath: m_Name
       value: Messenger
+      objectReference: {fileID: 0}
+    - target: {fileID: 7543922574560700348, guid: 4209454fd92a28549ac75bd96fd906aa, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8600773397929658998, guid: 4209454fd92a28549ac75bd96fd906aa, type: 3}
       propertyPath: m_Pivot.x

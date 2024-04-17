@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.UI;
 
 public enum State
@@ -15,6 +16,7 @@ public enum State
 public class Troop : Selectable
 {
     public List<EntityUnit> L_Units = new List<EntityUnit>();
+    private EntityUnit unitRef;
     private float radius = 0.8f;
     public Type type;
     public State state;
@@ -27,7 +29,7 @@ public class Troop : Selectable
     public Button btnDraw;
     public Button btnRun;
     private GameObject canvasUnit;
-
+    
     //Waypoints
     public WayPoints myWayPoints;
     public WayPoints changingWayPoints;
@@ -36,10 +38,17 @@ public class Troop : Selectable
 
     //STATS
     private int speed;
-    private int range;
+    private int aoeRange;
+    private int flankRange;
     private float timerAttackMax;
     private float timerAttack = 0f;
     public int maxTroop;
+
+    [SerializeField] private LayerMask layerMaskTroop; 
+    [Header("Navigation")]
+    [SerializeField] private NavMeshAgent navMeshAgent;
+
+    public NavMeshAgent NavMeshAgent { get => navMeshAgent; }
 
     public override void Start()
     {
@@ -47,10 +56,12 @@ public class Troop : Selectable
 
         outline.enabled = false;
 
-        speed = L_Units[0].speed;
-        range = L_Units[0].range;
-        timerAttackMax = L_Units[0].timerAttackMax;
-        maxTroop = L_Units[0].maxTroop;
+        speed = unitRef.speed;
+        navMeshAgent.speed = speed;
+        aoeRange = unitRef.aoeRange;
+        flankRange = unitRef.flankRange;
+        timerAttackMax = unitRef.timerAttackMax;
+        maxTroop = unitRef.maxTroop;
 
         canvasUnit = transform.Find("CanvasUnit").gameObject;
         btnDraw = canvasUnit.transform.Find("Buttons").Find("Draw").GetComponent<Button>();
@@ -73,6 +84,7 @@ public class Troop : Selectable
 
     public void AddUnit(EntityUnit unit)
     {
+        unitRef = unit;
         unit.transform.SetParent(transform);
         L_Units.Add(unit);
         unit.myTroop = this;
@@ -149,6 +161,25 @@ public class Troop : Selectable
         }
     }
 
+    private EntityUnit GetNearestUnitFromTroop(Vector3 pos)
+    {
+        EntityUnit nearestUnit = null;
+        foreach (EntityUnit unit in L_Units)
+        {
+            Vector3 unitPos = unit.transform.position;
+            if (nearestUnit != null)
+            {
+                nearestUnit = Vector3.Distance(pos, unitPos) < Vector3.Distance(nearestUnit.transform.position, unitPos) ? unit : nearestUnit;
+            }
+            else
+            {
+                nearestUnit = unit;
+            }
+        }
+
+        return nearestUnit;
+    }
+
     private void KillTarget()
     {
         Destroy(target.gameObject);
@@ -163,18 +194,30 @@ public class Troop : Selectable
     {
         state = State.RUNNING;
         currentMark = myWayPoints.marks[0];
-        transform.position = currentMark.transform.position;
+        navMeshAgent.SetDestination(currentMark.transform.position);
+        // transform.position = currentMark.transform.position;
         currentMark.SetActive(false);
         currentMark = myWayPoints.nextPoint(currentMark);
         currentLine = myWayPoints.lines[0];
-        transform.LookAt(currentMark.transform);
-        PlayAnimation("Run");
+        //transform.LookAt(currentMark.transform);
         btnRun.interactable = false;
         myHouse.DetachTroop(this);
+
+    }
+
+    public void RemoveUnit(EntityUnit unit)
+    {
+        L_Units.Remove(unit);
+        if (L_Units.Count <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void Update()
     {
+        Vector3 forward = transform.TransformDirection(Vector3.forward) * 3;
+        Debug.DrawRay(transform.position, forward, Color.red);
         //////////////////   STATE   ////////////////////////////////////
         if (state != State.SLEEPING)
         {
@@ -185,14 +228,17 @@ public class Troop : Selectable
 
             if (state == State.RUNNING && myWayPoints)
             {
-                transform.position = Vector3.MoveTowards(transform.position, currentMark.transform.position, speed * Time.deltaTime);
+                PlayAnimation("Run");
+                navMeshAgent.enabled = true;
+                navMeshAgent.SetDestination(currentMark.transform.position);
+                // transform.position = Vector3.MoveTowards(transform.position, currentMark.transform.position, speed * Time.deltaTime);
                 if (Vector3.Distance(transform.position, currentMark.transform.position) < 0.1f && myWayPoints.marks.IndexOf(currentMark) < myWayPoints.marks.Count - 1)
                 {
                     currentMark.SetActive(false);
                     currentMark = myWayPoints.nextPoint(currentMark);
                     currentLine.gameObject.SetActive(false);
                     currentLine = myWayPoints.nextLine(currentLine);
-                    transform.LookAt(currentMark.transform);
+                    // transform.LookAt(currentMark.transform);
                 }
                 if (Vector3.Distance(transform.position, currentMark.transform.position) < 0.1f && myWayPoints.marks.IndexOf(currentMark) == myWayPoints.marks.Count - 1)
                 {
@@ -222,12 +268,18 @@ public class Troop : Selectable
                 }
                 else
                 {
+                    navMeshAgent.enabled = false;
                     Vector3 targetPos = new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z);
+                    // navMeshAgent.SetDestination(targetPos);
                     transform.position = Vector3.MoveTowards(transform.position, targetPos, speed * Time.deltaTime);
                     transform.LookAt(new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z));
-                    if (Vector3.Distance(transform.position, target.transform.position) <= range)
+                    if (Vector3.Distance(transform.position, target.transform.position) <= aoeRange)
                     {
                         state = State.ATTACK;
+                        // // Check flank 
+                        // Debug.LogError(target.transform.forward);
+                        // Debug.LogError(transform.forward);
+                        // Debug.LogError(Vector3.Angle(target.transform.forward, transform.forward));
                     }
                     if (Vector3.Distance(transform.position, target.transform.position) > 15f)
                     {
@@ -246,14 +298,7 @@ public class Troop : Selectable
                 if (target.PV <= 0)
                 {
                     //DEATH
-                    if (target.TryGetComponent<EntityUnit>(out EntityUnit unitTarget))
-                    {
-                        unitTarget.Die();
-                    }
-                    if (target.TryGetComponent<UnitHouse>(out UnitHouse houseTarget))
-                    {
-                        houseTarget.Die();
-                    }
+                    target.Die();
 
                     KillTarget();
 
@@ -287,22 +332,113 @@ public class Troop : Selectable
         //////////////////   ENEMY   ////////////////////////////////////
         if (state == State.ENEMY)
         {
+            navMeshAgent.enabled = false;
             transform.position += speed * directionEnemy * Time.deltaTime;
             PlayAnimation("Run");
         }
+        
+        //Enemy Detection Sphere
+        if (!checkEnemy)
+        {
+            Vector3 boxCenter = transform.position + transform.forward * 3;
+            Vector3 boxSize = Vector3.one * flankRange;
+            Quaternion boxOrientation = transform.rotation;
+        
+            //Enemy Detection Forward Box
+            RaycastHit[] hitsBox = Physics.BoxCastAll(boxCenter, boxSize, transform.forward, boxOrientation, layerMaskTroop);
+        
+            foreach (var hit in hitsBox)
+            {
+                Troop enemyTroop = null;
+                if (hit.transform.gameObject.TryGetComponent(out enemyTroop))
+                {
+                    if (!hit.transform.gameObject.CompareTag(gameObject.tag))
+                    {
+                        enemyTroop = hit.transform.gameObject.GetComponent<Troop>();
+                        state = State.RUNATTACK;
+                        PlayAnimation("Run");
+                        target = enemyTroop.GetNearestUnitFromTroop(transform.position);
+                        GiveTarget();
+                        Debug.LogError("Flank");
+                        checkEnemy = true;
+                    }
+                }
+            }
+            DebugDrawBox(boxCenter, boxSize, boxOrientation);
+            
+            RaycastHit[] hitsSphere = Physics.SphereCastAll(transform.position, aoeRange / 2, transform.forward, 10000, layerMaskTroop);
+        
+            foreach (var hit in hitsSphere)
+            {
+                Troop enemyTroop = null;
+                if (hit.transform.gameObject.TryGetComponent(out enemyTroop))
+                {
+                    if (!hit.transform.gameObject.CompareTag(gameObject.tag))
+                    {
+                        enemyTroop = hit.transform.gameObject.GetComponent<Troop>();
+                        state = State.RUNATTACK;
+                        PlayAnimation("Run");
+                        target = enemyTroop.GetNearestUnitFromTroop(transform.position);
+                        GiveTarget();
+                        Debug.LogError("Normal Aggro");
+                        checkEnemy = true;
+                    }
+                }
+            }
+        }
+    }
+    
+    void OnDrawGizmosSelected()
+    {
+        // Draw a yellow sphere at the transform's position
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, aoeRange / 2);
+    }
+    
+    
+    void DebugDrawBox(Vector3 position, Vector3 size, Quaternion orientation, float duration = 0.2f)
+    {
+        Vector3 halfSize = size / 2;
+
+        // Calculer les 8 coins de la box
+        Vector3[] corners = new Vector3[8]
+        {
+            position + orientation * new Vector3(-halfSize.x, -halfSize.y, -halfSize.z),
+            position + orientation * new Vector3(-halfSize.x, -halfSize.y, halfSize.z),
+            position + orientation * new Vector3(-halfSize.x, halfSize.y, -halfSize.z),
+            position + orientation * new Vector3(-halfSize.x, halfSize.y, halfSize.z),
+            position + orientation * new Vector3(halfSize.x, -halfSize.y, -halfSize.z),
+            position + orientation * new Vector3(halfSize.x, -halfSize.y, halfSize.z),
+            position + orientation * new Vector3(halfSize.x, halfSize.y, -halfSize.z),
+            position + orientation * new Vector3(halfSize.x, halfSize.y, halfSize.z)
+        };
+
+        // Dessiner les 12 arêtes de la box
+        Debug.DrawLine(corners[0], corners[1], Color.green, duration);
+        Debug.DrawLine(corners[0], corners[2], Color.green, duration);
+        Debug.DrawLine(corners[0], corners[4], Color.green, duration);
+        Debug.DrawLine(corners[1], corners[3], Color.green, duration);
+        Debug.DrawLine(corners[1], corners[5], Color.green, duration);
+        Debug.DrawLine(corners[2], corners[3], Color.green, duration);
+        Debug.DrawLine(corners[2], corners[6], Color.green, duration);
+        Debug.DrawLine(corners[3], corners[7], Color.green, duration);
+        Debug.DrawLine(corners[4], corners[5], Color.green, duration);
+        Debug.DrawLine(corners[4], corners[6], Color.green, duration);
+        Debug.DrawLine(corners[5], corners[7], Color.green, duration);
+        Debug.DrawLine(corners[6], corners[7], Color.green, duration);
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (checkEnemy) return;
-
-        if ((other.tag == "Enemy" && tag == "Player") || (other.tag == "Player" && tag == "Enemy"))
-        {
-            state = State.RUNATTACK;
-            PlayAnimation("Run");
-            target = other.gameObject.GetComponent<Entity>();
-            GiveTarget();
-            checkEnemy = true;
-        }
+        // if (checkEnemy) return;
+        //
+        // if ((other.tag == "Enemy" && tag == "Player") || (other.tag == "Player" && tag == "Enemy"))
+        // {
+        // state = State.RUNATTACK;
+        // PlayAnimation("Run");
+        // target = other.gameObject.GetComponent<Entity>();
+        // GiveTarget();
+        // checkEnemy = true;
+        // }
     }
 }
