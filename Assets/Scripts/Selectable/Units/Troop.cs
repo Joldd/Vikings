@@ -141,6 +141,14 @@ public class Troop : Selectable
         base.Select();
 
         if (myWayPoints) myWayPoints.gameObject.SetActive(true);
+
+        if (type == Type.Messenger)
+        {
+            if (L_Units[0].TryGetComponent<Messenger>(out Messenger messenger))
+            {
+                messenger.Select();
+            }
+        }
     }
 
     public override void UnSelect()
@@ -148,6 +156,14 @@ public class Troop : Selectable
         base.UnSelect();
 
         if (myWayPoints) myWayPoints.gameObject.SetActive(false);
+
+        if (type == Type.Messenger)
+        {
+            if (L_Units[0].TryGetComponent<Messenger>(out Messenger messenger))
+            {
+                messenger.UnSelect();
+            }
+        }
     }
 
     private void PlayAnimation(string name)

@@ -25,41 +25,37 @@ public class Messenger : EntityUnit
         myTroop.btnGoMsg.onClick.AddListener(() => Go());
     }
 
-    //public override void Select()
-    //{
-    //    base.Select();
+    public void Select()
+    {
+        if (troopSelected)
+        {
+            if (troopSelected.myWayPoints)
+            {
+                troopSelected.myWayPoints.gameObject.SetActive(true);
+            }
+            if (troopSelected.changingWayPoints)
+            {
+                troopSelected.changingWayPoints.gameObject.SetActive(true);
+            }
+        }
 
-    //    if (troopSelected)
-    //    {
-    //        if (troopSelected.myWayPoints)
-    //        {
-    //            troopSelected.myWayPoints.gameObject.SetActive(true);
-    //        }
-    //        if (troopSelected.changingWayPoints)
-    //        {
-    //            troopSelected.changingWayPoints.gameObject.SetActive(true);
-    //        }
-    //    }
+    }
 
-    //}
+    public void UnSelect()
+    {
+        if (troopSelected)
+        {
+            if (troopSelected.myWayPoints)
+            {
+                troopSelected.myWayPoints.gameObject.SetActive(false);
+            }
+            if (troopSelected.changingWayPoints)
+            {
+                troopSelected.changingWayPoints.gameObject.SetActive(false);
+            }
+        }
 
-    //public override void UnSelect()
-    //{
-    //    base.UnSelect();
-
-    //    if (troopSelected)
-    //    {
-    //        if (troopSelected.myWayPoints)
-    //        {
-    //            troopSelected.myWayPoints.gameObject.SetActive(false);
-    //        }
-    //        if (troopSelected.changingWayPoints)
-    //        {
-    //            troopSelected.changingWayPoints.gameObject.SetActive(false);
-    //        }
-    //    }
-
-    //}
+    }
 
     private void QuitTroop()
     {
