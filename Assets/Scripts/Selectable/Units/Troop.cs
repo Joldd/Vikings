@@ -295,6 +295,7 @@ public class Troop : Selectable
         if (L_Units.Count <= 0)
         {
             if (fogRevealer != null) GameManager.Instance.fogWar._FogRevealers.Remove(fogRevealer);
+            if (myWayPoints) Destroy(myWayPoints.gameObject);
             Destroy(gameObject);
         }
     }
@@ -417,7 +418,7 @@ public class Troop : Selectable
             timerWard -= Time.deltaTime;
             if (timerWard <= 0)
             {
-                GameObject w = Instantiate(ward);
+                GameObject w = Instantiate(ward, GameManager.Instance.fogWar.transform);
                 w.transform.position = transform.position;
                 FogRevealer fogRevealer = new FogRevealer(w.transform, 10, false);
                 GameManager.Instance.fogWar._FogRevealers.Add(fogRevealer);
