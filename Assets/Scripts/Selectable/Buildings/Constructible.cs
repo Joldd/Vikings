@@ -91,7 +91,7 @@ public class Constructible : MonoBehaviour
     private void UpdateHouseToBuild()
     {
         imageToBuild.sprite = L_HousesToBuild[currentImg].sprite;
-        costTMP.text = L_HousesToBuild[currentImg].PB_House.GetComponent<EntityHouse>().priceReputation + " renommée";
+        costTMP.text = L_HousesToBuild[currentImg].PB_House.GetComponent<EntityHouse>().priceReputation + " renommÃ©e";
         nameTMP.text = L_HousesToBuild[currentImg].PB_House.GetComponent<House>().name;
     }
 

@@ -148,7 +148,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timerMax: 5
-  troop: {fileID: 0}
+  troop: {fileID: 2953771740510689689, guid: c4ae4464363fbbc47b67d3e72b2ece80, type: 3}
   ennemyToSpawn: {fileID: 8143974586233405072, guid: 444836a435cc386498ea979dac74ad5e, type: 3}
   rotation: -90
 --- !u!1001 &4873574097499321839

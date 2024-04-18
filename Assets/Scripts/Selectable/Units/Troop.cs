@@ -300,7 +300,7 @@ public class Troop : Selectable
                 navMeshAgent.enabled = true;
                 navMeshAgent.SetDestination(currentMark.transform.position);
                 // transform.position = Vector3.MoveTowards(transform.position, currentMark.transform.position, speed * Time.deltaTime);
-                if (Vector3.Distance(transform.position, currentMark.transform.position) < 0.1f && myWayPoints.marks.IndexOf(currentMark) < myWayPoints.marks.Count - 1)
+                if (Vector3.Distance(transform.position, currentMark.transform.position) < 0.4f && myWayPoints.marks.IndexOf(currentMark) < myWayPoints.marks.Count - 1)
                 {
                     currentMark.SetActive(false);
                     currentMark = myWayPoints.nextPoint(currentMark);
@@ -308,7 +308,7 @@ public class Troop : Selectable
                     currentLine = myWayPoints.nextLine(currentLine);
                     // transform.LookAt(currentMark.transform);
                 }
-                if (Vector3.Distance(transform.position, currentMark.transform.position) < 0.1f && myWayPoints.marks.IndexOf(currentMark) == myWayPoints.marks.Count - 1)
+                if (Vector3.Distance(transform.position, currentMark.transform.position) < 0.4f && myWayPoints.marks.IndexOf(currentMark) == myWayPoints.marks.Count - 1)
                 {
                     //Destroy(myWayPoints.gameObject);
                     state = State.WAITING;
@@ -424,8 +424,8 @@ public class Troop : Selectable
             Quaternion boxOrientation = transform.rotation;
         
             //Enemy Detection Forward Box
-            RaycastHit[] hitsBox = Physics.BoxCastAll(boxCenter, boxSize, transform.forward, boxOrientation, layerMaskTroop);
-        
+            RaycastHit[] hitsBox = Physics.BoxCastAll(boxCenter, boxSize, transform.forward, boxOrientation, layerMaskTroop, 10);
+            
             foreach (var hit in hitsBox)
             {
                 Troop enemyTroop = null;
@@ -433,6 +433,8 @@ public class Troop : Selectable
                 {
                     if (!hit.transform.gameObject.CompareTag(gameObject.tag))
                     {
+                        Debug.LogError("Object : " + hit.transform.gameObject.name);
+                        Debug.LogError("EnemyTroop Detection Box" + enemyTroop.unitRef.name);
                         enemyTroop = hit.transform.gameObject.GetComponent<Troop>();
                         state = State.RUNATTACK;
                         PlayAnimation("Run");
@@ -445,10 +447,11 @@ public class Troop : Selectable
                     }
                 }
             }
-            DebugDrawBox(boxCenter, boxSize, boxOrientation);
+            Vector3[] cubePoint = CubePoints(boxCenter, boxSize, boxOrientation);
+            DrawCubePoints(cubePoint);
             
-            RaycastHit[] hitsSphere = Physics.SphereCastAll(transform.position, aoeRange / 2, transform.forward, 10000, layerMaskTroop);
-        
+            RaycastHit[] hitsSphere = Physics.SphereCastAll(transform.position, aoeRange / 2, transform.up, 10000, layerMaskTroop);
+            
             foreach (var hit in hitsSphere)
             {
                 Troop enemyTroop = null;
@@ -456,6 +459,7 @@ public class Troop : Selectable
                 {
                     if (!hit.transform.gameObject.CompareTag(gameObject.tag))
                     {
+                        Debug.LogError("EnemyTroop Detection Sphere" + enemyTroop.unitRef.name);
                         enemyTroop = hit.transform.gameObject.GetComponent<Troop>();
                         state = State.RUNATTACK;
                         PlayAnimation("Run");
@@ -518,6 +522,41 @@ public class Troop : Selectable
         Debug.DrawLine(corners[4], corners[6], Color.green, duration);
         Debug.DrawLine(corners[5], corners[7], Color.green, duration);
         Debug.DrawLine(corners[6], corners[7], Color.green, duration);
+    }
+    
+    Vector3[] CubePoints(Vector3 center, Vector3 extents, Quaternion rotation)
+    {
+        Vector3[] points = new Vector3[8];
+        points[0] = rotation * Vector3.Scale(extents, new Vector3(1, 1, 1)) + center;
+        points[1] = rotation * Vector3.Scale(extents, new Vector3(1, 1, -1)) + center;
+        points[2] = rotation * Vector3.Scale(extents, new Vector3(1, -1, 1)) + center;
+        points[3] = rotation * Vector3.Scale(extents, new Vector3(1, -1, -1)) + center;
+        points[4] = rotation * Vector3.Scale(extents, new Vector3(-1, 1, 1)) + center;
+        points[5] = rotation * Vector3.Scale(extents, new Vector3(-1, 1, -1)) + center;
+        points[6] = rotation * Vector3.Scale(extents, new Vector3(-1, -1, 1)) + center;
+        points[7] = rotation * Vector3.Scale(extents, new Vector3(-1, -1, -1)) + center;
+
+        return points;
+    }
+    
+    void DrawCubePoints(Vector3[] points, float duration = 0.2f)
+    {
+        Debug.DrawLine(points[0], points[1], Color.green, duration);
+        Debug.DrawLine(points[0], points[2], Color.green, duration);
+        Debug.DrawLine(points[0], points[4], Color.green, duration);
+
+        Debug.DrawLine(points[7], points[6], Color.green, duration);
+        Debug.DrawLine(points[7], points[5], Color.green, duration);
+        Debug.DrawLine(points[7], points[3], Color.green, duration);
+
+        Debug.DrawLine(points[1], points[3], Color.green, duration);
+        Debug.DrawLine(points[1], points[5], Color.green, duration);
+
+        Debug.DrawLine(points[2], points[3], Color.green, duration);
+        Debug.DrawLine(points[2], points[6], Color.green, duration);
+
+        Debug.DrawLine(points[4], points[5], Color.green, duration);
+        Debug.DrawLine(points[4], points[6], Color.green, duration);
     }
 
     private void OnTriggerStay(Collider other)
