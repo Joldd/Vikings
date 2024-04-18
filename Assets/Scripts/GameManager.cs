@@ -26,7 +26,6 @@ public class GameManager : MonoBehaviour
     int layer_mask;
 
     public Selectable selectedUnit;
-    public Troop selectedTroop;
 
     public bool isBuilding = false;
     public House houseToBuild;
