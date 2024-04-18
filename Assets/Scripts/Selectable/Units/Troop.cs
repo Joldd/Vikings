@@ -214,7 +214,20 @@ public class Troop : Selectable
         foreach (EntityUnit unit in L_Units)
         {
             unit.target = target;
-            //TODO Give bonus to units
+            float multiValue = 0f;
+            switch (flankValue)
+            {
+                case FlankValues.BACK :
+                    multiValue = 2f;
+                    break;
+                case FlankValues.FRONT :
+                    multiValue = 1f;
+                    break;
+                case FlankValues.SIDES :
+                    multiValue = 1.5f;
+                    break;
+            }
+            unit.AddBonusDmgFlank(multiValue);
         }
     }
 
@@ -255,6 +268,7 @@ public class Troop : Selectable
         foreach (EntityUnit unit in L_Units)
         {
             unit.target = null;
+            unit.ResetBonusDmg();
         }
     }
 
@@ -424,7 +438,7 @@ public class Troop : Selectable
             Quaternion boxOrientation = transform.rotation;
         
             //Enemy Detection Forward Box
-            RaycastHit[] hitsBox = Physics.BoxCastAll(boxCenter, boxSize, transform.forward, boxOrientation, layerMaskTroop, 10);
+            RaycastHit[] hitsBox = Physics.BoxCastAll(boxCenter, boxSize, transform.forward, boxOrientation, 3, layerMaskTroop);
             
             foreach (var hit in hitsBox)
             {

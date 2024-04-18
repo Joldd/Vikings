@@ -7,7 +7,7 @@ public class UnitHelper : MonoBehaviour
     public void Deal()
     {
         if (!unit.target) return;
-        unit.target.PV -= unit.damage;
+        unit.target.PV -= (int) unit.GetDamage();
         unit.target.healthBar.UpdateValue();
     }
 }

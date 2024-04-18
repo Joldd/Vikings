@@ -26,6 +26,7 @@ public class EntityUnit : Entity
     public int damage = 1;
     public int maxTroop;
 
+    private float damageMultiplier = 1;
     public GameObject body;
 
     [SerializeField] bool enemyStop;
@@ -59,6 +60,21 @@ public class EntityUnit : Entity
     {
         animator.speed = 1f / timerAttackMax;
         animator.Play("Attack");
+    }
+
+    public float GetDamage()
+    {
+        return damage * damageMultiplier;
+    }
+
+    public void ResetBonusDmg()
+    {
+        damageMultiplier = 1;
+    }
+
+    public void AddBonusDmgFlank(float newMulti)
+    {
+        damageMultiplier = newMulti;
     }
 
     public override void Die()
