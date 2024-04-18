@@ -5,9 +5,34 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.Serialization;
 
+[Serializable]
+public class PlayerBaseSetup
+{
+    [SerializeField] private Player player;
+    [SerializeField] private List<EntityUnit> L_BaseUnit;
+    [SerializeField] private List<House> L_BaseBuildings;
+    //TODO Add Hero and companions
+
+    public Player Player { get => player; }
+    public List<EntityUnit> BaseUnit { get => L_BaseUnit; }
+    public List<House> BaseBuildings { get => L_BaseBuildings; }
+}
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance { get; private set; }
+    
+    [Header("Game System")]
+    public bool isPause;
+    public csFogWar fogWar;
+
+    [Header("Team System")]
+    [SerializeField] private PlayerBaseSetup vicarPlayer;
+    [SerializeField] private PlayerBaseSetup vikingPlayer;
+    
+    [Header("Pathing System")]
     [SerializeField] WayPoints wayPoints;
     public WayPoints currentWayPoints;
 
@@ -20,8 +45,8 @@ public class GameManager : MonoBehaviour
     LineRenderer currentLine;
     [SerializeField] float lineWidth = 0.2f;
 
-    public static GameManager Instance { get; private set; }
 
+    [Header("Pathing System")]
     [SerializeField] GameObject floor;
     int layer_mask;
 
@@ -31,11 +56,10 @@ public class GameManager : MonoBehaviour
     public bool isBuilding = false;
     public House houseToBuild;
 
+    [Header("UI System")]
     [SerializeField] Canvas mainMenu;
     TextMeshProUGUI textGold;
     TextMeshProUGUI textReputation;
-    public int gold;
-    public int reputation;
 
     public HoverTitle objectHover;
     public GameObject panelHover;
@@ -43,9 +67,20 @@ public class GameManager : MonoBehaviour
     public bool isChoosingMessager;
     public bool isFirstMessage;
 
-    public bool isPause;
+    [Header("Resources")]
+    public int gold;
+    public int reputation;
 
-    public csFogWar fogWar;
+    //Goal System
+    [HideInInspector] public UnityEvent<Player> onBaseIsDestroyed = new UnityEvent<Player>();
+    [HideInInspector] public UnityEvent<Player> onHeroIsKilled = new UnityEvent<Player>();
+    [HideInInspector] public UnityEvent<float> onTimeIsUp = new UnityEvent<float>();
+    [HideInInspector] public UnityEvent<Player> onTreasureIsSecured = new UnityEvent<Player>();
+
+
+    public PlayerBaseSetup VicarPlayer { get => vicarPlayer; }
+
+    public PlayerBaseSetup VikingPlayer { get => vikingPlayer; }
 
     private void Awake()
     {
@@ -66,13 +101,27 @@ public class GameManager : MonoBehaviour
 
         textGold = mainMenu.gameObject.transform.Find("Ressources").Find("Gold").Find("Text").GetComponent<TextMeshProUGUI>();
         textReputation = mainMenu.gameObject.transform.Find("Ressources").Find("Reputation").Find("Text").GetComponent<TextMeshProUGUI>();
-        updateRessources();
+        UpdateRessources();
 
         panelHover = mainMenu.gameObject.transform.Find("Hover").gameObject;
         panelHover.SetActive(false);
+        
+        //Setup Players
+        Player v_Player = vicarPlayer.Player;
+        // Vicars Goals
+        v_Player.GameSetup.GameGoal.SetupCheckGoalDone(v_Player);
+        // Vicars Units
+        // TODO Faire spawn les unités dès le début
+        // Vicars Buildings
+        foreach (var building in vicarPlayer.BaseBuildings)
+        {
+            building.owner = v_Player;
+        }
+        // Vikings
+        vikingPlayer.Player.GameSetup.GameGoal.SetupCheckGoalDone(vikingPlayer.Player);
     }
 
-    public void createPath()
+    public void CreatePath()
     {
         if (!isPathing)
         {
@@ -84,11 +133,13 @@ public class GameManager : MonoBehaviour
             currentMark = Instantiate(mark, currentWayPoints.transform);
             currentWayPoints.marks.Add(currentMark);
             currentWayPoints.lineColor = Color.red;
-            createLine();
+            CreateLine();
         }   
     }
 
-    public void createNewPath()
+    #region Pathing
+
+    public void CreateNewPath()
     {
         if (!isPathing)
         {
@@ -105,7 +156,7 @@ public class GameManager : MonoBehaviour
                     currentWayPoints.marks.Add(currentMark);
                     currentWayPoints.lineColor = Color.blue;
                     currentWayPoints.isNew = true;
-                    createLine();
+                    CreateLine();
                     isFirstMessage = true;
                 }
                 else
@@ -120,7 +171,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void createLine()
+    void CreateLine()
     {
         int index = currentWayPoints.marks.IndexOf(currentMark);
         currentLine = Instantiate(_lr, currentWayPoints.transform);
@@ -131,7 +182,48 @@ public class GameManager : MonoBehaviour
         currentLine.endWidth = lineWidth;
         currentWayPoints.lines.Add(currentLine);
     }
+    
+    #endregion
 
+    #region GoalSystem
+
+    public void AddListenerTreasureGoal(UnityAction<Player> action)
+    {
+        onTreasureIsSecured.AddListener(action);
+    }
+
+    public void AddListenerHeroGoal(UnityAction<Player> action)
+    {
+        onHeroIsKilled.AddListener(action);
+    }
+    
+    public void AddListenerBaseGoal(UnityAction<Player> action)
+    {
+        onBaseIsDestroyed.AddListener(action);
+    }
+    
+    public void AddListenerTimeRemainGoal(UnityAction<float> action)
+    {
+        onTimeIsUp.AddListener(action);
+    }
+
+    public void PlayerWinGame(Player playerRef)
+    {
+
+        if (playerRef == vicarPlayer.Player)
+        {
+            UIManager.Instance.Victory();
+        }
+        else
+        {
+            UIManager.Instance.Defeat();
+        }
+
+    }
+    
+    #endregion
+
+  
     private void FixedUpdate()
     {
         if (isPathing)
@@ -155,7 +247,7 @@ public class GameManager : MonoBehaviour
             currentMark = Instantiate(mark, currentWayPoints.transform);
             currentWayPoints.marks.Add(currentMark);
             currentMark.transform.position = currentPos;
-            createLine();
+            CreateLine();
         }
 
         if (Input.GetMouseButton(0))
@@ -202,7 +294,7 @@ public class GameManager : MonoBehaviour
         {
             reputation += 100;
             gold += 100;
-            updateRessources();
+            UpdateRessources();
         }
         ////////////////////////////////////////////////////////////////////////////////
     }
@@ -213,9 +305,14 @@ public class GameManager : MonoBehaviour
         houseToBuild = null;
     }
 
-    public void updateRessources()
+    public void UpdateRessources()
     {
         textGold.text = gold.ToString();
         textReputation.text = reputation.ToString();
+    }
+
+    public bool CheckIsVicars(Player playerRef)
+    {
+        return playerRef == vicarPlayer.Player;
     }
 }

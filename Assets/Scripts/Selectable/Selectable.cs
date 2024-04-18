@@ -10,6 +10,8 @@ public class Selectable : MonoBehaviour
 
     public Outline outline;
 
+    public Player owner;
+
     public virtual void Start()
     {
         canBeSelected = true;

@@ -52,7 +52,7 @@ public class House : Selectable
                             isBuilding = true;
                             timer = currentUnit.timeBuildMax;
                             GameManager.Instance.gold -= currentUnit.priceGold;
-                            GameManager.Instance.updateRessources();
+                            GameManager.Instance.UpdateRessources();
                         }
                     }
                 });
@@ -97,6 +97,7 @@ public class House : Selectable
             //ELSE CREATE TROOP
             Troop troop = Instantiate(troopGO);
             L_Troop.Add(troop);
+            troop.owner = owner;
             troop.type = v.type;
             troop.transform.position = spawn.transform.position;
             troop.AddUnit(v);

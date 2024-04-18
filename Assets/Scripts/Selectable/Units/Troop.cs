@@ -71,10 +71,13 @@ public class Troop : Selectable
     private float timerWard;
     public FogRevealer fogRevealer;
 
+    private GameManager gameManager;
     public override void Start()
     {
         base.Start();
 
+        gameManager = GameManager.Instance;
+        
         speed = unitRef.speed;
         navMeshAgent.speed = speed;
         range = unitRef.range;
@@ -85,13 +88,13 @@ public class Troop : Selectable
 
         btnDraw.onClick.AddListener(() =>
         {
-            GameManager.Instance.createPath();
+            gameManager.CreatePath();
         });
         btnRun.interactable = false;
 
         canvasUnit.SetActive(false);
 
-        if (tag == "Enemy")
+        if (!gameManager.CheckIsVicars(owner))
         {
             state = State.ENEMY;
             directionEnemy = transform.forward;
@@ -136,7 +139,7 @@ public class Troop : Selectable
 
     public override void hoverOutline()
     {
-        if (tag == "Enemy") return;
+        if (!gameManager.CheckIsVicars(owner)) return;
 
         foreach (EntityUnit unit in L_Units)
         {
@@ -150,7 +153,7 @@ public class Troop : Selectable
 
     public override void selectOutline()
     {
-        if (tag == "Enemy") return;
+        if (!gameManager.CheckIsVicars(owner)) return;
 
         foreach (EntityUnit unit in L_Units)
         {
@@ -303,7 +306,7 @@ public class Troop : Selectable
         //////////////////   STATE   ////////////////////////////////////
         if (state != State.SLEEPING)
         {
-            if (tag != "Enemy" && currentLine)
+            if (gameManager.CheckIsVicars(owner) && currentLine)
             {
                 currentLine.SetPosition(0, transform.position);
             }
@@ -342,7 +345,7 @@ public class Troop : Selectable
                     state = State.RUNNING;
                     checkEnemy = false;
 
-                    if (tag == "Enemy")
+                    if (!gameManager.CheckIsVicars(owner))
                     {
                         state = State.ENEMY;
                         transform.LookAt(directionEnemy);
@@ -364,7 +367,7 @@ public class Troop : Selectable
                     {
                         state = State.RUNNING;
                         checkEnemy = false;
-                        if (tag == "Enemy")
+                        if (!gameManager.CheckIsVicars(owner))
                         {
                             state = State.ENEMY;
                             transform.LookAt(directionEnemy);
@@ -383,7 +386,7 @@ public class Troop : Selectable
 
                     state = State.RUNATTACK;
 
-                    if (tag == "Enemy")
+                    if (!gameManager.CheckIsVicars(owner))
                     {
                         state = State.ENEMY;
                         transform.LookAt(directionEnemy);
@@ -447,8 +450,6 @@ public class Troop : Selectable
                 {
                     if (!hit.transform.gameObject.CompareTag(gameObject.tag))
                     {
-                        Debug.LogError("Object : " + hit.transform.gameObject.name);
-                        Debug.LogError("EnemyTroop Detection Box" + enemyTroop.unitRef.name);
                         enemyTroop = hit.transform.gameObject.GetComponent<Troop>();
                         state = State.RUNATTACK;
                         PlayAnimation("Run");
@@ -502,40 +503,7 @@ public class Troop : Selectable
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, aoeRange / 2);
     }
-    
-    
-    void DebugDrawBox(Vector3 position, Vector3 size, Quaternion orientation, float duration = 0.2f)
-    {
-        Vector3 halfSize = size / 2;
 
-        // Calculer les 8 coins de la box
-        Vector3[] corners = new Vector3[8]
-        {
-            position + orientation * new Vector3(-halfSize.x, -halfSize.y, -halfSize.z),
-            position + orientation * new Vector3(-halfSize.x, -halfSize.y, halfSize.z),
-            position + orientation * new Vector3(-halfSize.x, halfSize.y, -halfSize.z),
-            position + orientation * new Vector3(-halfSize.x, halfSize.y, halfSize.z),
-            position + orientation * new Vector3(halfSize.x, -halfSize.y, -halfSize.z),
-            position + orientation * new Vector3(halfSize.x, -halfSize.y, halfSize.z),
-            position + orientation * new Vector3(halfSize.x, halfSize.y, -halfSize.z),
-            position + orientation * new Vector3(halfSize.x, halfSize.y, halfSize.z)
-        };
-
-        // Dessiner les 12 arêtes de la box
-        Debug.DrawLine(corners[0], corners[1], Color.green, duration);
-        Debug.DrawLine(corners[0], corners[2], Color.green, duration);
-        Debug.DrawLine(corners[0], corners[4], Color.green, duration);
-        Debug.DrawLine(corners[1], corners[3], Color.green, duration);
-        Debug.DrawLine(corners[1], corners[5], Color.green, duration);
-        Debug.DrawLine(corners[2], corners[3], Color.green, duration);
-        Debug.DrawLine(corners[2], corners[6], Color.green, duration);
-        Debug.DrawLine(corners[3], corners[7], Color.green, duration);
-        Debug.DrawLine(corners[4], corners[5], Color.green, duration);
-        Debug.DrawLine(corners[4], corners[6], Color.green, duration);
-        Debug.DrawLine(corners[5], corners[7], Color.green, duration);
-        Debug.DrawLine(corners[6], corners[7], Color.green, duration);
-    }
-    
     Vector3[] CubePoints(Vector3 center, Vector3 extents, Quaternion rotation)
     {
         Vector3[] points = new Vector3[8];

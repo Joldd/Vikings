@@ -128,7 +128,7 @@ public class Messenger : EntityUnit
     {
         GameManager.Instance.isChoosingMessager = !GameManager.Instance.isChoosingMessager;
         myTroop.panelMsg.color = startColor;
-        GameManager.Instance.createNewPath();
+        GameManager.Instance.CreateNewPath();
         myTroop.btnDrawMsg.interactable = false;
     }
 

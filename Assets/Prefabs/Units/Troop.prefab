@@ -75,6 +75,11 @@ MonoBehaviour:
     m_Bits: 1024
   navMeshAgent: {fileID: 569545795746225242}
   ward: {fileID: 6568633019215398634, guid: fcb80284e09ebde4aa4118a87a9dbddd, type: 3}
+  fogRevealer:
+    revealerTransform: {fileID: 0}
+    sightRange: 0
+    updateOnlyOnMove: 0
+    lastSeenAt: {x: 0, y: 0}
 --- !u!54 &8987955895002578171
 Rigidbody:
   m_ObjectHideFlags: 0

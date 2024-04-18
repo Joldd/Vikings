@@ -38,11 +38,14 @@ public class Constructible : MonoBehaviour
     [SerializeField] TextMeshProUGUI nameTMP;
     [SerializeField] TextMeshProUGUI costTMP;
 
+    private GameManager gameManager;
+
     private void Start()
     {
         basePlayer = GameObject.Find("BasePlayer");
         baseEnemy = GameObject.Find("BaseEnemy");
         HUD.SetActive(false);
+        gameManager = GameManager.Instance;
     }
 
     public void BecomeConstructible()
@@ -104,7 +107,7 @@ public class Constructible : MonoBehaviour
         after.SetActive(false);
         isEmpty = false;
         GameManager.Instance.reputation -= L_HousesToBuild[currentImg].PB_House.GetComponent<EntityHouse>().priceReputation;
-        GameManager.Instance.updateRessources();
+        GameManager.Instance.UpdateRessources();
     }
 
     public void ChangeRight()
@@ -129,36 +132,43 @@ public class Constructible : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.TryGetComponent(out EntityUnit unit))
         {
-            playerCapturing = true;
-        }
-        if (other.tag == "Enemy")
-        {
-            enemyCapturing = true;
-        }
-
-        if (other.tag == "Player" && !firstPlayerBuilder)
-        {
-            needFirstPlayer = true;
-            other.GetComponent<EntityUnit>().areaToCapture = this;
-        }
-        if (other.tag == "Enemy" && !firstEnemyBuilder)
-        {
-            needFirstEnemy = true;
-            other.GetComponent<EntityUnit>().areaToCapture = this;
+            // If Vicars 
+            if(gameManager.CheckIsVicars(unit.myTroop.owner))
+            {
+                playerCapturing = true;
+                if (!firstPlayerBuilder)
+                {
+                    needFirstPlayer = true;
+                    unit.areaToCapture = this;
+                }
+            }
+            // If Vikings 
+            else
+            {
+                enemyCapturing = true;
+                if (!firstEnemyBuilder)
+                {
+                    needFirstEnemy = true;
+                    unit.areaToCapture = this;
+                }
+            }
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.TryGetComponent(out EntityUnit unit))
         {
-            playerCapturing = false;
-        }
-        if (other.tag == "Enemy")
-        {
-            enemyCapturing = false;
+            if (unit.myTroop.owner == gameManager.VicarPlayer.Player)
+            {
+                playerCapturing = false;
+            }
+            else
+            {
+                enemyCapturing = false;
+            }
         }
     }
 

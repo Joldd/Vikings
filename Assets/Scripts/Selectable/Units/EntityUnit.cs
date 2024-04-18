@@ -90,7 +90,7 @@ public class EntityUnit : Entity
         if (tag == "Enemy")
         {
             GameManager.Instance.gold += goldToWin;
-            GameManager.Instance.updateRessources();
+            GameManager.Instance.UpdateRessources();
         }
 
         if (myTroop) myTroop.RemoveUnit(this);

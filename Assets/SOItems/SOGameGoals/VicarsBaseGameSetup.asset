@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 617179af33c55ba4b8f6727f2bd8cd70, type: 3}
+  m_Name: VicarsBaseGameSetup
+  m_EditorClassIdentifier: 
+  L_Buildings:
+  - PB_House: {fileID: 5550205664086979457, guid: 2405cf64d8602b74fa05e8413d4d0a1f, type: 3}
+    sprite: {fileID: 21300000, guid: 6f017b32d01f75c4a848ccb7df4976e4, type: 3}
+  - PB_House: {fileID: 5550205664086979457, guid: 495a27a39144e34469cea576e0906dc8, type: 3}
+    sprite: {fileID: 21300000, guid: 2e1465179539ccb45af7834e3f2104fc, type: 3}
+  - PB_House: {fileID: 5550205664086979457, guid: b5dfbe64c612c2f40a6238fb0d5d3258, type: 3}
+    sprite: {fileID: 21300000, guid: 12de04e8a6bca654bbde2cd3267f5d45, type: 3}
+  gameGoal: {fileID: 11400000, guid: 6ac53afdd0b5edc4dbcf545ededc32e5, type: 2}
