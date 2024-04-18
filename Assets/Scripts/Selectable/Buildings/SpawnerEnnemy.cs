@@ -20,6 +20,7 @@ public class SpawnerEnnemy : MonoBehaviour
         {
             EntityUnit ennemySpawned = Instantiate(ennemyToSpawn);
             Troop myTroop = Instantiate(troop);
+            myTroop.owner = GameManager.Instance.VikingPlayer.Player;
             myTroop.transform.position = transform.position;
             myTroop.tag = "Enemy";  
             myTroop.type = ennemySpawned.type;

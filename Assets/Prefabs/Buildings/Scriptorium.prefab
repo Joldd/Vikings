@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 7809602372743711312}
   - component: {fileID: 6453369459477819003}
   - component: {fileID: -5579216080697185382}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Scriptorium
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -92,6 +92,7 @@ MonoBehaviour:
   isSelect: 0
   canBeSelected: 0
   outline: {fileID: 0}
+  owner: {fileID: 0}
   L_EntityUnits:
   - {fileID: 8978655514157494650, guid: 81487770799ee8447a8e2e4db6d48660, type: 3}
   L_Buttons:

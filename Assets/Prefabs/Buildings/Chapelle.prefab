@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 4149537231043370423}
   - component: {fileID: -180440964511468996}
   - component: {fileID: -5421983515248426823}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Chapelle
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -89,6 +89,7 @@ MonoBehaviour:
   isSelect: 0
   canBeSelected: 0
   outline: {fileID: 0}
+  owner: {fileID: 0}
   L_EntityUnits:
   - {fileID: 8143974586233405072, guid: c1f0eaf837bc85047a503f81a64c640d, type: 3}
   L_Buttons:

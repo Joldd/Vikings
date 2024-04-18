@@ -106,18 +106,24 @@ public class GameManager : MonoBehaviour
         panelHover.SetActive(false);
         
         //Setup Players
-        Player v_Player = vicarPlayer.Player;
+        Player vic_Player = vicarPlayer.Player;
         // Vicars Goals
-        v_Player.GameSetup.GameGoal.SetupCheckGoalDone(v_Player);
+        vic_Player.GameSetup.GameGoal.SetupCheckGoalDone(vic_Player);
         // Vicars Units
         // TODO Faire spawn les unités dès le début
         // Vicars Buildings
         foreach (var building in vicarPlayer.BaseBuildings)
         {
-            building.owner = v_Player;
+            building.owner = vic_Player;
         }
         // Vikings
-        vikingPlayer.Player.GameSetup.GameGoal.SetupCheckGoalDone(vikingPlayer.Player);
+        Player vik_Player = vikingPlayer.Player;
+        vik_Player.GameSetup.GameGoal.SetupCheckGoalDone(vik_Player);
+        
+        foreach (var building in vikingPlayer.BaseBuildings)
+        {
+            building.owner = vik_Player;
+        }
     }
 
     public void CreatePath()

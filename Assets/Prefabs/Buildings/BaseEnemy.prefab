@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 3282904566614883579}
   - component: {fileID: 2307417907664494320}
   - component: {fileID: -644968189417681239}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: BaseEnemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -86,6 +86,7 @@ MonoBehaviour:
   isSelect: 0
   canBeSelected: 0
   outline: {fileID: 0}
+  owner: {fileID: 0}
   L_EntityUnits: []
   L_Buttons: []
   spawn: {fileID: 1745729143058281864}

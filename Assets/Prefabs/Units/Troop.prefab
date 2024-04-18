@@ -53,6 +53,7 @@ MonoBehaviour:
   isSelect: 0
   canBeSelected: 0
   outline: {fileID: 0}
+  owner: {fileID: 0}
   L_Units: []
   type: 0
   state: 0
@@ -72,7 +73,7 @@ MonoBehaviour:
   maxTroop: 0
   layerMaskTroop:
     serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 3072
   navMeshAgent: {fileID: 569545795746225242}
   ward: {fileID: 6568633019215398634, guid: fcb80284e09ebde4aa4118a87a9dbddd, type: 3}
   fogRevealer:

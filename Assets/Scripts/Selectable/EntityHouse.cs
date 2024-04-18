@@ -6,6 +6,8 @@ public class EntityHouse : Entity
     private House house;
     private GameManager gameManager;
 
+    public House House { get => house; }
+
     public override void Start()
     {
         base.Start();

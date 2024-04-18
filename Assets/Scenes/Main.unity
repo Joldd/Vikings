@@ -277,6 +277,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BasePlayer
       objectReference: {fileID: 0}
+    - target: {fileID: 5550205664086979457, guid: 1098e81cf0f681e4b886346c436c0dda, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 6678349551530307744, guid: 1098e81cf0f681e4b886346c436c0dda, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -580,6 +584,10 @@ PrefabInstance:
     - target: {fileID: 5550205664086979457, guid: c0d7b3901c217fa498d6d466877e7a99, type: 3}
       propertyPath: m_Name
       value: BaseEnemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 5550205664086979457, guid: c0d7b3901c217fa498d6d466877e7a99, type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 6678349551530307744, guid: c0d7b3901c217fa498d6d466877e7a99, type: 3}
       propertyPath: m_AnchorMax.y

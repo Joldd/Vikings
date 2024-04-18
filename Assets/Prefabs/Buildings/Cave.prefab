@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 7809602372743711312}
   - component: {fileID: 3758545980846810826}
   - component: {fileID: 9095287807567057100}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Cave
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -90,6 +90,7 @@ MonoBehaviour:
   isSelect: 0
   canBeSelected: 0
   outline: {fileID: 0}
+  owner: {fileID: 0}
   L_EntityUnits:
   - {fileID: 8143974586233405072, guid: 962ffa1a0ed6881439deda31b6b8968e, type: 3}
   L_Buttons:

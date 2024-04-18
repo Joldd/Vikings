@@ -449,7 +449,7 @@ public class Troop : Selectable
                 Troop enemyTroop = null;
                 if (hit.transform.gameObject.TryGetComponent(out enemyTroop))
                 {
-                    if (!hit.transform.gameObject.CompareTag(gameObject.tag))
+                    if (enemyTroop.owner != owner)
                     {
                         enemyTroop = hit.transform.gameObject.GetComponent<Troop>();
                         state = State.RUNATTACK;
@@ -470,18 +470,30 @@ public class Troop : Selectable
             
             foreach (var hit in hitsSphere)
             {
-                Troop enemyTroop = null;
-                if (hit.transform.gameObject.TryGetComponent(out enemyTroop))
+                if (hit.transform.gameObject.TryGetComponent(out Troop enemyTroop))
                 {
-                    if (!hit.transform.gameObject.CompareTag(gameObject.tag))
+                    if (enemyTroop.owner != owner)
                     {
                         enemyTroop = hit.transform.gameObject.GetComponent<Troop>();
-                        state = State.RUNATTACK;
-                        PlayAnimation("Run");
                         target = enemyTroop.GetNearestUnitFromTroop(transform.position);
-                        GiveTarget();
-                        checkEnemy = true;
+
                     }
+                }
+
+                if (hit.transform.gameObject.TryGetComponent(out EntityHouse enemyBuilding))
+                {
+                    if (enemyBuilding.House.owner != owner)
+                    {
+                        target = enemyBuilding;
+                    }
+                }
+
+                if (target != null)
+                {
+                    state = State.RUNATTACK;
+                    PlayAnimation("Run");
+                    GiveTarget();
+                    checkEnemy = true;
                 }
             }
         }
