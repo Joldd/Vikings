@@ -10,11 +10,24 @@ public class HealthBar : MonoBehaviour
     RectTransform canvasRectTransform;
     public Slider slider;
     float maxPV;
+    [SerializeField] GameObject blocToHide;
 
     void Update()
     {
         Vector3 worldTargetPosition = unit.transform.position + Vector3.up * healthBarUpOffset;
         rectTransform.position = Camera.main.WorldToScreenPoint(worldTargetPosition);
+
+        if (unit && unit.tag == "Enemy" && unit.TryGetComponent<EntityUnit>(out EntityUnit e))
+        {
+            if (GameManager.Instance.fogWar.CheckVisibility(worldTargetPosition, 1))
+            {
+                blocToHide.SetActive(true);
+            }
+            else
+            {
+                blocToHide.SetActive(false);
+            }
+        }
     }
 
     public void StartBar(GameObject target)
