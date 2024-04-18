@@ -69,12 +69,11 @@ public class Troop : Selectable
     [SerializeField] GameObject ward;
     private float timerWardMax = 2f;
     private float timerWard;
+    public FogRevealer fogRevealer;
 
     public override void Start()
     {
         base.Start();
-
-        outline.enabled = false;
 
         speed = unitRef.speed;
         navMeshAgent.speed = speed;
@@ -278,6 +277,7 @@ public class Troop : Selectable
         L_Units.Remove(unit);
         if (L_Units.Count <= 0)
         {
+            if (fogRevealer != null) GameManager.Instance.fogWar._FogRevealers.Remove(fogRevealer);
             Destroy(gameObject);
         }
     }
@@ -459,7 +459,6 @@ public class Troop : Selectable
                 {
                     if (!hit.transform.gameObject.CompareTag(gameObject.tag))
                     {
-                        Debug.LogError("EnemyTroop Detection Sphere" + enemyTroop.unitRef.name);
                         enemyTroop = hit.transform.gameObject.GetComponent<Troop>();
                         state = State.RUNATTACK;
                         PlayAnimation("Run");
@@ -480,7 +479,6 @@ public class Troop : Selectable
             <= 135 => FlankValues.SIDES,
             >= 136 => FlankValues.FRONT,
         };
-        Debug.LogError(angleFlank + " " + value);
         GiveTarget(value);
     }
     
