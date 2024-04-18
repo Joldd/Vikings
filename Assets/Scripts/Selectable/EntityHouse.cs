@@ -4,13 +4,14 @@ using UnityEngine;
 public class EntityHouse : Entity
 {
     private House house;
+    private GameManager gameManager;
 
     public override void Start()
     {
         base.Start();
 
         house = GetComponent<House>();
-
+        gameManager = GameManager.Instance;
         if (!isBuilt) animator.Play("Build");
     }
 
@@ -20,9 +21,10 @@ public class EntityHouse : Entity
 
         if (house.constructible) house.constructible.houseDestroy = true;
 
-        if (house.isBase && tag == "Player") UIManager.Instance.Defeat();
-
-        if (house.isBase && tag == "Enemy") UIManager.Instance.Victory();
+        if (house.isBase)
+        {
+            gameManager.onBaseIsDestroyed.Invoke( gameManager.CheckIsVicars(house.owner) ? gameManager.VikingPlayer.Player : gameManager.VicarPlayer.Player);
+        }
     }
 
     private void Update()
