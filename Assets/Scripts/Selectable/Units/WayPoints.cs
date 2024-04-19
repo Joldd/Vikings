@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class WayPoints : MonoBehaviour
 {
-    public List<GameObject> marks;
+    [SerializeField] Mark markPF;
+    [SerializeField] LineRenderer linePF;
+    public List<Mark> marks;
     public List<LineRenderer> lines;
     public Color lineColor;
-    Troop myTroop;
+    public Troop myTroop;
     public bool isNew;
+    public float lineWidth = 0.2f;
 
     private void Start()
     {
@@ -27,9 +30,9 @@ public class WayPoints : MonoBehaviour
         }
     }
 
-    public void setMarks(List<GameObject> m)
+    public void setMarks(List<Mark> m)
     {
-        marks = new List<GameObject>(m);
+        marks = new List<Mark>(m);
     }
 
     public void setLines(List<LineRenderer> l)
@@ -37,7 +40,7 @@ public class WayPoints : MonoBehaviour
         lines = new List<LineRenderer>(l);
     }
 
-    public GameObject nextPoint(GameObject currentMark)
+    public Mark nextPoint(Mark currentMark)
     {
         int index = marks.IndexOf(currentMark);
         if (index < marks.Count - 1)
@@ -70,6 +73,30 @@ public class WayPoints : MonoBehaviour
         {
             line.material.color = newColor;
         }
+    }
+
+    public void AddMark(Mark mark)
+    {
+        marks.Add(mark);
+        mark.myWayPoints = this;
+    }
+
+    public void AddNewMark(Mark mark)
+    {   
+        Mark newMark = Instantiate(markPF, transform);
+        marks.Insert(marks.IndexOf(mark), newMark);
+        newMark.myWayPoints = this;
+        newMark.transform.position = new Vector3(mark.transform.position.x - 0.5f, mark.transform.position.y, mark.transform.position.z - 0.5f);
+
+        LineRenderer newLine = Instantiate(linePF, transform);
+        lines.Insert(marks.IndexOf(newMark), newLine);
+        newLine.startWidth = lineWidth;
+        newLine.endWidth = lineWidth;
+        newLine.material.color = lineColor;
+        newLine.SetPosition(1, mark.transform.position);
+        newLine.SetPosition(0, newMark.transform.position);
+
+        lines[lines.IndexOf(newLine) - 1].SetPosition(1, newMark.transform.position);
     }
 
     private void Update()

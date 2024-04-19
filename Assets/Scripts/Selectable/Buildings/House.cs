@@ -102,8 +102,6 @@ public class House : Selectable
             troop.transform.position = spawn.transform.position;
             troop.AddUnit(v);
             troop.myHouse = this;
-            troop.fogRevealer = new FogRevealer(troop.transform, 10, true);
-            GameManager.Instance.fogWar._FogRevealers.Add(troop.fogRevealer);
         }
     }
 

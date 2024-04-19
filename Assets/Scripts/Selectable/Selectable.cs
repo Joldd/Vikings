@@ -59,14 +59,14 @@ public class Selectable : MonoBehaviour
         gameManager.selectedUnit = this;
         selectOutline();
         isSelect = true;
-        canvas.SetActive(true);
+        if (canvas) canvas.SetActive(true);
     }
 
     public virtual void UnSelect()
     {
         noOutLine();
         isSelect = false;
-        canvas.SetActive(false);
+        if (canvas) canvas.SetActive(false);
     }
 
     public virtual void OnMouseDown()
@@ -81,7 +81,7 @@ public class Selectable : MonoBehaviour
                 {
                     if (troopMsg.L_Units[0].TryGetComponent<Messenger>(out Messenger messenger))
                     {
-                        if (gameManager.isChoosingMessager)
+                        if (messenger.troopChoosen)
                         {
                             messenger.troopSelected = this.GetComponent<Troop>();
                             messenger.StopChooseTroop();

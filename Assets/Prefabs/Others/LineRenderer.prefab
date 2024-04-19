@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 6177746428032423002}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.10864937, y: -1.6054764, z: 3.0229292}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -85,7 +85,7 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 1
+        value: 0.26815563
         inSlope: 0
         outSlope: 0
         tangentMode: 0

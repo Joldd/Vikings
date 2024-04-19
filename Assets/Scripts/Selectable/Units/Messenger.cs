@@ -1,28 +1,22 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Messenger : EntityUnit
 {
     public Troop troopSelected;
-    private Color startColor;
-    [SerializeField] private Color chooseColor;
     private bool bringMessage;
     private bool backHome;
     private Vector3 homePos;
-    [SerializeField] private Button messageBtn;
+    public bool canMsg = true;
+    public bool canGo;
+    public bool troopChoosen;
 
     public override void Start()
     {
         base.Start();
 
-        startColor = myTroop.panelMsg.color;
-
         homePos = transform.position;
 
         healthBar.gameObject.SetActive(false);
-
-        myTroop.btnDrawMsg.onClick.AddListener(() => ChooseTroop());
-        myTroop.btnGoMsg.onClick.AddListener(() => Go());
     }
 
     public void Select()
@@ -75,9 +69,10 @@ public class Messenger : EntityUnit
 
     private void Update()
     {
-        if(bringMessage)
+        if (bringMessage)
         {
             transform.position = Vector3.MoveTowards(transform.position, troopSelected.transform.position, speed * Time.deltaTime);
+
             animator.Play("Run");
             transform.LookAt(troopSelected.transform);
             if (Vector3.Distance(transform.position, troopSelected.transform.position) < 0.1f )
@@ -101,7 +96,7 @@ public class Messenger : EntityUnit
             if (Vector3.Distance(transform.position, homePos) < 0.1f)
             {
                 backHome = false;
-                myTroop.btnDrawMsg.interactable = true;
+                canMsg = true;
             }
         }
         else
@@ -112,28 +107,22 @@ public class Messenger : EntityUnit
 
     public void ChooseTroop()
     {
-        if (!GameManager.Instance.isChoosingMessager)
+        if (!troopChoosen)
         {
-            GameManager.Instance.isChoosingMessager = true;
-            myTroop.panelMsg.color = chooseColor;
-        }
-        else if (GameManager.Instance.isChoosingMessager)
-        {
-            GameManager.Instance.isChoosingMessager = false;
-            myTroop.panelMsg.color = startColor;
+            troopChoosen = true;
+            canMsg = false;
         }
     }
 
     public void StopChooseTroop()
     {
-        GameManager.Instance.isChoosingMessager = !GameManager.Instance.isChoosingMessager;
-        myTroop.panelMsg.color = startColor;
+        troopChoosen = !troopChoosen;
         GameManager.Instance.CreateNewPath();
-        myTroop.btnDrawMsg.interactable = false;
     }
 
     public void Go()
     {
         bringMessage = true;
+        canGo = false;
     }
 }
