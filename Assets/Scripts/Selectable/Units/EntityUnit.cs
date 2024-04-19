@@ -31,8 +31,6 @@ public class EntityUnit : Entity
 
     [SerializeField] bool enemyStop;
 
-    public Constructible areaToCapture;
-
     [SerializeField] int goldToWin;
 
     public Type type;
@@ -41,7 +39,7 @@ public class EntityUnit : Entity
 
     public Outline outline;
 
-
+    private GameManager gameManager;
 
     public override void Start()
     {
@@ -53,6 +51,7 @@ public class EntityUnit : Entity
         animator = body.GetComponent<Animator>();
 
         outline = GetComponent<Outline>();
+        gameManager = GameManager.Instance;
         if (outline) outline.OutlineMode = Outline.Mode.Nothing; 
     }
 
@@ -81,16 +80,10 @@ public class EntityUnit : Entity
     {
         base.Die();
 
-        if (areaToCapture)
+        if(!gameManager.CheckIsVicars(myTroop.owner))
         {
-            if (tag == "Enemy") areaToCapture.enemyCapturing = false;
-            if (tag == "Player") areaToCapture.playerCapturing = false;
-        }
-
-        if (tag == "Enemy")
-        {
-            GameManager.Instance.gold += goldToWin;
-            GameManager.Instance.UpdateRessources();
+            gameManager.gold += goldToWin;
+            gameManager.UpdateRessources();
         }
 
         if (myTroop) myTroop.RemoveUnit(this);

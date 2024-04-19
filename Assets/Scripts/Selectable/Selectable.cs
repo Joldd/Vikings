@@ -12,11 +12,14 @@ public class Selectable : MonoBehaviour
 
     public Player owner;
 
+    private GameManager gameManager;
+
     public virtual void Start()
     {
+        gameManager = GameManager.Instance;
         canBeSelected = true;
 
-        if (tag == "Enemy")
+        if (!gameManager.CheckIsVicars(owner))
         {
             canBeSelected = false;
         }
@@ -53,7 +56,7 @@ public class Selectable : MonoBehaviour
 
     public virtual void Select()
     {
-        GameManager.Instance.selectedUnit = this;
+        gameManager.selectedUnit = this;
         selectOutline();
         isSelect = true;
         canvas.SetActive(true);
@@ -78,7 +81,7 @@ public class Selectable : MonoBehaviour
                 {
                     if (troopMsg.L_Units[0].TryGetComponent<Messenger>(out Messenger messenger))
                     {
-                        if (GameManager.Instance.isChoosingMessager)
+                        if (gameManager.isChoosingMessager)
                         {
                             messenger.troopSelected = this.GetComponent<Troop>();
                             messenger.StopChooseTroop();
@@ -86,9 +89,9 @@ public class Selectable : MonoBehaviour
                         }
                     }
                 }
-                GameManager.Instance.selectedUnit.UnSelect();
+                gameManager.selectedUnit.UnSelect();
             }
-            GameManager.Instance.StopBuilding();
+            gameManager.StopBuilding();
             Select();
         }
     }

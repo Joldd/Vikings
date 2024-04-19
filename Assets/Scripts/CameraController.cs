@@ -9,6 +9,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] Vector2 rangeMoveX;
     [SerializeField] Vector2 rangeMoveZ;
 
+    [SerializeField] private LayerMask layerMaskEvent;
     private Vector3 newPos;
 
     private float delta = 10f;
@@ -26,6 +27,7 @@ public class CameraController : MonoBehaviour
     private void Start()
     {
         newPos = transform.position;
+        Camera.main.eventMask = layerMaskEvent;
         //Cursor.lockState = CursorLockMode.Confined;
     }
 

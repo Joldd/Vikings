@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using static FischlWorks_FogWar.csFogWar;
 
@@ -60,11 +61,14 @@ public class Troop : Selectable
     private float timerAttack = 0f;
     public int maxTroop;
 
-    [SerializeField] private LayerMask layerMaskTroop; 
+    [SerializeField] private LayerMask layerMaskTroopTarget; 
     [Header("Navigation")]
     [SerializeField] private NavMeshAgent navMeshAgent;
+    
+    //Constructible Capture
+    public Constructible areaToCapture;
 
-    public NavMeshAgent NavMeshAgent { get => navMeshAgent; }
+
     //FOGWAR
     [SerializeField] GameObject ward;
     private float timerWardMax = 2f;
@@ -72,6 +76,9 @@ public class Troop : Selectable
     public FogRevealer fogRevealer;
 
     private GameManager gameManager;
+    
+    public NavMeshAgent NavMeshAgent { get => navMeshAgent; }
+    
     public override void Start()
     {
         base.Start();
@@ -294,8 +301,21 @@ public class Troop : Selectable
         L_Units.Remove(unit);
         if (L_Units.Count <= 0)
         {
-            if (fogRevealer != null) GameManager.Instance.fogWar._FogRevealers.Remove(fogRevealer);
+            if (fogRevealer != null) gameManager.fogWar._FogRevealers.Remove(fogRevealer);
             if (myWayPoints) Destroy(myWayPoints.gameObject);
+            
+            if (areaToCapture)
+            {
+                if (gameManager.CheckIsVicars(owner))
+                {
+                    areaToCapture.playerCapturing = false;
+                }
+                else
+                {
+                    areaToCapture.enemyCapturing = false;
+                }
+            }
+            
             Destroy(gameObject);
         }
     }
@@ -442,7 +462,7 @@ public class Troop : Selectable
             Quaternion boxOrientation = transform.rotation;
         
             //Enemy Detection Forward Box
-            RaycastHit[] hitsBox = Physics.BoxCastAll(boxCenter, boxSize, transform.forward, boxOrientation, 3, layerMaskTroop);
+            RaycastHit[] hitsBox = Physics.BoxCastAll(boxCenter, boxSize, transform.forward, boxOrientation, 3, layerMaskTroopTarget);
             
             foreach (var hit in hitsBox)
             {
@@ -466,7 +486,7 @@ public class Troop : Selectable
             Vector3[] cubePoint = CubePoints(boxCenter, boxSize, boxOrientation);
             DrawCubePoints(cubePoint);
             
-            RaycastHit[] hitsSphere = Physics.SphereCastAll(transform.position, aoeRange / 2, transform.up, 10000, layerMaskTroop);
+            RaycastHit[] hitsSphere = Physics.SphereCastAll(transform.position, aoeRange / 2, transform.up, 10000, layerMaskTroopTarget);
             
             foreach (var hit in hitsSphere)
             {

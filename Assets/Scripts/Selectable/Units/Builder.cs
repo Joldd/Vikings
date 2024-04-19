@@ -8,7 +8,7 @@ public class Builder : MonoBehaviour
     private Animator _anim;
     private GameObject body;
     public bool isPlayer;
-
+    
     public void Start()
     {
         body = transform.Find("Body").gameObject;

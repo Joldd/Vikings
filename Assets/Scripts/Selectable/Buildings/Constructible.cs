@@ -132,16 +132,15 @@ public class Constructible : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.TryGetComponent(out EntityUnit unit))
+        if (other.TryGetComponent(out Troop troop))
         {
             // If Vicars 
-            if(gameManager.CheckIsVicars(unit.myTroop.owner))
+            if(gameManager.CheckIsVicars(troop.owner))
             {
                 playerCapturing = true;
                 if (!firstPlayerBuilder)
                 {
                     needFirstPlayer = true;
-                    unit.areaToCapture = this;
                 }
             }
             // If Vikings 
@@ -151,17 +150,19 @@ public class Constructible : MonoBehaviour
                 if (!firstEnemyBuilder)
                 {
                     needFirstEnemy = true;
-                    unit.areaToCapture = this;
                 }
             }
+            
+            troop.areaToCapture = this;
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.TryGetComponent(out EntityUnit unit))
+        if (other.TryGetComponent(out Troop troop))
         {
-            if (unit.myTroop.owner == gameManager.VicarPlayer.Player)
+            Debug.LogError(troop.name + " " + troop.owner);
+            if (gameManager.CheckIsVicars(troop.owner))
             {
                 playerCapturing = false;
             }
