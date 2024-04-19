@@ -80,7 +80,7 @@ public class Messenger : EntityUnit
     {
         if (bringMessage)
         {
-            transform.position = Vector3.MoveTowards(transform.position, troopSelected.transform.position, speed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, troopSelected.transform.position, Speed * Time.deltaTime);
 
             animator.Play("Run");
             transform.LookAt(troopSelected.transform);
@@ -101,7 +101,7 @@ public class Messenger : EntityUnit
             QuitTroop();
             animator.Play("Run");
             transform.LookAt(homePos);
-            transform.position = Vector3.MoveTowards(transform.position, homePos, speed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, homePos, Speed * Time.deltaTime);
             if (Vector3.Distance(transform.position, homePos) < 0.1f)
             {
                 backHome = false;

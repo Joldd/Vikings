@@ -67,11 +67,13 @@ MonoBehaviour:
   maxTroop: 3
   body: {fileID: 0}
   enemyStop: 0
-  areaToCapture: {fileID: 0}
   goldToWin: 0
   type: 0
   myTroop: {fileID: 0}
   outline: {fileID: 0}
+  floorMask:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!136 &9103238300217284742
 CapsuleCollider:
   m_ObjectHideFlags: 0

@@ -25,7 +25,6 @@ public class EntityHouse : Entity
 
         if (house.isBase)
         {
-            Debug.LogError("Entity House is Destroyed");
             gameManager.onBaseIsDestroyed.Invoke( gameManager.CheckIsVicars(house.owner) ? gameManager.VikingPlayer.Player : gameManager.VicarPlayer.Player);
         }
     }

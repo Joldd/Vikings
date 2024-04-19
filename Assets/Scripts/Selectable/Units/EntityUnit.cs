@@ -19,7 +19,7 @@ public class EntityUnit : Entity
     public Entity target;
     public float timerAttackMax;
 
-    public int speed;
+    public float speed;
     public float range;
     public int aoeRange;
     public int flankRange;
@@ -41,6 +41,16 @@ public class EntityUnit : Entity
 
     private GameManager gameManager;
 
+    [Header("Floor Spd Modifier")]
+    [SerializeField] private LayerMask floorMask;
+    private float spdMultiplier = 1;
+    private TerrainFloor actualTerrainFloor;
+
+    public float Speed
+    {
+        get => speed * spdMultiplier;
+    }
+
     public override void Start()
     {
         base.Start();
@@ -55,6 +65,29 @@ public class EntityUnit : Entity
         if (outline) outline.OutlineMode = Outline.Mode.Nothing; 
     }
 
+    private void FixedUpdate()
+    {
+        RaycastHit hit;
+        // Does the ray intersect any objects excluding the player layer
+        if (Physics.Raycast(transform.position, transform.TransformDirection(-Vector3.up), out hit, Mathf.Infinity, floorMask))
+        {
+            Debug.DrawRay(transform.position, transform.TransformDirection(-Vector3.up) * hit.distance, Color.yellow);
+            Debug.Log("Did Hit");
+            if (hit.transform.TryGetComponent(out TerrainFloor floor))
+            {
+                if (actualTerrainFloor == null || actualTerrainFloor != floor)
+                {
+                    actualTerrainFloor = floor;
+                    spdMultiplier = floor.GetSpdMultiplierFromType(type);
+                    if (myTroop != null)
+                    {
+                        myTroop.UpdateSpeedTroop(speed * spdMultiplier);
+                    }
+                }
+            }
+        }
+    }
+    
     public void Attack()
     {
         animator.speed = 1f / timerAttackMax;

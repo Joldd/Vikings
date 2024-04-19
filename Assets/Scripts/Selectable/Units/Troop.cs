@@ -42,7 +42,7 @@ public class Troop : Selectable
     private bool canRun = true;
 
     //STATS
-    private int speed;
+    private float speed;
     private float range;
     private int aoeRange;
     private int flankRange;
@@ -303,6 +303,12 @@ public class Troop : Selectable
             
             Destroy(gameObject);
         }
+    }
+
+    public void UpdateSpeedTroop(float newSpeed)
+    {
+        speed = newSpeed; 
+        navMeshAgent.speed = newSpeed;
     }
 
     private void Update()
