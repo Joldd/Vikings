@@ -6,8 +6,6 @@ public class CameraController : MonoBehaviour
     [SerializeField] float zoomSpeed;
 
     [SerializeField] Vector2 rangeZoom;
-    [SerializeField] Vector2 rangeMoveX;
-    [SerializeField] Vector2 rangeMoveZ;
 
     [SerializeField] private LayerMask layerMaskEvent;
     private Vector3 newPos;
@@ -18,12 +16,22 @@ public class CameraController : MonoBehaviour
 
     private GameManager gameManager;
 
+    private Camera myCam;
+
+    [SerializeField] private GameObject rightLimits;
+    [SerializeField] private GameObject topLimits;
+    [SerializeField] private GameObject bottomLimits;
+    [SerializeField] private GameObject leftLimits;
+
+
     private void Start()
     {
         gameManager = GameManager.Instance;
         newPos = transform.position;
         Camera.main.eventMask = layerMaskEvent;
         //Cursor.lockState = CursorLockMode.Confined;
+
+        myCam = GetComponent<Camera>();
     }
 
     private void Update()
@@ -35,15 +43,30 @@ public class CameraController : MonoBehaviour
         transform.position = newPos;
     }
 
+    private bool isLimit(GameObject listLimits)
+    {
+        bool result = false;
+        for (int i = 0; i < listLimits.transform.childCount; i++)
+        {
+            LevelLimit limit = listLimits.transform.GetChild(i).gameObject.GetComponent<LevelLimit>();
+            if (limit.isView)
+            {
+                result = true;
+                break;
+            }
+        }
+        return result;
+    }
+
     private void Zoom()
     {
-        if (Input.mouseScrollDelta.y > 0 && transform.position.y > rangeZoom.x)
+        if (Input.mouseScrollDelta.y > 0 && myCam.orthographicSize > rangeZoom.x)
         {
-            newPos += transform.forward * zoomSpeed * Time.deltaTime;
+            myCam.orthographicSize -= zoomSpeed * Time.deltaTime; 
         }
-        if (Input.mouseScrollDelta.y < 0 && transform.position.y < rangeZoom.y)
+        if (Input.mouseScrollDelta.y < 0 && myCam.orthographicSize < rangeZoom.y && !isLimit(rightLimits) && !isLimit(leftLimits) && !isLimit(topLimits) && !isLimit(bottomLimits))
         {
-            newPos -= transform.forward * zoomSpeed * Time.deltaTime;
+            myCam.orthographicSize += zoomSpeed * Time.deltaTime;
         }
     }
 
@@ -52,21 +75,21 @@ public class CameraController : MonoBehaviour
         float x = Input.GetAxisRaw("Horizontal");
         float z = Input.GetAxisRaw("Vertical");
 
-        if (x > 0 && transform.position.x < rangeMoveX.y)
+        if (x > 0 && !isLimit(rightLimits))
         {
-            newPos.x += moveSpeed * Time.deltaTime;
+            newPos += transform.right * moveSpeed * Time.deltaTime;
         }
-        if (x < 0 && transform.position.x > rangeMoveX.x)
+        if (x < 0 && !isLimit(leftLimits))
         {
-            newPos.x -= moveSpeed * Time.deltaTime;
+            newPos -= transform.right * moveSpeed * Time.deltaTime;
         }
-        if (z > 0 && transform.position.z < rangeMoveX.y)
+        if (z > 0 && !isLimit(topLimits))
         {
-            newPos.z += moveSpeed * Time.deltaTime;
+            newPos += transform.up * moveSpeed * Time.deltaTime + transform.forward * moveSpeed * Time.deltaTime;
         }
-        if (z < 0 && transform.position.z > rangeMoveZ.x)
+        if (z < 0 && !isLimit(bottomLimits))
         {
-            newPos.z -= moveSpeed * Time.deltaTime;
+            newPos -= transform.up * moveSpeed * Time.deltaTime + transform.forward * moveSpeed * Time.deltaTime;
         }
 
         ////RIGHT
