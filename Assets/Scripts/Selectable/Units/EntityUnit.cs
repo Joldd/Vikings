@@ -41,8 +41,6 @@ public class EntityUnit : Entity
 
     public Outline outline;
 
-
-
     public override void Start()
     {
         base.Start();

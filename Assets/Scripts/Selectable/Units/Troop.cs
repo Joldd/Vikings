@@ -71,7 +71,20 @@ public class Troop : Selectable
         base.Start();
 
         gameManager = GameManager.Instance;
-        
+
+        //STATS UNIT FOR TROOPS NOT INSTANCED
+        if (L_Units.Count > 0)
+        {
+            unitRef = L_Units[0];
+        }
+
+        //ADD FOG REVEAL
+        if (GameManager.Instance.CheckIsVicars(owner))
+        {
+            fogRevealer = new FogRevealer(transform, 10, true);
+            GameManager.Instance.fogWar._FogRevealers.Add(fogRevealer);
+        }
+
         speed = unitRef.speed;
         navMeshAgent.speed = speed;
         range = unitRef.range;
@@ -346,7 +359,7 @@ public class Troop : Selectable
                 }
             }
 
-            if (state == State.WAITING)
+            if (state == State.WAITING && type != Type.Messenger)
             {
                 PlayAnimation("Idle");
             }

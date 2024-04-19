@@ -40,6 +40,8 @@ public class Constructible : MonoBehaviour
 
     private GameManager gameManager;
 
+    private Player owner;
+
     private void Start()
     {
         basePlayer = GameObject.Find("BasePlayer");
@@ -102,7 +104,9 @@ public class Constructible : MonoBehaviour
     {
         GameObject houseInstanced = Instantiate(L_HousesToBuild[currentImg].PB_House, transform);
         houseInstanced.transform.position = transform.position;
-        houseInstanced.GetComponent<House>().constructible = this;
+        House house = houseInstanced.GetComponent<House>();
+        house.constructible = this;
+        house.owner = this.owner;
         HUD.SetActive(false);
         after.SetActive(false);
         isEmpty = false;
@@ -134,8 +138,9 @@ public class Constructible : MonoBehaviour
     {
         if (other.TryGetComponent(out EntityUnit unit))
         {
+            owner = unit.myTroop.owner;
             // If Vicars 
-            if(gameManager.CheckIsVicars(unit.myTroop.owner))
+            if (gameManager.CheckIsVicars(unit.myTroop.owner))
             {
                 playerCapturing = true;
                 if (!firstPlayerBuilder)

@@ -69,9 +69,10 @@ public class Messenger : EntityUnit
 
     private void Update()
     {
-        if(bringMessage)
+        if (bringMessage)
         {
             transform.position = Vector3.MoveTowards(transform.position, troopSelected.transform.position, speed * Time.deltaTime);
+
             animator.Play("Run");
             transform.LookAt(troopSelected.transform);
             if (Vector3.Distance(transform.position, troopSelected.transform.position) < 0.1f )
