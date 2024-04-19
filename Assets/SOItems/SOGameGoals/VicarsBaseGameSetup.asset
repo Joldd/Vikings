@@ -19,4 +19,4 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: 2e1465179539ccb45af7834e3f2104fc, type: 3}
   - PB_House: {fileID: 5550205664086979457, guid: b5dfbe64c612c2f40a6238fb0d5d3258, type: 3}
     sprite: {fileID: 21300000, guid: 12de04e8a6bca654bbde2cd3267f5d45, type: 3}
-  gameGoal: {fileID: 11400000, guid: 6ac53afdd0b5edc4dbcf545ededc32e5, type: 2}
+  gameGoal: {fileID: 11400000, guid: 20aa2848324b9b04fa4d069a7b2b0086, type: 2}

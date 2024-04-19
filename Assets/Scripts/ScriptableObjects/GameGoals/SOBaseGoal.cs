@@ -24,7 +24,6 @@ public class SOBaseGoal : SOGameGoal
             actualNbBaseDestroyed++;
             if (actualNbBaseDestroyed == nbBaseDestroyed)
             {
-                //TODO Call Game Manager to end the game
                 gameManager.PlayerWinGame(playerRef);
             }
         }

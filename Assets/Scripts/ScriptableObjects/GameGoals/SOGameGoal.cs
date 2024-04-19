@@ -6,6 +6,7 @@ public abstract class SOGameGoal : ScriptableObject
 {
     protected GameManager gameManager;
     protected Player playerRef;
+    
     public virtual void SetupCheckGoalDone(Player playerRef)
     {
         gameManager = GameManager.Instance;

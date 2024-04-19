@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -6,9 +7,13 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance { get; private set; }
 
+    [Header("Panels")]
     [SerializeField] private GameObject pauseMenu;
     [SerializeField] private GameObject victoryMenu;
     [SerializeField] private GameObject defeatMenu;
+
+    [Header("Timer")]
+    [SerializeField] private TextMeshProUGUI timerText;
 
     private void Awake()
     {
@@ -59,6 +64,14 @@ public class UIManager : MonoBehaviour
     {
         SceneManager.LoadScene(0);
         Continue();
+    }
+
+    public void UpdateTimer(float timer)
+    {
+        float minutes = Mathf.FloorToInt(timer / 60);
+        float seconds = Mathf.FloorToInt(timer % 60);
+        timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+
     }
 
     public void Victory()

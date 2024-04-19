@@ -10,5 +10,7 @@ public class SOGameSetup : ScriptableObject
 
     [SerializeField] private SOGameGoal gameGoal;
 
-    public SOGameGoal GameGoal { get => gameGoal; }
+    public SOGameGoal GameGoal { get => gameGoal; set => gameGoal = value; }
+    
+    public List<HouseToBuild> Buildings { get => L_Buildings; }
 }

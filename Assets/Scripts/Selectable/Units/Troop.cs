@@ -427,9 +427,8 @@ public class Troop : Selectable
             {
                 if (target.PV <= 0)
                 {
-                    //DEATH
                     target.Die();
-
+                    //DEATH
                     KillTarget();
 
                     state = State.RUNATTACK;
@@ -438,6 +437,7 @@ public class Troop : Selectable
                     {
                         state = State.ENEMY;
                         transform.LookAt(directionEnemy);
+                        checkEnemy = false;
                     }
                 }
                 else

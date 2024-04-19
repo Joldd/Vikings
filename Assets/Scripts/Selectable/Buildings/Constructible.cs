@@ -50,29 +50,32 @@ public class Constructible : MonoBehaviour
         gameManager = GameManager.Instance;
     }
 
-    public void BecomeConstructible()
+    public void ChangeOwnership(Player owner)
     {
         before.SetActive(false);
         after.SetActive(true);
+        this.owner = owner;
+        L_HousesToBuild = owner.GameSetup.Buildings;
         if (playerBuilder) Destroy(playerBuilder.gameObject);
         if (enemyBuilder) Destroy(enemyBuilder.gameObject);
-        isConstructible = true;
-    }
-
-    public void BecomeEnemy()
-    {
-        before.SetActive(false);
-        after.SetActive(false);
-        if (playerBuilder) Destroy(playerBuilder.gameObject);
-        if (enemyBuilder) Destroy(enemyBuilder.gameObject);
-        GameObject enemyBuild = Instantiate(enemySpawner);
-        enemyBuild.transform.position = transform.position;
-        enemyBuild.GetComponent<House>().constructible = this;
-        isEmpty = false;
+        if (gameManager.CheckIsVicars(owner))
+        {
+            isConstructible = true;
+        }
+        else
+        {
+            if (playerBuilder) Destroy(playerBuilder.gameObject);
+            if (enemyBuilder) Destroy(enemyBuilder.gameObject);
+            GameObject enemyBuild = Instantiate(enemySpawner);
+            enemyBuild.transform.position = transform.position;
+            enemyBuild.GetComponent<House>().constructible = this;
+            isEmpty = false;
+        }
     }
 
     private void GoBackUnConstructible()
     {
+        owner = null;
         before.SetActive(true);
         after.SetActive(false);
         firstPlayerBuilder = false;
@@ -110,8 +113,8 @@ public class Constructible : MonoBehaviour
         HUD.SetActive(false);
         after.SetActive(false);
         isEmpty = false;
-        GameManager.Instance.reputation -= L_HousesToBuild[currentImg].PB_House.GetComponent<EntityHouse>().priceReputation;
-        GameManager.Instance.UpdateRessources();
+        gameManager.reputation -= L_HousesToBuild[currentImg].PB_House.GetComponent<EntityHouse>().priceReputation;
+        gameManager.UpdateRessources();
     }
 
     public void ChangeRight()
@@ -188,7 +191,7 @@ public class Constructible : MonoBehaviour
         if (needFirstPlayer)
         {
             playerBuilder = Instantiate(PF_builder);
-            playerBuilder.isPlayer = true;
+            playerBuilder.owner = gameManager.VicarPlayer.Player;
             playerBuilder.transform.position = basePlayer.transform.position;
             playerBuilder.constructible = this;
             firstPlayerBuilder = true;
@@ -197,7 +200,7 @@ public class Constructible : MonoBehaviour
         if (needFirstEnemy)
         {
             enemyBuilder = Instantiate(PF_builder);
-            enemyBuilder.isPlayer = false;
+            enemyBuilder.owner = gameManager.VikingPlayer.Player;
             enemyBuilder.transform.position = baseEnemy.transform.position;
             enemyBuilder.constructible = this;
             firstEnemyBuilder = true;

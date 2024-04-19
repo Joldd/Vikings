@@ -7,10 +7,14 @@ public class Builder : MonoBehaviour
     public bool isRunning;
     private Animator _anim;
     private GameObject body;
-    public bool isPlayer;
+    
+    public Player owner;
+
+    private GameManager gameManager;
     
     public void Start()
     {
+        gameManager = GameManager.Instance;
         body = transform.Find("Body").gameObject;
 
         _anim = body.GetComponent<Animator>();
@@ -30,8 +34,7 @@ public class Builder : MonoBehaviour
         }
 
         if (Vector3.Distance(transform.position, constructible.transform.position) < 0.1f){
-            if (isPlayer) constructible.BecomeConstructible();
-            else constructible.BecomeEnemy();
+            constructible.ChangeOwnership(owner);
         }
     }
 }

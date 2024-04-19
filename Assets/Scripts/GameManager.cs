@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
     [Header("Game System")]
     public bool isPause;
     public csFogWar fogWar;
-
+    public float timerGame;
     [Header("Team System")]
     [SerializeField] private PlayerBaseSetup vicarPlayer;
     [SerializeField] private PlayerBaseSetup vikingPlayer;
@@ -74,6 +74,8 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public UnityEvent<float> onTimeIsUp = new UnityEvent<float>();
     [HideInInspector] public UnityEvent<Player> onTreasureIsSecured = new UnityEvent<Player>();
 
+    private UIManager uiManager;
+
 
     public PlayerBaseSetup VicarPlayer { get => vicarPlayer; }
 
@@ -93,7 +95,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-       layer_mask = LayerMask.GetMask("Floor");
+        layer_mask = LayerMask.GetMask("Floor");
         StopBuilding();
 
         textGold = mainMenu.gameObject.transform.Find("Ressources").Find("Gold").Find("Text").GetComponent<TextMeshProUGUI>();
@@ -122,8 +124,20 @@ public class GameManager : MonoBehaviour
         {
             building.owner = vik_Player;
         }
+        
+        uiManager = UIManager.Instance;
+        
+        // Reset Timer
+        timerGame = 0;
+        InvokeRepeating("CheckEachSeconds", 0f, 1f);
     }
 
+    public PlayerBaseSetup GetPlayerBaseSetup(Player player)
+    {
+        return vicarPlayer.Player == player ? vicarPlayer : vikingPlayer;
+    }
+
+    #region Pathing
     public void CreatePath()
     {
         if (!isPathing)
@@ -139,9 +153,6 @@ public class GameManager : MonoBehaviour
             CreateLine();
         }   
     }
-
-    #region Pathing
-
     public void CreateNewPath()
     {
         if (!isPathing)
@@ -212,7 +223,6 @@ public class GameManager : MonoBehaviour
 
     public void PlayerWinGame(Player playerRef)
     {
-
         if (playerRef == vicarPlayer.Player)
         {
             UIManager.Instance.Victory();
@@ -221,7 +231,6 @@ public class GameManager : MonoBehaviour
         {
             UIManager.Instance.Defeat();
         }
-
     }
     
     #endregion
@@ -242,7 +251,11 @@ public class GameManager : MonoBehaviour
     }
 
     private void Update()
-    {   
+    {
+        // TIMER GAME
+        timerGame += Time.deltaTime;
+        uiManager.UpdateTimer(timerGame);
+        
         /////////////////////////////// PATH WAYPOINTS UNIT /////////////////////////////////////
         if (isPathing && Input.GetMouseButtonDown(0) && !isFirstMessage)
         {
@@ -321,6 +334,11 @@ public class GameManager : MonoBehaviour
     {
         textGold.text = gold.ToString();
         textReputation.text = reputation.ToString();
+    }
+
+    private void CheckEachSeconds()
+    {
+        onTimeIsUp.Invoke(timerGame);
     }
 
     public bool CheckIsVicars(Player playerRef)

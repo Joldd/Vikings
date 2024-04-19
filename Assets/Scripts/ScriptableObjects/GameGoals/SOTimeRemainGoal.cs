@@ -17,13 +17,9 @@ public class SOTimeRemainGoal : SOGameGoal
 
     private void CheckTimeGoal(float timer)
     {
-        if (playerRef == this.playerRef)
+        if (timer >= timerGoal)
         {
-            if (timer >= timerGoal)
-            {
-                //TODO Call Game Manager to end the game
-                gameManager.PlayerWinGame(playerRef);
-            }
+            gameManager.PlayerWinGame(playerRef);
         }
     }
 }
