@@ -74,6 +74,15 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public UnityEvent<float> onTimeIsUp = new UnityEvent<float>();
     [HideInInspector] public UnityEvent<Player> onTreasureIsSecured = new UnityEvent<Player>();
 
+    [Header("Cursor")]
+    public CursorMode cursorMode = CursorMode.Auto;
+    public Vector2 hotSpot = Vector2.zero;
+    public Texture2D cursorMsg;
+    public Texture2D cursorNormal;
+    public Texture2D cursorLeft;
+    public Texture2D cursorRight;
+    public Texture2D cursorUp;
+    public Texture2D cursorDown;
     private UIManager uiManager;
 
 
@@ -95,7 +104,9 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        layer_mask = LayerMask.GetMask("Floor");
+        ChangeCursor(cursorNormal);
+
+       layer_mask = LayerMask.GetMask("Floor");
         StopBuilding();
 
         textGold = mainMenu.gameObject.transform.Find("Ressources").Find("Gold").Find("Text").GetComponent<TextMeshProUGUI>();
@@ -132,12 +143,19 @@ public class GameManager : MonoBehaviour
         InvokeRepeating("CheckEachSeconds", 0f, 1f);
     }
 
+
     public PlayerBaseSetup GetPlayerBaseSetup(Player player)
     {
         return vicarPlayer.Player == player ? vicarPlayer : vikingPlayer;
     }
 
     #region Pathing
+    
+    public void ChangeCursor(Texture2D cursor)
+    {
+        Cursor.SetCursor(cursor, hotSpot, cursorMode);
+    }
+
     public void CreatePath()
     {
         if (!isPathing)

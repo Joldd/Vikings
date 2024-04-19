@@ -65,12 +65,6 @@ public class Troop : Selectable
     public FogRevealer fogRevealer;
 
     private GameManager gameManager;
-
-    private CursorMode cursorMode = CursorMode.Auto;
-    private Vector2 hotSpot = Vector2.zero;
-    [SerializeField] Texture2D cursorMsg;
-    [SerializeField] Texture2D cursorNormal;
-
     
     public NavMeshAgent NavMeshAgent { get => navMeshAgent; }
     
@@ -87,10 +81,10 @@ public class Troop : Selectable
         }
 
         //ADD FOG REVEAL
-        if (GameManager.Instance.CheckIsVicars(owner))
+        if (gameManager.CheckIsVicars(owner))
         {
             fogRevealer = new FogRevealer(transform, 10, true);
-            GameManager.Instance.fogWar._FogRevealers.Add(fogRevealer);
+            gameManager.fogWar._FogRevealers.Add(fogRevealer);
         }
 
         speed = unitRef.speed;
@@ -103,7 +97,7 @@ public class Troop : Selectable
 
         state = State.WAITING;
 
-        if (!GameManager.Instance.CheckIsVicars(owner))
+        if (!gameManager.CheckIsVicars(owner))
         {
             state = State.ENEMY;
             directionEnemy = transform.forward;
@@ -189,6 +183,7 @@ public class Troop : Selectable
             if (L_Units[0].TryGetComponent<Messenger>(out Messenger messenger))
             {
                 messenger.UnSelect();
+                gameManager.ChangeCursor(gameManager.cursorNormal);
             }
         }
     }
@@ -313,17 +308,17 @@ public class Troop : Selectable
     private void Update()
     {
         /////////////////  DO SOMETHING IF SELECTED ////////////////////
-        if (GameManager.Instance.selectedUnit == this)
+        if (gameManager.selectedUnit == this)
         {
             if (type != Type.Messenger)
             {
                 /////////////////////// CREATE WAYPOINTS //////////////////////////
                 if (Input.GetMouseButtonDown(2) && !myWayPoints && canRun)
                 {
-                    GameManager.Instance.CreatePath();
+                    gameManager.CreatePath();
                 }
                 /////////////////////// GO //////////////////////////
-                if (Input.GetMouseButtonDown(2) && myWayPoints && !GameManager.Instance.isPathing && state == State.WAITING)
+                if (Input.GetMouseButtonDown(2) && myWayPoints && !gameManager.isPathing && state == State.WAITING)
                 {
                     Run();
                     canRun = false;
@@ -337,13 +332,13 @@ public class Troop : Selectable
                     if (Input.GetMouseButtonDown(2) && messenger.canMsg)
                     {
                         messenger.ChooseTroop();
-                        Cursor.SetCursor(cursorMsg, hotSpot, cursorMode);
+                        gameManager.ChangeCursor(gameManager.cursorMsg);
                     }
                     ////////////////////// BRING MESSAGE /////////////////////
                     if (Input.GetMouseButtonDown(2) && messenger.canGo)
                     {
                         messenger.Go();
-                        Cursor.SetCursor(cursorNormal, hotSpot, cursorMode);
+                        gameManager.ChangeCursor(gameManager.cursorNormal);
                     }
                 }              
             }
@@ -465,10 +460,10 @@ public class Troop : Selectable
             timerWard -= Time.deltaTime;
             if (timerWard <= 0)
             {
-                GameObject w = Instantiate(ward, GameManager.Instance.fogWar.transform);
+                GameObject w = Instantiate(ward, gameManager.fogWar.transform);
                 w.transform.position = transform.position;
                 FogRevealer fogRevealer = new FogRevealer(w.transform, 10, false);
-                GameManager.Instance.fogWar._FogRevealers.Add(fogRevealer);
+                gameManager.fogWar._FogRevealers.Add(fogRevealer);
                 timerWard = timerWardMax;
             }
         }
@@ -482,7 +477,7 @@ public class Troop : Selectable
         }
         
         //Enemy Detection Sphere
-        if (!checkEnemy)
+        if (!checkEnemy && type != Type.Messenger)
         {
             Vector3 boxCenter = transform.position + transform.forward * 3;
             Vector3 boxSize = Vector3.one * flankRange;
@@ -496,7 +491,7 @@ public class Troop : Selectable
                 Troop enemyTroop = null;
                 if (hit.transform.gameObject.TryGetComponent(out enemyTroop))
                 {
-                    if (enemyTroop.owner != owner)
+                    if (enemyTroop.owner != owner && enemyTroop.type != Type.Messenger)
                     {
                         enemyTroop = hit.transform.gameObject.GetComponent<Troop>();
                         state = State.RUNATTACK;
@@ -519,7 +514,7 @@ public class Troop : Selectable
             {
                 if (hit.transform.gameObject.TryGetComponent(out Troop enemyTroop))
                 {
-                    if (enemyTroop.owner != owner)
+                    if (enemyTroop.owner != owner && enemyTroop.type != Type.Messenger)
                     {
                         enemyTroop = hit.transform.gameObject.GetComponent<Troop>();
                         target = enemyTroop.GetNearestUnitFromTroop(transform.position);

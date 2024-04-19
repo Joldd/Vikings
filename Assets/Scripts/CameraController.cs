@@ -14,18 +14,13 @@ public class CameraController : MonoBehaviour
 
     private float delta = 10f;
 
-    public Texture2D cursorNormal;
-    public Texture2D cursorLeft;
-    public Texture2D cursorRight;
-    public Texture2D cursorUp;
-    public Texture2D cursorDown;
-    private CursorMode cursorMode = CursorMode.Auto;
-    private Vector2 hotSpot = Vector2.zero;
-
     private bool goBackNormal;
+
+    private GameManager gameManager;
 
     private void Start()
     {
+        gameManager = GameManager.Instance;
         newPos = transform.position;
         Camera.main.eventMask = layerMaskEvent;
         //Cursor.lockState = CursorLockMode.Confined;
@@ -78,25 +73,25 @@ public class CameraController : MonoBehaviour
         //if (Input.mousePosition.x >= Screen.width - 3*delta)
         //{
         //    newPos.x += moveSpeed * Time.deltaTime;
-        //    Cursor.SetCursor(cursorRight, hotSpot, cursorMode);
+        //    gameManager.ChangeCursor(gameManager.cursorRight);
         //}
         ////LEFT
         //if (Input.mousePosition.x <= delta)
         //{
         //    newPos.x -= moveSpeed * Time.deltaTime;
-        //    Cursor.SetCursor(cursorLeft, hotSpot, cursorMode);
+        //    gameManager.ChangeCursor(gameManager.cursorLeft);
         //}
         ////UP
         //if (Input.mousePosition.y >= Screen.height - delta)
         //{
         //    newPos.z += moveSpeed * Time.deltaTime;
-        //    Cursor.SetCursor(cursorUp, hotSpot, cursorMode);
+        //    gameManager.ChangeCursor(gameManager.cursorUp);
         //}
         ////DOWN
         //if (Input.mousePosition.y <= 3*delta)
         //{
         //    newPos.z -= moveSpeed * Time.deltaTime;
-        //    Cursor.SetCursor(cursorDown, hotSpot, cursorMode);
+        //    gameManager.ChangeCursor(gameManager.cursorDown);
         //}
 
         //if (Input.mousePosition.x >= Screen.width - 3*delta || Input.mousePosition.x <= delta || Input.mousePosition.y >= Screen.height - delta || Input.mousePosition.y <= 3*delta)
@@ -105,7 +100,7 @@ public class CameraController : MonoBehaviour
         //}
         //else if (!goBackNormal)
         //{
-        //    Cursor.SetCursor(cursorNormal, hotSpot, cursorMode);
+        //    gameManager.ChangeCursor(gameManager.cursorNormal);
         //    goBackNormal = true;
         //}
     }

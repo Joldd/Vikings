@@ -44,23 +44,49 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 727f7af29f4cd9744a94f554c95a9517, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPause: 0
+  fogWar: {fileID: 0}
+  vicarPlayer:
+    player: {fileID: 0}
+    L_BaseUnit: []
+    L_BaseBuildings: []
+  vikingPlayer:
+    player: {fileID: 0}
+    L_BaseUnit: []
+    L_BaseBuildings: []
   wayPoints: {fileID: 590442063111698986, guid: f35bd681a3830f846be8da8226606314, type: 3}
   currentWayPoints: {fileID: 0}
   mark: {fileID: 7971317085089679512, guid: 805a25c7c5ca1f5478544f0b814f93a1, type: 3}
   currentMark: {fileID: 0}
   isPathing: 0
   _lr: {fileID: 7229208740688947864, guid: 3227842557e104943bb8a938baff9dd2, type: 3}
-  lineWidth: 0.2
   floor: {fileID: 0}
   selectedUnit: {fileID: 0}
   isBuilding: 0
   houseToBuild: {fileID: 0}
   mainMenu: {fileID: 0}
-  gold: 0
-  reputation: 0
   objectHover: {fileID: 0}
   panelHover: {fileID: 0}
-  isChoosingMessager: 0
   isFirstMessage: 0
-  isPause: 0
-  fogWar: {fileID: 0}
+  gold: 0
+  reputation: 0
+  onBaseIsDestroyed:
+    m_PersistentCalls:
+      m_Calls: []
+  onHeroIsKilled:
+    m_PersistentCalls:
+      m_Calls: []
+  onTimeIsUp:
+    m_PersistentCalls:
+      m_Calls: []
+  onTreasureIsSecured:
+    m_PersistentCalls:
+      m_Calls: []
+  cursorMode: 0
+  hotSpot: {x: 0, y: 0}
+  cursorMsg: {fileID: 2800000, guid: f641190713096134cb7a1f669d949783, type: 3}
+  cursorNormal: {fileID: 2800000, guid: fc3c22a9b7f8a164bb40ff5150f33d2a, type: 3}
+  cursorLeft: {fileID: 2800000, guid: 202a17579ea9cad45a53c3a086863752, type: 3}
+  cursorRight: {fileID: 2800000, guid: 100ceffce9cf19f439426520cbb889cf, type: 3}
+  cursorUp: {fileID: 2800000, guid: 80a253da5ea4d114195f654827855998, type: 3}
+  cursorDown: {fileID: 2800000, guid: b300a87c982d17044b963bf13c076ae1, type: 3}

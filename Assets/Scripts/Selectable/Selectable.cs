@@ -73,7 +73,7 @@ public class Selectable : MonoBehaviour
     {
         if (canBeSelected)
         {
-            Selectable selectedUnit = GameManager.Instance.selectedUnit;
+            Selectable selectedUnit = gameManager.selectedUnit;
 
             if (selectedUnit != null)
             {
@@ -85,6 +85,7 @@ public class Selectable : MonoBehaviour
                         {
                             messenger.troopSelected = this.GetComponent<Troop>();
                             messenger.StopChooseTroop();
+                            gameManager.ChangeCursor(gameManager.cursorNormal);
                             return;
                         }
                     }
