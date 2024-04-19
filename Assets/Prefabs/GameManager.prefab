@@ -45,7 +45,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wayPoints: {fileID: 590442063111698986, guid: f35bd681a3830f846be8da8226606314, type: 3}
-  viking: {fileID: 1429273588724494570, guid: c1f0eaf837bc85047a503f81a64c640d, type: 3}
-  mark: {fileID: 7358676295792338941, guid: 805a25c7c5ca1f5478544f0b814f93a1, type: 3}
-  floor: {fileID: 0}
+  currentWayPoints: {fileID: 0}
+  mark: {fileID: 7971317085089679512, guid: 805a25c7c5ca1f5478544f0b814f93a1, type: 3}
+  currentMark: {fileID: 0}
+  isPathing: 0
   _lr: {fileID: 7229208740688947864, guid: 3227842557e104943bb8a938baff9dd2, type: 3}
+  lineWidth: 0.2
+  floor: {fileID: 0}
+  selectedUnit: {fileID: 0}
+  isBuilding: 0
+  houseToBuild: {fileID: 0}
+  mainMenu: {fileID: 0}
+  gold: 0
+  reputation: 0
+  objectHover: {fileID: 0}
+  panelHover: {fileID: 0}
+  isChoosingMessager: 0
+  isFirstMessage: 0
+  isPause: 0
+  fogWar: {fileID: 0}

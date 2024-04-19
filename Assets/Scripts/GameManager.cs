@@ -36,14 +36,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] WayPoints wayPoints;
     public WayPoints currentWayPoints;
 
-    [SerializeField] GameObject mark;
-    public GameObject currentMark;
+    [SerializeField] Mark mark;
+    public Mark currentMark;
 
     public bool isPathing;
 
     [SerializeField] LineRenderer _lr;
     LineRenderer currentLine;
-    [SerializeField] float lineWidth = 0.2f;
 
 
     [Header("Pathing System")]
@@ -63,7 +62,6 @@ public class GameManager : MonoBehaviour
     public HoverTitle objectHover;
     public GameObject panelHover;
 
-    public bool isChoosingMessager;
     public bool isFirstMessage;
 
     [Header("Resources")]
@@ -132,11 +130,11 @@ public class GameManager : MonoBehaviour
         {
             isPathing = true;
             currentWayPoints = Instantiate(wayPoints);
-            GameObject firstMark = Instantiate(mark, currentWayPoints.transform);
+            Mark firstMark = Instantiate(mark, currentWayPoints.transform);
             firstMark.transform.position = selectedUnit.transform.position;
-            currentWayPoints.marks.Add(firstMark);
+            currentWayPoints.AddMark(firstMark);
             currentMark = Instantiate(mark, currentWayPoints.transform);
-            currentWayPoints.marks.Add(currentMark);
+            currentWayPoints.AddMark(currentMark);
             currentWayPoints.lineColor = Color.red;
             CreateLine();
         }   
@@ -150,15 +148,15 @@ public class GameManager : MonoBehaviour
         {
             isPathing = true;
             currentWayPoints = Instantiate(wayPoints);
-            GameObject firstMark = Instantiate(mark, currentWayPoints.transform);
+            Mark firstMark = Instantiate(mark, currentWayPoints.transform);
             if (selectedUnit.TryGetComponent<Troop>(out Troop troopMsg))
             {
                 if (troopMsg.L_Units[0].TryGetComponent<Messenger>(out Messenger messenger))
                 {
                     firstMark.transform.position = messenger.troopSelected.transform.position;
-                    currentWayPoints.marks.Add(firstMark);
+                    currentWayPoints.AddMark(firstMark);
                     currentMark = Instantiate(mark, currentWayPoints.transform);
-                    currentWayPoints.marks.Add(currentMark);
+                    currentWayPoints.AddMark(currentMark);
                     currentWayPoints.lineColor = Color.blue;
                     currentWayPoints.isNew = true;
                     CreateLine();
@@ -183,8 +181,8 @@ public class GameManager : MonoBehaviour
         currentLine.material.color = currentWayPoints.lineColor;
         currentLine.SetPosition(0, currentWayPoints.marks[index - 1].transform.position);
         currentLine.SetPosition(1, currentMark.transform.position);
-        currentLine.startWidth = lineWidth;
-        currentLine.endWidth = lineWidth;
+        currentLine.startWidth = currentWayPoints.lineWidth;
+        currentLine.endWidth = currentWayPoints.lineWidth;
         currentWayPoints.lines.Add(currentLine);
     }
     
@@ -250,7 +248,7 @@ public class GameManager : MonoBehaviour
         {
             Vector3 currentPos = currentMark.transform.position;
             currentMark = Instantiate(mark, currentWayPoints.transform);
-            currentWayPoints.marks.Add(currentMark);
+            currentWayPoints.AddMark(currentMark);
             currentMark.transform.position = currentPos;
             CreateLine();
         }
@@ -263,14 +261,23 @@ public class GameManager : MonoBehaviour
         //////// STOP PATHING
         if (isPathing && (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButton(1)))
         {
-            currentWayPoints.marks.Remove(currentMark);
-            DestroyImmediate(currentMark);
-            DestroyImmediate(currentLine);
+            if (currentWayPoints.marks.Count <= 2)
+            {
+                Destroy(currentWayPoints.gameObject);
+            }
+            else
+            {
+                currentWayPoints.marks.Remove(currentMark);
+                DestroyImmediate(currentMark.gameObject);
+                DestroyImmediate(currentLine.gameObject);
+            }
             isPathing = false;
             if (selectedUnit.TryGetComponent<Troop>(out Troop troop))
             {
-                troop.btnDraw.interactable = false;
-                troop.btnRun.interactable = true;
+                if (troop.L_Units[0].TryGetComponent<Messenger>(out Messenger messenger))
+                {
+                    messenger.canGo = true;
+                }
             }
         }
         ////// GAME PAUSE

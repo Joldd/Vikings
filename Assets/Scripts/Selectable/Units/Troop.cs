@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.UI;
 using static FischlWorks_FogWar.csFogWar;
 
 public enum FlankValues
@@ -33,23 +32,12 @@ public class Troop : Selectable
     Vector3 directionEnemy;
     public House myHouse;
 
-    //UI
-    [SerializeField] private GameObject canvasUnit;
-    //UI Units
-    [SerializeField] private GameObject btnsUnit;
-    public Button btnDraw;
-    public Button btnRun;
-    //UI Messenger
-    public Image panelMsg;
-    [SerializeField] private GameObject btnsMsg;
-    public Button btnDrawMsg;
-    public Button btnGoMsg;
-
     //Waypoints
     public WayPoints myWayPoints;
     public WayPoints changingWayPoints;
-    GameObject currentMark;
+    Mark currentMark;
     LineRenderer currentLine;
+    private bool canRun = true;
 
     //STATS
     private int speed;
@@ -72,6 +60,12 @@ public class Troop : Selectable
     public FogRevealer fogRevealer;
 
     private GameManager gameManager;
+
+    private CursorMode cursorMode = CursorMode.Auto;
+    private Vector2 hotSpot = Vector2.zero;
+    [SerializeField] Texture2D cursorMsg;
+    [SerializeField] Texture2D cursorNormal;
+
     public override void Start()
     {
         base.Start();
@@ -86,29 +80,12 @@ public class Troop : Selectable
         timerAttackMax = unitRef.timerAttackMax;
         maxTroop = unitRef.maxTroop;
 
-        btnDraw.onClick.AddListener(() =>
-        {
-            gameManager.CreatePath();
-        });
-        btnRun.interactable = false;
+        state = State.WAITING;
 
-        canvasUnit.SetActive(false);
-
-        if (!gameManager.CheckIsVicars(owner))
+        if (!GameManager.Instance.CheckIsVicars(owner))
         {
             state = State.ENEMY;
             directionEnemy = transform.forward;
-        }
-
-        if (type == Type.Messenger)
-        {
-            btnsMsg.SetActive(true);
-            btnsUnit.SetActive(false);
-        }
-        else
-        {
-            btnsMsg.SetActive(false);
-            btnsUnit.SetActive(true);
         }
     }
 
@@ -280,11 +257,10 @@ public class Troop : Selectable
         currentMark = myWayPoints.marks[0];
         navMeshAgent.SetDestination(currentMark.transform.position);
         // transform.position = currentMark.transform.position;
-        currentMark.SetActive(false);
+        currentMark.gameObject.SetActive(false);
         currentMark = myWayPoints.nextPoint(currentMark);
         currentLine = myWayPoints.lines[0];
         //transform.LookAt(currentMark.transform);
-        btnRun.interactable = false;
         if (myHouse) myHouse.DetachTroop(this);
 
     }
@@ -302,6 +278,43 @@ public class Troop : Selectable
 
     private void Update()
     {
+        /////////////////  DO SOMETHING IF SELECTED ////////////////////
+        if (GameManager.Instance.selectedUnit == this)
+        {
+            if (type != Type.Messenger)
+            {
+                /////////////////////// CREATE WAYPOINTS //////////////////////////
+                if (Input.GetMouseButtonDown(2) && !myWayPoints && canRun)
+                {
+                    GameManager.Instance.CreatePath();
+                }
+                /////////////////////// GO //////////////////////////
+                if (Input.GetMouseButtonDown(2) && myWayPoints && !GameManager.Instance.isPathing && state == State.WAITING)
+                {
+                    Run();
+                    canRun = false;
+                }
+            }
+            else
+            {
+                if (L_Units[0].TryGetComponent<Messenger>(out Messenger messenger))
+                {
+                    ////////////////////// START MESSAGE /////////////////////
+                    if (Input.GetMouseButtonDown(2) && messenger.canMsg)
+                    {
+                        messenger.ChooseTroop();
+                        Cursor.SetCursor(cursorMsg, hotSpot, cursorMode);
+                    }
+                    ////////////////////// BRING MESSAGE /////////////////////
+                    if (Input.GetMouseButtonDown(2) && messenger.canGo)
+                    {
+                        messenger.Go();
+                        Cursor.SetCursor(cursorNormal, hotSpot, cursorMode);
+                    }
+                }              
+            }
+        }       
+
         Vector3 forward = transform.TransformDirection(Vector3.forward) * 3;
         Debug.DrawRay(transform.position, forward, Color.red);
         //////////////////   STATE   ////////////////////////////////////
@@ -320,7 +333,7 @@ public class Troop : Selectable
                 // transform.position = Vector3.MoveTowards(transform.position, currentMark.transform.position, speed * Time.deltaTime);
                 if (Vector3.Distance(transform.position, currentMark.transform.position) < 0.4f && myWayPoints.marks.IndexOf(currentMark) < myWayPoints.marks.Count - 1)
                 {
-                    currentMark.SetActive(false);
+                    currentMark.gameObject.SetActive(false);
                     currentMark = myWayPoints.nextPoint(currentMark);
                     currentLine.gameObject.SetActive(false);
                     currentLine = myWayPoints.nextLine(currentLine);
@@ -328,7 +341,7 @@ public class Troop : Selectable
                 }
                 if (Vector3.Distance(transform.position, currentMark.transform.position) < 0.4f && myWayPoints.marks.IndexOf(currentMark) == myWayPoints.marks.Count - 1)
                 {
-                    //Destroy(myWayPoints.gameObject);
+                    Destroy(myWayPoints.gameObject);
                     state = State.WAITING;
                 }
             }
