@@ -12,6 +12,13 @@ public class HealthBar : MonoBehaviour
     float maxPV;
     [SerializeField] GameObject blocToHide;
 
+    private GameManager gameManager;
+
+    private void Start()
+    {
+        gameManager = GameManager.Instance;
+    }
+
     void Update()
     {
         Vector3 worldTargetPosition = unit.transform.position + Vector3.up * healthBarUpOffset;
@@ -19,7 +26,7 @@ public class HealthBar : MonoBehaviour
 
         if (unit && unit.tag == "Enemy" && unit.TryGetComponent<EntityUnit>(out EntityUnit e))
         {
-            if (GameManager.Instance.fogWar.CheckVisibility(worldTargetPosition, 1))
+            if (gameManager.fogWar.CheckVisibility(worldTargetPosition, 1))
             {
                 blocToHide.SetActive(true);
             }

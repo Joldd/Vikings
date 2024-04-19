@@ -11,18 +11,25 @@ public class HoverTitle : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     [SerializeField] string text;
     [SerializeField] Entity unit;
 
+    private GameManager gameManager;
+
+    private void Start()
+    {
+        gameManager = GameManager.Instance;
+    }
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         isOver = true;
-        TextMeshProUGUI textHover = GameManager.Instance.panelHover.transform.Find("Text").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI textHover = gameManager.panelHover.transform.Find("Text").GetComponent<TextMeshProUGUI>();
         if (unit != null)
         {
             if (unit.priceGold > 0)
             {
                 textHover.text = unit.priceGold.ToString();
-                GameManager.Instance.panelHover.transform.Find("Gold").gameObject.SetActive(true);
-                GameManager.Instance.panelHover.transform.Find("Reputation").gameObject.SetActive(false);
-                if (GameManager.Instance.gold < unit.priceGold)
+                gameManager.panelHover.transform.Find("Gold").gameObject.SetActive(true);
+                gameManager.panelHover.transform.Find("Reputation").gameObject.SetActive(false);
+                if (gameManager.gold < unit.priceGold)
                 {
                     textHover.color = Color.red;
                 }
@@ -34,9 +41,9 @@ public class HoverTitle : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             if (unit.priceReputation > 0)
             {
                 textHover.text = unit.priceReputation.ToString();
-                GameManager.Instance.panelHover.transform.Find("Reputation").gameObject.SetActive(true);
-                GameManager.Instance.panelHover.transform.Find("Gold").gameObject.SetActive(false);
-                if (GameManager.Instance.reputation < unit.priceReputation)
+                gameManager.panelHover.transform.Find("Reputation").gameObject.SetActive(true);
+                gameManager.panelHover.transform.Find("Gold").gameObject.SetActive(false);
+                if (gameManager.reputation < unit.priceReputation)
                 {
                     textHover.color = Color.red;
                 }
@@ -49,25 +56,25 @@ public class HoverTitle : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         else
         {
             textHover.text = text;
-            GameManager.Instance.panelHover.transform.Find("Reputation").gameObject.SetActive(false);
-            GameManager.Instance.panelHover.transform.Find("Gold").gameObject.SetActive(false);
+            gameManager.panelHover.transform.Find("Reputation").gameObject.SetActive(false);
+            gameManager.panelHover.transform.Find("Gold").gameObject.SetActive(false);
         }
-        GameManager.Instance.panelHover.SetActive(true);
+        gameManager.panelHover.SetActive(true);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         isOver = false;
-        GameManager.Instance.panelHover.SetActive(false);
-        GameManager.Instance.objectHover = null;
+        gameManager.panelHover.SetActive(false);
+        gameManager.objectHover = null;
     }
 
     private void Update()
     {
         if (isOver)
         {
-            GameManager.Instance.objectHover = this;
-            GameManager.Instance.panelHover.transform.position = new Vector3(Input.mousePosition.x + 100, Input.mousePosition.y - 50, Input.mousePosition.z);
+            gameManager.objectHover = this;
+            gameManager.panelHover.transform.position = new Vector3(Input.mousePosition.x + 100, Input.mousePosition.y - 50, Input.mousePosition.z);
         }
     }
 }

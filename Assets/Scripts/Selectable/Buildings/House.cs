@@ -23,9 +23,13 @@ public class House : Selectable
 
     [SerializeField] private Troop troopGO;
 
+    private GameManager gameManager;
+
     public override void Start()
     {
         base.Start();
+
+        gameManager = GameManager.Instance;
 
         canvas.SetActive(false);
 
@@ -40,7 +44,7 @@ public class House : Selectable
                 int n = i;
                 L_Buttons[i].onClick.AddListener(() =>
                 {
-                    if (!isBuilding && GameManager.Instance.gold >= L_EntityUnits[n].priceGold
+                    if (!isBuilding && gameManager.gold >= L_EntityUnits[n].priceGold
                         && (!GetTroop(L_EntityUnits[n].GetComponent<EntityUnit>())
                             || GetTroop(L_EntityUnits[n].GetComponent<EntityUnit>()).L_Units.Count < GetTroop(L_EntityUnits[n].GetComponent<EntityUnit>()).maxTroop))
                     {
@@ -51,8 +55,8 @@ public class House : Selectable
                             currentSliderUnit = sliderUnit;
                             isBuilding = true;
                             timer = currentUnit.timeBuildMax;
-                            GameManager.Instance.gold -= currentUnit.priceGold;
-                            GameManager.Instance.UpdateRessources();
+                            gameManager.gold -= currentUnit.priceGold;
+                            gameManager.UpdateRessources();
                         }
                     }
                 });

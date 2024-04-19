@@ -74,6 +74,15 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public UnityEvent<float> onTimeIsUp = new UnityEvent<float>();
     [HideInInspector] public UnityEvent<Player> onTreasureIsSecured = new UnityEvent<Player>();
 
+    [Header("Cursor")]
+    public CursorMode cursorMode = CursorMode.Auto;
+    public Vector2 hotSpot = Vector2.zero;
+    public Texture2D cursorMsg;
+    public Texture2D cursorNormal;
+    public Texture2D cursorLeft;
+    public Texture2D cursorRight;
+    public Texture2D cursorUp;
+    public Texture2D cursorDown;
 
     public PlayerBaseSetup VicarPlayer { get => vicarPlayer; }
 
@@ -93,6 +102,8 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        ChangeCursor(cursorNormal);
+
        layer_mask = LayerMask.GetMask("Floor");
         StopBuilding();
 
@@ -122,6 +133,11 @@ public class GameManager : MonoBehaviour
         {
             building.owner = vik_Player;
         }
+    }
+
+    public void ChangeCursor(Texture2D cursor)
+    {
+        Cursor.SetCursor(cursor, hotSpot, cursorMode);
     }
 
     public void CreatePath()

@@ -9,10 +9,13 @@ public class Messenger : EntityUnit
     public bool canMsg = true;
     public bool canGo;
     public bool troopChoosen;
+    private GameManager gameManager;
 
     public override void Start()
     {
         base.Start();
+
+        gameManager = GameManager.Instance;
 
         homePos = transform.position;
 
@@ -123,7 +126,7 @@ public class Messenger : EntityUnit
     public void StopChooseTroop()
     {
         troopChoosen = !troopChoosen;
-        GameManager.Instance.CreateNewPath();
+        gameManager.CreateNewPath();
     }
 
     public void Go()

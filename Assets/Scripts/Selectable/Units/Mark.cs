@@ -13,17 +13,20 @@ public class Mark : MonoBehaviour
 
     const float DOUBLE_CLICK_TIME = 0.2f;
 
+    private GameManager gameManager;
+
     private void Start()
     {
+        gameManager = GameManager.Instance;
         layer_mask = LayerMask.GetMask("Floor");
         baseScale = transform.localScale;
     }
 
     private void OnMouseDrag()
     {
-        if (GameManager.Instance.isPathing) return;
+        if (gameManager.isPathing) return;
 
-        if (myWayPoints.myTroop.state != State.WAITING) return;
+        if (myWayPoints.myTroop.state != State.WAITING && myWayPoints == myWayPoints.myTroop.myWayPoints) return;
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
@@ -41,9 +44,9 @@ public class Mark : MonoBehaviour
 
     private void OnMouseOver()
     {
-        if (GameManager.Instance.isPathing) return;
+        if (gameManager.isPathing) return;
 
-        if (myWayPoints.myTroop.state != State.WAITING) return;
+        if (myWayPoints.myTroop.state != State.WAITING && myWayPoints == myWayPoints.myTroop.myWayPoints) return;
 
         if (Input.GetKeyDown(KeyCode.Delete))
         {
@@ -66,7 +69,7 @@ public class Mark : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        if (myWayPoints.myTroop.state != State.WAITING) return;
+        if (myWayPoints.myTroop.state != State.WAITING && myWayPoints == myWayPoints.myTroop.myWayPoints) return;
 
         transform.localScale = 2*baseScale;
     }

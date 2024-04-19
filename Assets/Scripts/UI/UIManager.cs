@@ -10,6 +10,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject victoryMenu;
     [SerializeField] private GameObject defeatMenu;
 
+    private GameManager gameManager;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -24,6 +26,8 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
+        gameManager = GameManager.Instance;
+
         pauseMenu.SetActive(false);
         victoryMenu.SetActive(false);
         defeatMenu.SetActive(false);
@@ -31,11 +35,11 @@ public class UIManager : MonoBehaviour
 
     public void Pause()
     {
-        if (!GameManager.Instance.isPause)
+        if (!gameManager.isPause)
         {
             pauseMenu.SetActive(true);
             Time.timeScale = 0f;
-            GameManager.Instance.isPause = true;
+            gameManager.isPause = true;
         }
         else
         {
@@ -47,7 +51,7 @@ public class UIManager : MonoBehaviour
     {
         pauseMenu.SetActive(false);
         Time.timeScale = 1f;
-        GameManager.Instance.isPause = false;
+        gameManager.isPause = false;
     }
 
     public void Quit()

@@ -12,10 +12,13 @@ public class WayPoints : MonoBehaviour
     public Troop myTroop;
     public bool isNew;
     public float lineWidth = 0.2f;
+    private GameManager gameManager;
 
     private void Start()
     {
-        if (GameManager.Instance.selectedUnit.TryGetComponent<Troop>(out Troop troopMsg))
+        gameManager = GameManager.Instance;
+
+        if (gameManager.selectedUnit.TryGetComponent<Troop>(out Troop troopMsg))
         {
             if (troopMsg.L_Units[0].TryGetComponent<Messenger>(out Messenger messenger))
             {
@@ -24,7 +27,7 @@ public class WayPoints : MonoBehaviour
             }
             else
             {
-                myTroop = GameManager.Instance.selectedUnit.GetComponent<Troop>();
+                myTroop = gameManager.selectedUnit.GetComponent<Troop>();
                 myTroop.myWayPoints = this;
             }
         }
