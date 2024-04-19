@@ -48,6 +48,12 @@ public class Messenger : EntityUnit
                 troopSelected.changingWayPoints.gameObject.SetActive(false);
             }
         }
+        else
+        {
+            canGo = false;
+            canMsg = true;
+            troopChoosen = false;
+        }
 
     }
 

@@ -138,6 +138,7 @@ public class Constructible : MonoBehaviour
     {
         if (other.TryGetComponent(out Troop troop))
         {
+            owner = troop.owner;
             // If Vicars 
             if(gameManager.CheckIsVicars(troop.owner))
             {

@@ -189,6 +189,7 @@ public class Troop : Selectable
             if (L_Units[0].TryGetComponent<Messenger>(out Messenger messenger))
             {
                 messenger.UnSelect();
+                Cursor.SetCursor(cursorNormal, hotSpot, cursorMode);
             }
         }
     }
@@ -482,7 +483,7 @@ public class Troop : Selectable
         }
         
         //Enemy Detection Sphere
-        if (!checkEnemy)
+        if (!checkEnemy && type != Type.Messenger)
         {
             Vector3 boxCenter = transform.position + transform.forward * 3;
             Vector3 boxSize = Vector3.one * flankRange;
@@ -496,7 +497,7 @@ public class Troop : Selectable
                 Troop enemyTroop = null;
                 if (hit.transform.gameObject.TryGetComponent(out enemyTroop))
                 {
-                    if (enemyTroop.owner != owner)
+                    if (enemyTroop.owner != owner && enemyTroop.type != Type.Messenger)
                     {
                         enemyTroop = hit.transform.gameObject.GetComponent<Troop>();
                         state = State.RUNATTACK;
@@ -519,7 +520,7 @@ public class Troop : Selectable
             {
                 if (hit.transform.gameObject.TryGetComponent(out Troop enemyTroop))
                 {
-                    if (enemyTroop.owner != owner)
+                    if (enemyTroop.owner != owner && enemyTroop.type != Type.Messenger)
                     {
                         enemyTroop = hit.transform.gameObject.GetComponent<Troop>();
                         target = enemyTroop.GetNearestUnitFromTroop(transform.position);
