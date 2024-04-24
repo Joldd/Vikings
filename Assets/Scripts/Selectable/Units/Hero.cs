@@ -14,6 +14,8 @@ public class Hero : EntityUnit
     public float timerRespawnMax;
     public float timerRespawn;
     GameManager gameManager;
+    [SerializeField] ParticleSystem respawnParticle;
+    [SerializeField] AudioSource respawnSound;
 
     public override void Start()
     {
@@ -31,6 +33,8 @@ public class Hero : EntityUnit
         timerRespawn = timerRespawnMax;
 
         gameManager = GameManager.Instance;
+
+        respawnParticle.Stop();
     }
 
     public void UpdatePVHero()
@@ -42,19 +46,22 @@ public class Hero : EntityUnit
     {
         isDie = false;
         panelRespawn.gameObject.SetActive(false);
+        healthBar.gameObject.SetActive(true);
         myTroop.gameObject.SetActive(true);
         PV = maxPV;
         healthBar.UpdateValue();
         UpdatePVHero();
+        respawnParticle.Play();
+        respawnSound.Play();
     }
 
     public override void Die()
     {
         panelRespawn.SetActive(true);
+        healthBar.gameObject.SetActive(false);
         isDie = true;
         myTroop.transform.position = gameManager.basePlayer.transform.Find("Spawn").position;
         myTroop.gameObject.SetActive(false);
     }
-
 }
 
