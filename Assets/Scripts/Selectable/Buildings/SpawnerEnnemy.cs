@@ -29,8 +29,7 @@ public class SpawnerEnnemy : MonoBehaviour
             myTroop.tag = "Enemy";  
             myTroop.type = ennemySpawned.type;
             myTroop.AddUnit(ennemySpawned);
-            ennemySpawned.transform.rotation = transform.rotation;
-            myTroop.transform.Rotate(ennemySpawned.transform.up, rotation);
+            myTroop.transform.rotation = transform.rotation;
             timer = timerMax;
         }
     }

@@ -258,7 +258,8 @@ public class Troop : Selectable
 
     private void KillTarget()
     {
-        Destroy(target.gameObject);
+        if (!target.TryGetComponent<Hero>(out Hero hero)) Destroy(target.gameObject);
+
         target = null;
         foreach (EntityUnit unit in L_Units)
         {

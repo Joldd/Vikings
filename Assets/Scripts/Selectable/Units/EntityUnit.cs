@@ -10,7 +10,8 @@ public enum Type
     Paladin,
     Guard,
     Mutant,
-    Messenger
+    Messenger,
+    Hero
 }
 
 [Serializable]

@@ -16,6 +16,9 @@ public class UIManager : MonoBehaviour
     [Header("Timer")]
     [SerializeField] private TextMeshProUGUI timerText;
 
+    [SerializeField] private Hero hero;
+    [SerializeField] private GameObject basePlayer;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -87,5 +90,19 @@ public class UIManager : MonoBehaviour
     {
         defeatMenu.SetActive(true);
         Pause();
+    }
+
+    private void Update()
+    {
+        if (hero.isDie)
+        {
+            hero.timerRespawn -= Time.deltaTime;
+            hero.textTimer.text = Mathf.Round(hero.timerRespawn).ToString();
+            if (hero.timerRespawn < 0)
+            {
+                hero.timerRespawn = hero.timerRespawnMax;
+                hero.Respawn();
+            }
+        }
     }
 }
