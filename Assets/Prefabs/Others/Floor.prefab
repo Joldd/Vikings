@@ -157,3 +157,7 @@ MonoBehaviour:
     spdMultiplier: 1
   - unitType: 2
     spdMultiplier: 1
+  - unitType: 3
+    spdMultiplier: 1
+  - unitType: 4
+    spdMultiplier: 1

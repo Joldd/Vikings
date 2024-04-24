@@ -85,6 +85,8 @@ public class GameManager : MonoBehaviour
     public Texture2D cursorDown;
     private UIManager uiManager;
 
+    public GameObject basePlayer;
+
 
     public PlayerBaseSetup VicarPlayer { get => vicarPlayer; }
 

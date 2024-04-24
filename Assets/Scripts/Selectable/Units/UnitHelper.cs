@@ -11,6 +11,11 @@ public class UnitHelper : MonoBehaviour
         {
             unit.target.PV -= (int) unit.GetDamage();
             unit.target.healthBar.UpdateValue();
+
+            if(unit.TryGetComponent<Hero>(out Hero hero))
+            {
+                hero.UpdatePVHero();
+            }
         }
     }
 }
