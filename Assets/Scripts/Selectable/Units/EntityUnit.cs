@@ -1,3 +1,4 @@
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
@@ -12,6 +13,18 @@ public enum Type
     Messenger
 }
 
+[Serializable]
+public class EntityUnitBuff
+{
+    public int additionalEnvironmentDamage = 0;
+    public int additionalEnvironmentArmor = 0;
+    public int additionalUpgradeDamage = 0;
+    public int additionalUpgradeArmor = 0;
+    public float spdMultiplier = 1;
+    
+    public float damageMultiplier = 1;
+}
+
 public class EntityUnit : Entity
 {
     public State state = State.SLEEPING;
@@ -24,15 +37,17 @@ public class EntityUnit : Entity
     public int aoeRange;
     public int flankRange;
     public int damage = 1;
+    public int armor = 0;
     public int maxTroop;
+    private EntityUnitBuff unitBuffs;
 
-    private float damageMultiplier = 1;
     public GameObject body;
 
     [SerializeField] bool enemyStop;
 
     [SerializeField] int goldToWin;
 
+    [SerializeField] 
     public Type type;
 
     public Troop myTroop;
@@ -41,15 +56,17 @@ public class EntityUnit : Entity
 
     private GameManager gameManager;
 
-    [Header("Floor Spd Modifier")]
+    [Header("Floor System")]
     [SerializeField] private LayerMask floorMask;
-    private float spdMultiplier = 1;
     private TerrainFloor actualTerrainFloor;
+    
+    public int AdditionalEnvironmentDamage { get => unitBuffs.additionalEnvironmentDamage; set => unitBuffs.additionalEnvironmentDamage = value; }
+    public int AdditionalEnvironmentArmor { get => unitBuffs.additionalEnvironmentArmor; set => unitBuffs.additionalEnvironmentArmor = value; }
 
-    public float Speed
-    {
-        get => speed * spdMultiplier;
-    }
+    public float Speed { get => speed * unitBuffs.spdMultiplier; }
+
+    public float AttackDamage { get => (damage + unitBuffs.additionalEnvironmentDamage) * unitBuffs.damageMultiplier; }
+    public float Armor { get => (armor + unitBuffs.additionalEnvironmentArmor); }
 
     public override void Start()
     {
@@ -62,6 +79,7 @@ public class EntityUnit : Entity
 
         outline = GetComponent<Outline>();
         gameManager = GameManager.Instance;
+        unitBuffs = new EntityUnitBuff();
         if (outline) outline.OutlineMode = Outline.Mode.Nothing; 
     }
 
@@ -72,16 +90,29 @@ public class EntityUnit : Entity
         if (Physics.Raycast(transform.position, transform.TransformDirection(-Vector3.up), out hit, Mathf.Infinity, floorMask))
         {
             Debug.DrawRay(transform.position, transform.TransformDirection(-Vector3.up) * hit.distance, Color.yellow);
-            Debug.Log("Did Hit");
             if (hit.transform.TryGetComponent(out TerrainFloor floor))
             {
                 if (actualTerrainFloor == null || actualTerrainFloor != floor)
                 {
                     actualTerrainFloor = floor;
-                    spdMultiplier = floor.GetSpdMultiplierFromType(type);
-                    if (myTroop != null)
+                    if (floor.DoesSpdModifierContainType(type))
                     {
-                        myTroop.UpdateSpeedTroop(speed * spdMultiplier);
+                        unitBuffs.spdMultiplier = floor.GetSpdMultiplierFromType(type);
+                        if (myTroop != null)
+                        {
+                            myTroop.UpdateSpeedTroop(Speed);
+                        }
+                    }
+
+                    if (floor.DoesBuffModifierContainType(type))
+                    {
+                        AdditionalEnvironmentDamage = floor.GetBonusStatsFromType(type).attack;
+                        AdditionalEnvironmentArmor = floor.GetBonusStatsFromType(type).armor;
+                    }
+                    else
+                    {
+                        AdditionalEnvironmentDamage = 0;
+                        AdditionalEnvironmentArmor = 0;
                     }
                 }
             }
@@ -96,17 +127,23 @@ public class EntityUnit : Entity
 
     public float GetDamage()
     {
-        return damage * damageMultiplier;
+        return damage * unitBuffs.damageMultiplier;
+    }
+
+    // 4 is a specific value 
+    public float GetMitigatedDamage(float damage)
+    {
+        return damage / (1 + armor / 35);
     }
 
     public void ResetBonusDmg()
     {
-        damageMultiplier = 1;
+        unitBuffs.damageMultiplier = 1;
     }
 
     public void AddBonusDmgFlank(float newMulti)
     {
-        damageMultiplier = newMulti;
+        unitBuffs.damageMultiplier = newMulti;
     }
 
     public override void Die()

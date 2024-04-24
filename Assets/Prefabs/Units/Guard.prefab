@@ -117,6 +117,7 @@ MonoBehaviour:
   aoeRange: 8
   flankRange: 1
   damage: 2
+  armor: 50
   maxTroop: 2
   body: {fileID: 0}
   enemyStop: 0
