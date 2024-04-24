@@ -134,7 +134,7 @@ public class EntityUnit : Entity
     // 4 is a specific value 
     public float GetMitigatedDamage(float damage)
     {
-        return damage / (1 + armor / 35);
+        return damage / (1f + Armor / 35f);
     }
 
     public void ResetBonusDmg()
