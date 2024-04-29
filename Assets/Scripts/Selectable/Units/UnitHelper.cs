@@ -3,10 +3,14 @@ using UnityEngine;
 public class UnitHelper : MonoBehaviour
 {
     [SerializeField] EntityUnit unit;
+    [SerializeField] AudioSource soundAttack;
 
     public void Deal()
     {
         if (!unit.target) return;
+
+        soundAttack.Play();
+
         if (unit.target.PV > 0)
         {
             int damage = 0;
