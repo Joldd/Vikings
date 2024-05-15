@@ -48,6 +48,7 @@ public class GameManager : MonoBehaviour
     [Header("Pathing System")]
     [SerializeField] GameObject floor;
     public int layer_mask;
+    public int layer_mark;
 
     public Selectable selectedUnit;
 
@@ -109,6 +110,7 @@ public class GameManager : MonoBehaviour
         ChangeCursor(cursorNormal);
 
         layer_mask = LayerMask.GetMask("Floor");
+        layer_mark = LayerMask.GetMask("Mark");
         StopBuilding();
 
         textGold = mainMenu.gameObject.transform.Find("Ressources").Find("Gold").Find("Text").GetComponent<TextMeshProUGUI>();
@@ -280,7 +282,7 @@ public class GameManager : MonoBehaviour
         uiManager.UpdateTimer(timerGame);
         
         /////////////////////////////// PATH WAYPOINTS UNIT /////////////////////////////////////
-        if (isPathing && Input.GetMouseButtonDown(0) && !isFirstMessage)
+        if (isPathing && Input.GetMouseButtonDown(0) && !isFirstMessage && currentMark.canBuild)
         {
             Vector3 currentPos = currentMark.transform.position;
             currentMark = Instantiate(mark, currentWayPoints.transform);

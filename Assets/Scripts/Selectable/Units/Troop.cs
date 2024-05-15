@@ -138,7 +138,7 @@ public class Troop : Selectable
             if (unit.outline)
             {
                 unit.outline.OutlineMode = Outline.Mode.OutlineAll;
-                unit.outline.OutlineWidth = 2;
+                unit.outline.OutlineWidth = 0.5f;
             }
         }
     }
@@ -152,7 +152,7 @@ public class Troop : Selectable
             if (unit.outline)
             {
                 unit.outline.OutlineMode = Outline.Mode.OutlineAll;
-                unit.outline.OutlineWidth = 4;
+                unit.outline.OutlineWidth = 1.3f;
             }
         }
     }
@@ -358,7 +358,7 @@ public class Troop : Selectable
         {
             if (gameManager.CheckIsVicars(owner) && currentLine)
             {
-                currentLine.SetPosition(0, RayTheFloor(GameManager.Instance.layer_mask));
+                currentLine.SetPosition(0, RayTheFloor(gameManager.layer_mask));
             }
 
             if (state == State.RUNNING && myWayPoints)

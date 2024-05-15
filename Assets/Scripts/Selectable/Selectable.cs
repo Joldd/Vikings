@@ -42,7 +42,7 @@ public class Selectable : MonoBehaviour
         if (outline)
         {
             outline.OutlineMode = Outline.Mode.OutlineAll;
-            outline.OutlineWidth = 2;
+            outline.OutlineWidth = 0.5f;
         }
     }
 
@@ -51,7 +51,7 @@ public class Selectable : MonoBehaviour
         if (outline)
         {
             outline.OutlineMode = Outline.Mode.OutlineAll;
-            outline.OutlineWidth = 4;
+            outline.OutlineWidth = 1.3f;
         }
     }
 
@@ -72,6 +72,12 @@ public class Selectable : MonoBehaviour
 
     public virtual void OnMouseDown()
     {
+        if (gameManager.isPathing) return;
+
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, 100f, gameManager.layer_mark)) return;
+
         if (canBeSelected)
         {
             Selectable selectedUnit = gameManager.selectedUnit;

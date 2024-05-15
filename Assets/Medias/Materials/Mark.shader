@@ -11,7 +11,7 @@ Shader "Custom/Mark"
     {
         Tags {"Queue"="Transparent+2"}
         LOD 200
-
+        ZTest Always
         CGPROGRAM
         // Physically based Standard lighting model, and enable shadows on all light types
         #pragma surface surf Standard fullforwardshadows
