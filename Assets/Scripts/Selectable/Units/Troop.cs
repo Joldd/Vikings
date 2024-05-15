@@ -168,7 +168,19 @@ public class Troop : Selectable
             if (L_Units[0].TryGetComponent<Messenger>(out Messenger messenger))
             {
                 messenger.Select();
+
+                if (messenger.canMsg)
+                {
+                    messenger.ChooseTroop();
+                    gameManager.ChangeCursor(gameManager.cursorMsg);
+                }
             }
+        }
+
+        if (!myWayPoints && canRun && type != Type.Messenger)
+        {
+            gameManager.CreatePath();
+            Debug.Log(myWayPoints);
         }
     }
 
@@ -319,13 +331,8 @@ public class Troop : Selectable
         {
             if (type != Type.Messenger)
             {
-                /////////////////////// CREATE WAYPOINTS //////////////////////////
-                if (Input.GetMouseButtonDown(2) && !myWayPoints && canRun)
-                {
-                    gameManager.CreatePath();
-                }
                 /////////////////////// GO //////////////////////////
-                if (Input.GetMouseButtonDown(2) && myWayPoints && !gameManager.isPathing && state == State.WAITING)
+                if ((Input.GetMouseButtonDown(2) || Input.GetKeyDown(KeyCode.Space)) && myWayPoints && !gameManager.isPathing && state == State.WAITING)
                 {
                     Run();
                     canRun = false;
@@ -335,14 +342,8 @@ public class Troop : Selectable
             {
                 if (L_Units[0].TryGetComponent<Messenger>(out Messenger messenger))
                 {
-                    ////////////////////// START MESSAGE /////////////////////
-                    if (Input.GetMouseButtonDown(2) && messenger.canMsg)
-                    {
-                        messenger.ChooseTroop();
-                        gameManager.ChangeCursor(gameManager.cursorMsg);
-                    }
                     ////////////////////// BRING MESSAGE /////////////////////
-                    if (Input.GetMouseButtonDown(2) && messenger.canGo)
+                    if ((Input.GetMouseButtonDown(2) || Input.GetKeyDown(KeyCode.Space)) && messenger.canGo)
                     {
                         messenger.Go();
                         gameManager.ChangeCursor(gameManager.cursorNormal);

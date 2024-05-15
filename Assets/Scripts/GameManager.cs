@@ -171,6 +171,7 @@ public class GameManager : MonoBehaviour
             currentWayPoints.AddMark(currentMark);
             currentWayPoints.lineColor = Color.red;
             CreateLine();
+            isFirstMessage = true;
         }   
     }
     public void CreateNewPath()
@@ -279,6 +280,7 @@ public class GameManager : MonoBehaviour
         /////////////////////////////// PATH WAYPOINTS UNIT /////////////////////////////////////
         if (isPathing && Input.GetMouseButtonDown(0) && !isFirstMessage)
         {
+            Debug.Log("newMark");
             Vector3 currentPos = currentMark.transform.position;
             currentMark = Instantiate(mark, currentWayPoints.transform);
             currentWayPoints.AddMark(currentMark);
