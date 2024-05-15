@@ -81,9 +81,11 @@ public class Selectable : MonoBehaviour
                 {
                     if (troopMsg.L_Units[0].TryGetComponent<Messenger>(out Messenger messenger))
                     {
-                        if (messenger.troopChoosen)
+                        if (messenger.troopChoosen && TryGetComponent<Troop>(out Troop troop))
                         {
-                            messenger.troopSelected = this.GetComponent<Troop>();
+                            if (troop.type == Type.Messenger) return;
+
+                            messenger.troopSelected = troop;
                             messenger.StopChooseTroop();
                             gameManager.ChangeCursor(gameManager.cursorNormal);
                             return;
