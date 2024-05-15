@@ -180,7 +180,6 @@ public class Troop : Selectable
         if (!myWayPoints && canRun && type != Type.Messenger)
         {
             gameManager.CreatePath();
-            Debug.Log(myWayPoints);
         }
     }
 
@@ -359,7 +358,7 @@ public class Troop : Selectable
         {
             if (gameManager.CheckIsVicars(owner) && currentLine)
             {
-                currentLine.SetPosition(0, transform.position);
+                currentLine.SetPosition(0, RayTheFloor(GameManager.Instance.layer_mask));
             }
 
             if (state == State.RUNNING && myWayPoints)

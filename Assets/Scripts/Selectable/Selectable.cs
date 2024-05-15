@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Selectable : MonoBehaviour
@@ -113,5 +114,16 @@ public class Selectable : MonoBehaviour
         {
             noOutLine();
         }
+    }
+
+    public Vector3 RayTheFloor(int layerMask)
+    {
+        Ray ray = new Ray(transform.position, -transform.up);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, 100f, layerMask))
+        {
+            return hit.point;
+        }
+        return Vector3.zero;
     }
 }

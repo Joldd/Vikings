@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Pathing System")]
     [SerializeField] GameObject floor;
-    int layer_mask;
+    public int layer_mask;
 
     public Selectable selectedUnit;
 
@@ -108,7 +108,7 @@ public class GameManager : MonoBehaviour
     {
         ChangeCursor(cursorNormal);
 
-       layer_mask = LayerMask.GetMask("Floor");
+        layer_mask = LayerMask.GetMask("Floor");
         StopBuilding();
 
         textGold = mainMenu.gameObject.transform.Find("Ressources").Find("Gold").Find("Text").GetComponent<TextMeshProUGUI>();
@@ -165,7 +165,9 @@ public class GameManager : MonoBehaviour
             isPathing = true;
             currentWayPoints = Instantiate(wayPoints);
             Mark firstMark = Instantiate(mark, currentWayPoints.transform);
-            firstMark.transform.position = selectedUnit.transform.position;
+
+            firstMark.transform.position = selectedUnit.RayTheFloor(layer_mask);
+
             currentWayPoints.AddMark(firstMark);
             currentMark = Instantiate(mark, currentWayPoints.transform);
             currentWayPoints.AddMark(currentMark);
@@ -185,7 +187,7 @@ public class GameManager : MonoBehaviour
             {
                 if (troopMsg.L_Units[0].TryGetComponent<Messenger>(out Messenger messenger))
                 {
-                    firstMark.transform.position = messenger.troopSelected.transform.position;
+                    firstMark.transform.position = messenger.troopSelected.RayTheFloor(layer_mask);
                     currentWayPoints.AddMark(firstMark);
                     currentMark = Instantiate(mark, currentWayPoints.transform);
                     currentWayPoints.AddMark(currentMark);
@@ -280,7 +282,6 @@ public class GameManager : MonoBehaviour
         /////////////////////////////// PATH WAYPOINTS UNIT /////////////////////////////////////
         if (isPathing && Input.GetMouseButtonDown(0) && !isFirstMessage)
         {
-            Debug.Log("newMark");
             Vector3 currentPos = currentMark.transform.position;
             currentMark = Instantiate(mark, currentWayPoints.transform);
             currentWayPoints.AddMark(currentMark);

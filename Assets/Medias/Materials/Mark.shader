@@ -1,4 +1,4 @@
-Shader "Custom/Waypoint"
+Shader "Custom/Mark"
 {
     Properties
     {
@@ -9,7 +9,7 @@ Shader "Custom/Waypoint"
     }
     SubShader
     {
-        Tags {"Queue"="Transparent+1"}
+        Tags {"Queue"="Transparent+2"}
         LOD 200
 
         CGPROGRAM
