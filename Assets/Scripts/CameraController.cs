@@ -36,6 +36,8 @@ public class CameraController : MonoBehaviour
 
     private void Update()
     {
+        if (gameManager.isPause) return;
+
         Zoom();
         
         Move();
@@ -62,11 +64,11 @@ public class CameraController : MonoBehaviour
     {
         if (Input.mouseScrollDelta.y > 0 && myCam.orthographicSize > rangeZoom.x)
         {
-            myCam.orthographicSize -= zoomSpeed * Time.deltaTime; 
+            myCam.orthographicSize -= zoomSpeed * Time.unscaledDeltaTime; 
         }
         if (Input.mouseScrollDelta.y < 0 && myCam.orthographicSize < rangeZoom.y && !isLimit(rightLimits) && !isLimit(leftLimits) && !isLimit(topLimits) && !isLimit(bottomLimits))
         {
-            myCam.orthographicSize += zoomSpeed * Time.deltaTime;
+            myCam.orthographicSize += zoomSpeed * Time.unscaledDeltaTime;
         }
     }
 
@@ -77,19 +79,19 @@ public class CameraController : MonoBehaviour
 
         if (x > 0 && !isLimit(rightLimits))
         {
-            newPos += transform.right * moveSpeed * Time.deltaTime;
+            newPos += transform.right * moveSpeed * Time.unscaledDeltaTime;
         }
         if (x < 0 && !isLimit(leftLimits))
         {
-            newPos -= transform.right * moveSpeed * Time.deltaTime;
+            newPos -= transform.right * moveSpeed * Time.unscaledDeltaTime;
         }
         if (z > 0 && !isLimit(topLimits))
         {
-            newPos += transform.up * moveSpeed * Time.deltaTime + transform.forward * moveSpeed * Time.deltaTime;
+            newPos += transform.up * moveSpeed * Time.unscaledDeltaTime + transform.forward * moveSpeed * Time.unscaledDeltaTime;
         }
         if (z < 0 && !isLimit(bottomLimits))
         {
-            newPos -= transform.up * moveSpeed * Time.deltaTime + transform.forward * moveSpeed * Time.deltaTime;
+            newPos -= transform.up * moveSpeed * Time.unscaledDeltaTime + transform.forward * moveSpeed * Time.unscaledDeltaTime;
         }
 
         ////RIGHT

@@ -139,6 +139,9 @@ public class Constructible : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
+        ///////////// PAUSE /////////////////
+        if (gameManager.isPause) return;
+
         if (other.TryGetComponent(out Troop troop))
         {
             owner = troop.owner;

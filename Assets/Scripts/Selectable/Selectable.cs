@@ -73,6 +73,7 @@ public class Selectable : MonoBehaviour
     public virtual void OnMouseDown()
     {
         if (gameManager.isPathing) return;
+        if (gameManager.isPause) return;
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
@@ -108,6 +109,8 @@ public class Selectable : MonoBehaviour
 
     private void OnMouseOver()
     {
+        if (gameManager.isPause) return;
+
         if (!isSelect)
         {
             hoverOutline();

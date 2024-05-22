@@ -392,7 +392,8 @@ public class Troop : Selectable
             {
                 if (target == null)
                 {
-                    state = State.RUNNING;
+                    if (myWayPoints) state = State.RUNNING;
+                    else state = State.WAITING;
                     checkEnemy = false;
 
                     if (!gameManager.CheckIsVicars(owner))

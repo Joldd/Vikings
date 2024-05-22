@@ -1,12 +1,9 @@
 using FischlWorks_FogWar;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 
 [Serializable]
 public class PlayerBaseSetup
@@ -26,6 +23,7 @@ public class GameManager : MonoBehaviour
     
     [Header("Game System")]
     public bool isPause;
+    public bool inGamePause;
     public csFogWar fogWar;
     public float timerGame;
     [Header("Team System")]
@@ -260,9 +258,9 @@ public class GameManager : MonoBehaviour
     
     #endregion
 
-  
-    private void FixedUpdate()
+    private void Update()
     {
+        /////////////////// RAYCAST CURRENT MARK ////////////////////////
         if (isPathing)
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -270,13 +268,10 @@ public class GameManager : MonoBehaviour
             if (Physics.Raycast(ray, out hit, 100f, layer_mask))
             {
                 currentMark.transform.position = hit.point;
-                currentLine.SetPosition(1, hit.point);            
+                currentLine.SetPosition(1, hit.point);
             }
         }
-    }
 
-    private void Update()
-    {
         // TIMER GAME
         timerGame += Time.deltaTime;
         uiManager.UpdateTimer(timerGame);
@@ -346,7 +341,21 @@ public class GameManager : MonoBehaviour
             gold += 100;
             UpdateRessources();
         }
-        ////////////////////////////////////////////////////////////////////////////////
+
+        ////////////////////////////// PAUSE IN GAME //////////////////////////////////////////
+        if(Input.GetKeyDown(KeyCode.P))
+        {
+            if (!inGamePause) 
+            {
+                inGamePause = true;
+                Time.timeScale = 0;
+            }
+            else
+            {
+                inGamePause = false;
+                Time.timeScale = 1;
+            }
+        }
     }
 
     public void StopBuilding()
