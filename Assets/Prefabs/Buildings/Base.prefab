@@ -86,7 +86,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvas: {fileID: 7958815786874226584}
   isSelect: 0
-  canBeSelected: 0
+  canBeSelected: 1
   outline: {fileID: 0}
   owner: {fileID: 0}
   L_EntityUnits:
