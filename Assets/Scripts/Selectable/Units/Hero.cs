@@ -35,6 +35,8 @@ public class Hero : EntityUnit
         gameManager = GameManager.Instance;
 
         respawnParticle.Stop();
+
+        UpdatePVHero();
     }
 
     public void UpdatePVHero()

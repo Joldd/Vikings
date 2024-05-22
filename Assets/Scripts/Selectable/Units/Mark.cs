@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Mark : MonoBehaviour
 {
-    int layer_mask;
     public bool isDragging;
     public bool deleted;
     Vector3 baseScale;
@@ -15,14 +14,19 @@ public class Mark : MonoBehaviour
 
     private GameManager gameManager;
 
+    public bool canBuild = true;
+    Vector3 startPosition;
+    public bool goback;
+
+    private bool isHover;
+
     private void Start()
     {
         gameManager = GameManager.Instance;
-        layer_mask = LayerMask.GetMask("Floor");
         baseScale = transform.localScale;
     }
 
-    private void OnMouseDrag()
+    private void Update()
     {
         if (gameManager.isPathing) return;
 
@@ -30,52 +34,84 @@ public class Mark : MonoBehaviour
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, 100f, layer_mask))
+        if (Physics.Raycast(ray, out hit, 100f, gameManager.layer_mark))
         {
-            transform.position = hit.point;
-        }
-        isDragging = true;
-    }
-
-    private void OnMouseUp()
-    {
-        isDragging = false;
-    }
-
-    private void OnMouseOver()
-    {
-        if (gameManager.isPathing) return;
-
-        if (myWayPoints.myTroop.state != State.WAITING && myWayPoints == myWayPoints.myTroop.myWayPoints) return;
-
-        if (Input.GetKeyDown(KeyCode.Delete))
-        {
-            deleted = true;
-        }
-
-        //DOUBLE CLICK => Create Mark
-        if (Input.GetMouseButtonDown(0))
-        {
-            float timeSinceLastClick = Time.time - lastClickTime;
-
-            if(timeSinceLastClick <= DOUBLE_CLICK_TIME)
+            if(hit.transform.gameObject.GetComponent<Mark>() == this)
             {
-                myWayPoints.AddNewMark(this);
-            }
+                //ENTER
+                if (!isHover)
+                {
+                    transform.localScale = 2 * baseScale;
+                    isHover = true;
+                }
 
-            lastClickTime = Time.time;
+                //CLICK && DOUBLECLICK
+                if (Input.GetMouseButtonDown(0))
+                {
+                    float timeSinceLastClick = Time.time - lastClickTime;
+                    startPosition = transform.position;
+                    isDragging = true;
+
+                    if (timeSinceLastClick <= DOUBLE_CLICK_TIME)
+                    {
+                        myWayPoints.AddNewMark(this);
+                    }
+
+                    lastClickTime = Time.time;             
+                }
+
+                //DELETE
+                if (Input.GetKeyDown(KeyCode.Delete))
+                {
+                    deleted = true;
+                }
+
+                //MOUSEUP
+                if (Input.GetMouseButtonUp(0))
+                {
+                    if (!canBuild)
+                    {
+                        transform.position = startPosition;
+                        goback = true;
+                    }
+                    isDragging = false;
+                }             
+            }
+        }
+        else
+        {
+            //EXIT
+            if (isHover)
+            {
+                transform.localScale = baseScale;
+                isHover = false;
+            }
+        }
+
+        //DRAG
+        if (isDragging)
+        {
+            RaycastHit hitFloor;
+            if (Physics.Raycast(ray, out hitFloor, 100f, gameManager.layer_mask))
+            {
+                transform.position = hitFloor.point;
+            }
         }
     }
 
-    private void OnMouseEnter()
+    private void OnTriggerEnter(Collider other)
     {
-        if (myWayPoints.myTroop.state != State.WAITING && myWayPoints == myWayPoints.myTroop.myWayPoints) return;
-
-        transform.localScale = 2*baseScale;
+        if (other.TryGetComponent<EntityHouse>(out EntityHouse house))
+        {
+            canBuild = false;
+        }
     }
 
-    private void OnMouseExit()
+    private void OnTriggerExit(Collider other)
     {
-        transform.localScale = baseScale;
+        if (other.TryGetComponent<EntityHouse>(out EntityHouse house))
+        {
+            canBuild = true;
+        }
     }
 }

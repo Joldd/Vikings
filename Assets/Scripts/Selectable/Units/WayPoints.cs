@@ -107,6 +107,13 @@ public class WayPoints : MonoBehaviour
         for (int i = marks.Count - 1; i >= 0; i--)
         {
             Mark mark = marks[i].GetComponent<Mark>();
+            if (mark.goback)
+            {
+                mark.goback = false;
+                lines[i - 1].SetPosition(1, mark.transform.position);
+                if (i == marks.Count - 1) break;
+                lines[i].SetPosition(0, mark.transform.position);             
+            }
             if (mark.isDragging)
             {
                 lines[i-1].SetPosition(1, mark.transform.position);

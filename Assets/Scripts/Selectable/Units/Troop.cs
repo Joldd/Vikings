@@ -138,7 +138,7 @@ public class Troop : Selectable
             if (unit.outline)
             {
                 unit.outline.OutlineMode = Outline.Mode.OutlineAll;
-                unit.outline.OutlineWidth = 2;
+                unit.outline.OutlineWidth = 0.5f;
             }
         }
     }
@@ -152,7 +152,7 @@ public class Troop : Selectable
             if (unit.outline)
             {
                 unit.outline.OutlineMode = Outline.Mode.OutlineAll;
-                unit.outline.OutlineWidth = 4;
+                unit.outline.OutlineWidth = 1.3f;
             }
         }
     }
@@ -168,12 +168,25 @@ public class Troop : Selectable
             if (L_Units[0].TryGetComponent<Messenger>(out Messenger messenger))
             {
                 messenger.Select();
+
+                if (messenger.canMsg)
+                {
+                    messenger.ChooseTroop();
+                    gameManager.ChangeCursor(gameManager.cursorMsg);
+                }
             }
+        }
+
+        if (!myWayPoints && canRun && type != Type.Messenger)
+        {
+            gameManager.CreatePath();
         }
         
         //TODO Display UI
-        UIManager.Instance.DisplayTroopInfos(this, true);
-        
+        if (type != Type.Messenger)
+        { 
+            UIManager.Instance.DisplayTroopInfos(this, true);
+        }
     }
 
     public override void UnSelect()
@@ -325,13 +338,8 @@ public class Troop : Selectable
         {
             if (type != Type.Messenger)
             {
-                /////////////////////// CREATE WAYPOINTS //////////////////////////
-                if (Input.GetMouseButtonDown(2) && !myWayPoints && canRun)
-                {
-                    gameManager.CreatePath();
-                }
                 /////////////////////// GO //////////////////////////
-                if (Input.GetMouseButtonDown(2) && myWayPoints && !gameManager.isPathing && state == State.WAITING)
+                if ((Input.GetMouseButtonDown(2) || Input.GetKeyDown(KeyCode.Space)) && myWayPoints && !gameManager.isPathing && state == State.WAITING)
                 {
                     Run();
                     canRun = false;
@@ -341,14 +349,8 @@ public class Troop : Selectable
             {
                 if (L_Units[0].TryGetComponent<Messenger>(out Messenger messenger))
                 {
-                    ////////////////////// START MESSAGE /////////////////////
-                    if (Input.GetMouseButtonDown(2) && messenger.canMsg)
-                    {
-                        messenger.ChooseTroop();
-                        gameManager.ChangeCursor(gameManager.cursorMsg);
-                    }
                     ////////////////////// BRING MESSAGE /////////////////////
-                    if (Input.GetMouseButtonDown(2) && messenger.canGo)
+                    if ((Input.GetMouseButtonDown(2) || Input.GetKeyDown(KeyCode.Space)) && messenger.canGo)
                     {
                         messenger.Go();
                         gameManager.ChangeCursor(gameManager.cursorNormal);
@@ -364,7 +366,7 @@ public class Troop : Selectable
         {
             if (gameManager.CheckIsVicars(owner) && currentLine)
             {
-                currentLine.SetPosition(0, transform.position);
+                currentLine.SetPosition(0, RayTheFloor(gameManager.layer_mask));
             }
 
             if (state == State.RUNNING && myWayPoints)

@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Selectable : MonoBehaviour
@@ -41,7 +42,7 @@ public class Selectable : MonoBehaviour
         if (outline)
         {
             outline.OutlineMode = Outline.Mode.OutlineAll;
-            outline.OutlineWidth = 2;
+            outline.OutlineWidth = 0.5f;
         }
     }
 
@@ -50,7 +51,7 @@ public class Selectable : MonoBehaviour
         if (outline)
         {
             outline.OutlineMode = Outline.Mode.OutlineAll;
-            outline.OutlineWidth = 4;
+            outline.OutlineWidth = 1.3f;
         }
     }
 
@@ -71,6 +72,12 @@ public class Selectable : MonoBehaviour
 
     public virtual void OnMouseDown()
     {
+        if (gameManager.isPathing) return;
+
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, 100f, gameManager.layer_mark)) return;
+
         if (canBeSelected)
         {
             Selectable selectedUnit = gameManager.selectedUnit;
@@ -81,9 +88,11 @@ public class Selectable : MonoBehaviour
                 {
                     if (troopMsg.L_Units[0].TryGetComponent<Messenger>(out Messenger messenger))
                     {
-                        if (messenger.troopChoosen)
+                        if (messenger.troopChoosen && TryGetComponent<Troop>(out Troop troop))
                         {
-                            messenger.troopSelected = this.GetComponent<Troop>();
+                            if (troop.type == Type.Messenger) return;
+
+                            messenger.troopSelected = troop;
                             messenger.StopChooseTroop();
                             gameManager.ChangeCursor(gameManager.cursorNormal);
                             return;
@@ -111,5 +120,16 @@ public class Selectable : MonoBehaviour
         {
             noOutLine();
         }
+    }
+
+    public Vector3 RayTheFloor(int layerMask)
+    {
+        Ray ray = new Ray(transform.position, -transform.up);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, 100f, layerMask))
+        {
+            return hit.point;
+        }
+        return Vector3.zero;
     }
 }
