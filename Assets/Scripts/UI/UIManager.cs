@@ -11,6 +11,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject pauseMenu;
     [SerializeField] private GameObject victoryMenu;
     [SerializeField] private GameObject defeatMenu;
+    [SerializeField] private UITroopInfo uiTroopInfo;
 
     private GameManager gameManager;
     [Header("Timer")]
@@ -90,6 +91,15 @@ public class UIManager : MonoBehaviour
     {
         defeatMenu.SetActive(true);
         Pause();
+    }
+
+    public void DisplayTroopInfos(Troop troop, bool value = true)
+    {
+        if (value)
+        {
+            uiTroopInfo.SetupTroop(troop);
+        }
+        uiTroopInfo.gameObject.SetActive(value);
     }
 
     private void Update()

@@ -24,15 +24,18 @@ public class EntityUnitBuff
     public float spdMultiplier = 1;
     
     public float damageMultiplier = 1;
+    public float attackSpeedMutliplier = 1;
+    public float rangeMutliplier = 1;
 }
 
 public class EntityUnit : Entity
 {
     public State state = State.SLEEPING;
 
+    public Sprite imageUnit;
     public Entity target;
     public float timerAttackMax;
-
+    
     public float speed;
     public float range;
     public int aoeRange;
@@ -63,9 +66,9 @@ public class EntityUnit : Entity
     
     public int AdditionalEnvironmentDamage { get => unitBuffs.additionalEnvironmentDamage; set => unitBuffs.additionalEnvironmentDamage = value; }
     public int AdditionalEnvironmentArmor { get => unitBuffs.additionalEnvironmentArmor; set => unitBuffs.additionalEnvironmentArmor = value; }
-
     public float Speed { get => speed * unitBuffs.spdMultiplier; }
-
+    public float AttackSpeed { get => timerAttackMax * unitBuffs.attackSpeedMutliplier; }
+    public float Range { get => range * unitBuffs.rangeMutliplier; }
     public float AttackDamage { get => (damage + unitBuffs.additionalEnvironmentDamage) * unitBuffs.damageMultiplier; }
     public float Armor { get => (armor + unitBuffs.additionalEnvironmentArmor); }
 
@@ -131,11 +134,12 @@ public class EntityUnit : Entity
         return damage * unitBuffs.damageMultiplier;
     }
 
-    // 4 is a specific value 
+    // 35 is a specific value 
     public float GetMitigatedDamage(float damage)
     {
         return damage / (1f + Armor / 35f);
     }
+
 
     public void ResetBonusDmg()
     {

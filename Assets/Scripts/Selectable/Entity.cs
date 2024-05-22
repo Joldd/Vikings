@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Entity : MonoBehaviour
 {
@@ -15,6 +16,8 @@ public class Entity : MonoBehaviour
     public float timeBuild;
     public int priceReputation;
     public int priceGold;
+
+    private UnityEvent<float> onDamageTaken = new UnityEvent<float>();
 
     public virtual void Start()
     {
@@ -32,4 +35,17 @@ public class Entity : MonoBehaviour
     {
         Destroy(healthBar.gameObject);
     }
+    
+    public void TakeDamage(float damage)
+    {
+        PV -= (int) damage;
+        healthBar.UpdateValue();
+        onDamageTaken.Invoke(healthBar.slider.value);
+    }
+
+    public void AddListenerOnDamageTaken(UnityAction<float> action)
+    {
+        onDamageTaken.AddListener(action);
+    }
+
 }

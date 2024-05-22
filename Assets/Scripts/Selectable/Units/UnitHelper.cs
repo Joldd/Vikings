@@ -22,8 +22,7 @@ public class UnitHelper : MonoBehaviour
             {
                 damage = (int)unit.GetDamage();
             }
-            unit.target.PV -= damage;
-            unit.target.healthBar.UpdateValue();
+            unit.target.TakeDamage(damage);
 
             if(unit.TryGetComponent<Hero>(out Hero hero))
             {

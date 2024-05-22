@@ -170,6 +170,10 @@ public class Troop : Selectable
                 messenger.Select();
             }
         }
+        
+        //TODO Display UI
+        UIManager.Instance.DisplayTroopInfos(this, true);
+        
     }
 
     public override void UnSelect()
@@ -186,6 +190,8 @@ public class Troop : Selectable
                 gameManager.ChangeCursor(gameManager.cursorNormal);
             }
         }
+        
+        UIManager.Instance.DisplayTroopInfos(this, false);
     }
 
     private void PlayAnimation(string name)
