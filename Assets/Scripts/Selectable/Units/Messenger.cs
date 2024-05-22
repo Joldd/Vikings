@@ -89,6 +89,7 @@ public class Messenger : EntityUnit
                 bringMessage = false;
                 if (troopSelected.myWayPoints)
                 {
+                    gameManager.L_WayPoints.Remove(troopSelected.myWayPoints);
                     Destroy(troopSelected.myWayPoints.gameObject);
                 }
                 troopSelected.myWayPoints = troopSelected.changingWayPoints;
