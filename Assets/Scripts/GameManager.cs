@@ -33,6 +33,8 @@ public class GameManager : MonoBehaviour
     [Header("Pathing System")]
     [SerializeField] WayPoints wayPoints;
     public WayPoints currentWayPoints;
+    public List<WayPoints> L_WayPoints = new List<WayPoints>();
+    private bool isAllWayPoints;
 
     [SerializeField] Mark mark;
     public Mark currentMark;
@@ -164,8 +166,9 @@ public class GameManager : MonoBehaviour
         {
             isPathing = true;
             currentWayPoints = Instantiate(wayPoints);
-            Mark firstMark = Instantiate(mark, currentWayPoints.transform);
+            L_WayPoints.Add(currentWayPoints);
 
+            Mark firstMark = Instantiate(mark, currentWayPoints.transform);
             firstMark.transform.position = selectedUnit.RayTheFloor(layer_mask);
 
             currentWayPoints.AddMark(firstMark);
@@ -182,6 +185,8 @@ public class GameManager : MonoBehaviour
         {
             isPathing = true;
             currentWayPoints = Instantiate(wayPoints);
+            L_WayPoints.Add(currentWayPoints);
+
             Mark firstMark = Instantiate(mark, currentWayPoints.transform);
             if (selectedUnit.TryGetComponent<Troop>(out Troop troopMsg))
             {
@@ -296,6 +301,7 @@ public class GameManager : MonoBehaviour
         {
             if (currentWayPoints.marks.Count <= 2)
             {
+                L_WayPoints.Remove(currentWayPoints);
                 Destroy(currentWayPoints.gameObject);
             }
             else
@@ -354,6 +360,27 @@ public class GameManager : MonoBehaviour
             {
                 inGamePause = false;
                 Time.timeScale = 1;
+            }
+        }
+
+        ////////////////////////////// SHOW / HIDE ALL WAYPOINTS //////////////////////////////////////////
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            if (!isAllWayPoints)
+            {
+                isAllWayPoints = true;
+                foreach (WayPoints wayPoints in L_WayPoints)
+                {
+                    wayPoints.gameObject.SetActive(true);
+                }
+            }
+            else
+            {
+                isAllWayPoints = false;
+                foreach (WayPoints wayPoints in L_WayPoints)
+                {
+                    wayPoints.gameObject.SetActive(false);
+                }
             }
         }
     }

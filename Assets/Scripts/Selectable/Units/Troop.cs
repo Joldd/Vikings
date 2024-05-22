@@ -307,7 +307,11 @@ public class Troop : Selectable
         if (L_Units.Count <= 0)
         {
             if (fogRevealer != null) gameManager.fogWar._FogRevealers.Remove(fogRevealer);
-            if (myWayPoints) Destroy(myWayPoints.gameObject);
+            if (myWayPoints) 
+            {
+                gameManager.L_WayPoints.Remove(myWayPoints);
+                Destroy(myWayPoints.gameObject);
+            }
             
             if (areaToCapture)
             {
@@ -385,6 +389,7 @@ public class Troop : Selectable
                 }
                 if (Vector3.Distance(transform.position, currentMark.transform.position) < 0.4f && myWayPoints.marks.IndexOf(currentMark) == myWayPoints.marks.Count - 1)
                 {
+                    gameManager.L_WayPoints.Remove(myWayPoints);
                     Destroy(myWayPoints.gameObject);
                     state = State.WAITING;
                 }
