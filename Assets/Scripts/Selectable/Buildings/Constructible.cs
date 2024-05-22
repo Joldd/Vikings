@@ -42,6 +42,8 @@ public class Constructible : MonoBehaviour
 
     private Player owner;
 
+    private List<Troop> L_troops = new List<Troop>();
+
     private void Start()
     {
         basePlayer = GameObject.Find("BasePlayer");
@@ -115,6 +117,11 @@ public class Constructible : MonoBehaviour
         isEmpty = false;
         gameManager.reputation -= L_HousesToBuild[currentImg].PB_House.GetComponent<EntityHouse>().priceReputation;
         gameManager.UpdateRessources();
+
+        foreach(Troop troop in L_troops)
+        {
+            troop.hitByHouse = true;
+        }
     }
 
     public void ChangeRight()
@@ -168,6 +175,17 @@ public class Constructible : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.TryGetComponent(out Troop troop))
+        {
+            if (gameManager.CheckIsVicars(troop.owner))
+            {
+                L_troops.Add(troop);
+            }
+        }
+    }
+
     private void OnTriggerExit(Collider other)
     {
         if (other.TryGetComponent(out Troop troop))
@@ -175,6 +193,7 @@ public class Constructible : MonoBehaviour
             if (gameManager.CheckIsVicars(troop.owner))
             {
                 playerCapturing = false;
+                L_troops.Remove(troop);
             }
             else
             {

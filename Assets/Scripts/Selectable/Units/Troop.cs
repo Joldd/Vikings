@@ -58,6 +58,8 @@ public class Troop : Selectable
     //Constructible Capture
     public Constructible areaToCapture;
 
+    public bool hitByHouse;
+
 
     //FOGWAR
     [SerializeField] GameObject ward;
@@ -407,6 +409,12 @@ public class Troop : Selectable
                     PlayAnimation("Run");
                     navMeshAgent.enabled = true;
                     navMeshAgent.SetDestination(lastPositionMove);
+
+                    if (hitByHouse)
+                    {
+                        lastPositionMove = transform.position;
+                        hitByHouse = false;
+                    }
                 }
                 else
                 {
