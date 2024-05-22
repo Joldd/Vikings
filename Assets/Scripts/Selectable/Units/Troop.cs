@@ -25,33 +25,33 @@ public class Troop : Selectable
 {
     public List<EntityUnit> L_Units = new List<EntityUnit>();
     private EntityUnit unitRef;
-    private float radius = 0.8f;
+    protected float radius = 0.8f;
     public Type type;
     public State state;
     public bool checkEnemy;
     public bool isOver;
-    private Entity target;
+    protected Entity target;
     Vector3 directionEnemy;
     public House myHouse;
 
     //Waypoints
     public WayPoints myWayPoints;
     public WayPoints changingWayPoints;
-    private Vector3 lastPositionMove;
+    protected Vector3 lastPositionMove;
     Mark currentMark;
     LineRenderer currentLine;
     private bool canRun = true;
 
     //STATS
-    private float speed;
-    private float range;
-    private int aoeRange;
-    private int flankRange;
-    private float timerAttackMax;
-    private float timerAttack = 0f;
+    protected float speed;
+    protected float range;
+    protected int aoeRange;
+    protected int flankRange;
+    protected float timerAttackMax;
+    protected float timerAttack = 0f;
     public int maxTroop;
 
-    [SerializeField] private LayerMask layerMaskTroopTarget; 
+    [SerializeField] protected LayerMask layerMaskTroopTarget; 
     [Header("Navigation")]
     [SerializeField] private NavMeshAgent navMeshAgent;
     
@@ -65,7 +65,7 @@ public class Troop : Selectable
     private float timerWard;
     public FogRevealer fogRevealer;
 
-    private GameManager gameManager;
+    protected GameManager gameManager;
     
     public NavMeshAgent NavMeshAgent { get => navMeshAgent; }
     
@@ -209,7 +209,7 @@ public class Troop : Selectable
         UIManager.Instance.DisplayTroopInfos(this, false);
     }
 
-    private void PlayAnimation(string name)
+    protected void PlayAnimation(string name)
     {
         foreach (EntityUnit unit in L_Units)
         {
@@ -217,7 +217,7 @@ public class Troop : Selectable
         }
     }
 
-    private void Attack()
+    protected void Attack()
     {
         foreach (EntityUnit unit in L_Units)
         {
@@ -225,7 +225,7 @@ public class Troop : Selectable
         }
     }
 
-    private void GiveTarget(FlankValues flankValue = FlankValues.FRONT)
+    protected void GiveTarget(FlankValues flankValue = FlankValues.FRONT)
     {
         foreach (EntityUnit unit in L_Units)
         {
@@ -247,7 +247,7 @@ public class Troop : Selectable
         }
     }
 
-    private EntityUnit GetNearestUnitFromTroop(Vector3 pos)
+    public EntityUnit GetNearestUnitFromTroop(Vector3 pos)
     {
         EntityUnit nearestUnit = null;
         foreach (EntityUnit unit in L_Units)
@@ -266,7 +266,7 @@ public class Troop : Selectable
         return nearestUnit;
     }
 
-    private void GetTargeted(Troop enemyTroop)
+    public void GetTargeted(Troop enemyTroop)
     {
         if (target == null)
         {
@@ -277,7 +277,7 @@ public class Troop : Selectable
         }
     }
 
-    private void KillTarget()
+    protected void KillTarget()
     {
         if (!target.TryGetComponent<Hero>(out Hero hero)) Destroy(target.gameObject);
 
@@ -337,7 +337,7 @@ public class Troop : Selectable
         navMeshAgent.speed = newSpeed;
     }
 
-    private void Update()
+     protected virtual void Update()
     {
         /////////////////  DO SOMETHING IF SELECTED ////////////////////
         if (gameManager.selectedUnit == this)
@@ -502,82 +502,11 @@ public class Troop : Selectable
                 }
             }
 
-            //////////////////   ENEMY   ////////////////////////////////////
-            if (state == State.ENEMY)
-            {
-                //navMeshAgent.enabled = false;
-                transform.position = Vector3.MoveTowards(transform.position, gameManager.basePlayer.transform.position, speed * Time.deltaTime);
-                transform.LookAt(gameManager.basePlayer.transform.position);
-                PlayAnimation("Run");
-            }
-
-            //Enemy Detection Sphere
-            if (!checkEnemy && type != Type.Messenger)
-            {
-                Vector3 boxCenter = transform.position + transform.forward * 3;
-                Vector3 boxSize = Vector3.one * flankRange;
-                Quaternion boxOrientation = transform.rotation;
-
-                //Enemy Detection Forward Box
-                RaycastHit[] hitsBox = Physics.BoxCastAll(boxCenter, boxSize, transform.forward, boxOrientation, 3, layerMaskTroopTarget);
-
-                foreach (var hit in hitsBox)
-                {
-                    Troop enemyTroop = null;
-                    if (hit.transform.gameObject.TryGetComponent(out enemyTroop))
-                    {
-                        if (enemyTroop.owner != owner && enemyTroop.type != Type.Messenger)
-                        {
-                            enemyTroop = hit.transform.gameObject.GetComponent<Troop>();
-                            state = State.RUNATTACK;
-                            PlayAnimation("Run");
-                            target = enemyTroop.GetNearestUnitFromTroop(transform.position);
-                            // Check flank 
-                            TargetEnemyFlank(Vector3.Angle(enemyTroop.transform.forward, transform.forward));
-                            enemyTroop.GetTargeted(this);
-                            checkEnemy = true;
-                            break;
-                        }
-                    }
-                }
-                Vector3[] cubePoint = CubePoints(boxCenter, boxSize, boxOrientation);
-                DrawCubePoints(cubePoint);
-
-                RaycastHit[] hitsSphere = Physics.SphereCastAll(transform.position, aoeRange / 2, transform.up, 10000, layerMaskTroopTarget);
-
-                foreach (var hit in hitsSphere)
-                {
-                    if (hit.transform.gameObject.TryGetComponent(out Troop enemyTroop))
-                    {
-                        if (enemyTroop.owner != owner && enemyTroop.type != Type.Messenger)
-                        {
-                            enemyTroop = hit.transform.gameObject.GetComponent<Troop>();
-                            target = enemyTroop.GetNearestUnitFromTroop(transform.position);
-
-                        }
-                    }
-
-                    if (hit.transform.gameObject.TryGetComponent(out EntityHouse enemyBuilding))
-                    {
-                        if (enemyBuilding.House.owner != owner)
-                        {
-                            target = enemyBuilding;
-                        }
-                    }
-
-                    if (target != null)
-                    {
-                        state = State.RUNATTACK;
-                        PlayAnimation("Run");
-                        GiveTarget();
-                        checkEnemy = true;
-                    }
-                }
-            }
+            
         }
     }
 
-    private void TargetEnemyFlank(float angleFlank)
+     protected void TargetEnemyFlank(float angleFlank)
     {
         FlankValues value = angleFlank switch
         {
@@ -588,14 +517,14 @@ public class Troop : Selectable
         GiveTarget(value);
     }
 
-    void OnDrawGizmosSelected()
+     protected void OnDrawGizmosSelected()
     {
         // Draw a yellow sphere at the transform's position
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, aoeRange / 2);
     }
 
-    Vector3[] CubePoints(Vector3 center, Vector3 extents, Quaternion rotation)
+     protected Vector3[] CubePoints(Vector3 center, Vector3 extents, Quaternion rotation)
     {
         Vector3[] points = new Vector3[8];
         points[0] = rotation * Vector3.Scale(extents, new Vector3(1, 1, 1)) + center;
@@ -610,7 +539,7 @@ public class Troop : Selectable
         return points;
     }
 
-    void DrawCubePoints(Vector3[] points, float duration = 0.2f)
+     protected void DrawCubePoints(Vector3[] points, float duration = 0.2f)
     {
         Debug.DrawLine(points[0], points[1], Color.green, duration);
         Debug.DrawLine(points[0], points[2], Color.green, duration);

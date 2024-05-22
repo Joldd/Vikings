@@ -149,10 +149,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22ed03377adbff243842602b3c167e79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timerMax: 5
-  troop: {fileID: 8628637800018457173, guid: c4ae4464363fbbc47b67d3e72b2ece80, type: 3}
-  ennemyToSpawn: {fileID: 8143974586233405072, guid: 444836a435cc386498ea979dac74ad5e, type: 3}
-  rotation: 0
+  timerMaxBaseUnit: 5
+  timerMaxTroop: 20
+  timerMaxGuardTroop: 5
+  maxTroopPercentageSpawn: 20
+  baseTroopPercentageSpawn: 40
+  guardTroopPercentageSpawn: 40
+  troop: {fileID: 4183316760437245466, guid: 58e3212a13dc5b8409b642b1dae8d189, type: 3}
+  baseUnitToSpawn: {fileID: 8143974586233405072, guid: 444836a435cc386498ea979dac74ad5e, type: 3}
 --- !u!114 &-644968189417681239
 MonoBehaviour:
   m_ObjectHideFlags: 0
