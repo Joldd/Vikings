@@ -45,6 +45,8 @@ GameObject:
   - component: {fileID: 7809602372743711312}
   - component: {fileID: 6453369459477819003}
   - component: {fileID: -5579216080697185382}
+  - component: {fileID: 8693493975731362353}
+  - component: {fileID: 4372633102277179535}
   m_Layer: 11
   m_Name: Scriptorium
   m_TagString: Player
@@ -120,8 +122,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 0.96197087, z: 1}
-  m_Center: {x: 0, y: 0.50512826, z: 0}
+  m_Size: {x: 2.3724127, y: 0.9619708, z: 3.0607488}
+  m_Center: {x: 0.011109242, y: 0.50512826, z: -0.22659312}
 --- !u!95 &7809602372743711312
 Animator:
   serializedVersion: 5
@@ -181,6 +183,49 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
+--- !u!208 &8693493975731362353
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5550205664086979457}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1.0747985, y: 0.4809854, z: 1.354841}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.0006882714, y: 0.5051283, z: -0.2837094}
+  m_TimeToStationary: 0.5
+--- !u!54 &4372633102277179535
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5550205664086979457}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1001 &871327485288439792
 PrefabInstance:
   m_ObjectHideFlags: 0

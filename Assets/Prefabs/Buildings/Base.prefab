@@ -46,6 +46,7 @@ GameObject:
   - component: {fileID: 6063827804139834327}
   - component: {fileID: 8642322862361976660}
   - component: {fileID: 3005202496755993809}
+  - component: {fileID: 5936807185445544849}
   m_Layer: 11
   m_Name: Base
   m_TagString: Player
@@ -205,6 +206,22 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!208 &5936807185445544849
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5550205664086979457}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 2.2062576, y: 1.512959, z: 2.298581}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.007947445, y: 1.465475, z: 0.02741289}
+  m_TimeToStationary: 0.5
 --- !u!1001 &4873574097499321839
 PrefabInstance:
   m_ObjectHideFlags: 0

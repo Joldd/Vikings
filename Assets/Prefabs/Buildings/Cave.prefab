@@ -45,6 +45,8 @@ GameObject:
   - component: {fileID: 7809602372743711312}
   - component: {fileID: 3758545980846810826}
   - component: {fileID: 9095287807567057100}
+  - component: {fileID: 1733128657814241095}
+  - component: {fileID: 8854355064255779956}
   m_Layer: 11
   m_Name: Cave
   m_TagString: Player
@@ -118,8 +120,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.2363553, y: 1.5250279, z: 2.4481432}
-  m_Center: {x: -0.019447327, y: 0.7763439, z: -0.22657764}
+  m_Size: {x: 2.6192832, y: 1.5250279, z: 2.9740207}
+  m_Center: {x: -0.0025590544, y: 0.7763439, z: -0.20964526}
 --- !u!95 &7809602372743711312
 Animator:
   serializedVersion: 5
@@ -179,6 +181,49 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
+--- !u!208 &1733128657814241095
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5550205664086979457}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1.209454, y: 0.762514, z: 1.3855555}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.0009052636, y: 0.7763439, z: -0.22505112}
+  m_TimeToStationary: 0.5
+--- !u!54 &8854355064255779956
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5550205664086979457}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1001 &2685818150615860949
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -359,6 +404,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -4723740034965742994, guid: 1cbadbd0a9a31d0479f51654f6ade11d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.196
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 1cbadbd0a9a31d0479f51654f6ade11d, type: 3}
       propertyPath: m_Name
       value: Stone_Steps_Side_2
@@ -419,6 +468,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2237209683668993359, guid: 4209454fd92a28549ac75bd96fd906aa, type: 3}
       propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2707604274633037781, guid: 4209454fd92a28549ac75bd96fd906aa, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2707604274633037781, guid: 4209454fd92a28549ac75bd96fd906aa, type: 3}
+      propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3301434400223605367, guid: 4209454fd92a28549ac75bd96fd906aa, type: 3}

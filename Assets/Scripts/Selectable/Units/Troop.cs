@@ -361,9 +361,9 @@ public class Troop : Selectable
                         messenger.Go();
                         gameManager.ChangeCursor(gameManager.cursorNormal);
                     }
-                }              
+                }
             }
-        }       
+        }
 
         Vector3 forward = transform.TransformDirection(Vector3.forward) * 3;
         Debug.DrawRay(transform.position, forward, Color.red);
@@ -395,7 +395,7 @@ public class Troop : Selectable
                     Destroy(myWayPoints.gameObject);
                     state = State.WAITING;
                 }
-                
+
                 // Save last position before changing state
                 lastPositionMove = transform.position;
             }
@@ -413,164 +413,165 @@ public class Troop : Selectable
                     PlayAnimation("Idle");
                 }
 
-            //////////////// FIGHTING  ////////////////
-            if (state == State.RUNATTACK)
-            {
-                if (target == null)
+                //////////////// FIGHTING  ////////////////
+                if (state == State.RUNATTACK)
                 {
-                    if (myWayPoints) state = State.RUNNING;
-                    else state = State.WAITING;
-                    checkEnemy = false;
-
-                    if (!gameManager.CheckIsVicars(owner))
+                    if (target == null)
                     {
-                        state = State.ENEMY;
-                        transform.LookAt(directionEnemy);
-                    }
-                }
-                else
-                {
-                    PlayAnimation("Run");
-                    navMeshAgent.enabled = false;
-                    Vector3 targetPos = new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z);
-                    // navMeshAgent.SetDestination(targetPos);
-                    transform.position = Vector3.MoveTowards(transform.position, targetPos, speed * Time.deltaTime);
-                    transform.LookAt(new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z));
-                    if (Vector3.Distance(transform.position, target.transform.position) <= range)
-                    {
-                        state = State.ATTACK;
-                    }
-                    if (Vector3.Distance(transform.position, target.transform.position) > 15f)
-                    {
-                        state = State.RUNNING;
+                        if (myWayPoints) state = State.RUNNING;
+                        else state = State.WAITING;
                         checkEnemy = false;
+
                         if (!gameManager.CheckIsVicars(owner))
                         {
                             state = State.ENEMY;
                             transform.LookAt(directionEnemy);
                         }
                     }
+                    else
+                    {
+                        PlayAnimation("Run");
+                        navMeshAgent.enabled = false;
+                        Vector3 targetPos = new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z);
+                        // navMeshAgent.SetDestination(targetPos);
+                        transform.position = Vector3.MoveTowards(transform.position, targetPos, speed * Time.deltaTime);
+                        transform.LookAt(new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z));
+                        if (Vector3.Distance(transform.position, target.transform.position) <= range)
+                        {
+                            state = State.ATTACK;
+                        }
+                        if (Vector3.Distance(transform.position, target.transform.position) > 15f)
+                        {
+                            state = State.RUNNING;
+                            checkEnemy = false;
+                            if (!gameManager.CheckIsVicars(owner))
+                            {
+                                state = State.ENEMY;
+                                transform.LookAt(directionEnemy);
+                            }
+                        }
+                    }
+                }
+                if (state == State.ATTACK && target)
+                {
+                    if (target.PV <= 0)
+                    {
+                        target.Die();
+                        //DEATH
+                        KillTarget();
+
+                        state = State.RUNATTACK;
+
+                        if (!gameManager.CheckIsVicars(owner))
+                        {
+                            state = State.ENEMY;
+                            transform.LookAt(directionEnemy);
+                            checkEnemy = false;
+                        }
+                    }
+                    else
+                    {
+                        timerAttack -= Time.deltaTime;
+                        if (timerAttack <= 0)
+                        {
+                            Attack();
+                            timerAttack = timerAttackMax;
+                        }
+                        if (Vector3.Distance(transform.position, target.transform.position) > 5f)
+                        {
+                            timerAttack = timerAttackMax;
+                            state = State.RUNATTACK;
+                            PlayAnimation("Run");
+                        }
+                    }
+                }
+
+            }
+
+            //VISION FOGWAR
+            if (state != State.ENEMY && state != State.SLEEPING && state != State.WAITING)
+            {
+                timerWard -= Time.deltaTime;
+                if (timerWard <= 0)
+                {
+                    GameObject w = Instantiate(ward, gameManager.fogWar.transform);
+                    w.transform.position = transform.position;
+                    FogRevealer fogRevealer = new FogRevealer(w.transform, 10, false);
+                    gameManager.fogWar._FogRevealers.Add(fogRevealer);
+                    timerWard = timerWardMax;
                 }
             }
-            if (state == State.ATTACK && target)
+
+            //////////////////   ENEMY   ////////////////////////////////////
+            if (state == State.ENEMY)
             {
-                if (target.PV <= 0)
+                //navMeshAgent.enabled = false;
+                transform.position = Vector3.MoveTowards(transform.position, gameManager.basePlayer.transform.position, speed * Time.deltaTime);
+                transform.LookAt(gameManager.basePlayer.transform.position);
+                PlayAnimation("Run");
+            }
+
+            //Enemy Detection Sphere
+            if (!checkEnemy && type != Type.Messenger)
+            {
+                Vector3 boxCenter = transform.position + transform.forward * 3;
+                Vector3 boxSize = Vector3.one * flankRange;
+                Quaternion boxOrientation = transform.rotation;
+
+                //Enemy Detection Forward Box
+                RaycastHit[] hitsBox = Physics.BoxCastAll(boxCenter, boxSize, transform.forward, boxOrientation, 3, layerMaskTroopTarget);
+
+                foreach (var hit in hitsBox)
                 {
-                    target.Die();
-                    //DEATH
-                    KillTarget();
-
-                    state = State.RUNATTACK;
-
-                    if (!gameManager.CheckIsVicars(owner))
+                    Troop enemyTroop = null;
+                    if (hit.transform.gameObject.TryGetComponent(out enemyTroop))
                     {
-                        state = State.ENEMY;
-                        transform.LookAt(directionEnemy);
-                        checkEnemy = false;
+                        if (enemyTroop.owner != owner && enemyTroop.type != Type.Messenger)
+                        {
+                            enemyTroop = hit.transform.gameObject.GetComponent<Troop>();
+                            state = State.RUNATTACK;
+                            PlayAnimation("Run");
+                            target = enemyTroop.GetNearestUnitFromTroop(transform.position);
+                            // Check flank 
+                            TargetEnemyFlank(Vector3.Angle(enemyTroop.transform.forward, transform.forward));
+                            enemyTroop.GetTargeted(this);
+                            checkEnemy = true;
+                            break;
+                        }
                     }
                 }
-                else
+                Vector3[] cubePoint = CubePoints(boxCenter, boxSize, boxOrientation);
+                DrawCubePoints(cubePoint);
+
+                RaycastHit[] hitsSphere = Physics.SphereCastAll(transform.position, aoeRange / 2, transform.up, 10000, layerMaskTroopTarget);
+
+                foreach (var hit in hitsSphere)
                 {
-                    timerAttack -= Time.deltaTime;
-                    if (timerAttack <= 0)
+                    if (hit.transform.gameObject.TryGetComponent(out Troop enemyTroop))
                     {
-                        Attack();
-                        timerAttack = timerAttackMax;
+                        if (enemyTroop.owner != owner && enemyTroop.type != Type.Messenger)
+                        {
+                            enemyTroop = hit.transform.gameObject.GetComponent<Troop>();
+                            target = enemyTroop.GetNearestUnitFromTroop(transform.position);
+
+                        }
                     }
-                    if (Vector3.Distance(transform.position, target.transform.position) > 5f)
+
+                    if (hit.transform.gameObject.TryGetComponent(out EntityHouse enemyBuilding))
                     {
-                        timerAttack = timerAttackMax;
+                        if (enemyBuilding.House.owner != owner)
+                        {
+                            target = enemyBuilding;
+                        }
+                    }
+
+                    if (target != null)
+                    {
                         state = State.RUNATTACK;
                         PlayAnimation("Run");
-                    }
-                }
-            }
-            
-        }
-
-        //VISION FOGWAR
-        if (state != State.ENEMY && state != State.SLEEPING && state != State.WAITING)
-        {
-            timerWard -= Time.deltaTime;
-            if (timerWard <= 0)
-            {
-                GameObject w = Instantiate(ward, gameManager.fogWar.transform);
-                w.transform.position = transform.position;
-                FogRevealer fogRevealer = new FogRevealer(w.transform, 10, false);
-                gameManager.fogWar._FogRevealers.Add(fogRevealer);
-                timerWard = timerWardMax;
-            }
-        }
-
-        //////////////////   ENEMY   ////////////////////////////////////
-        if (state == State.ENEMY)
-        {
-            //navMeshAgent.enabled = false;
-            transform.position = Vector3.MoveTowards(transform.position, gameManager.basePlayer.transform.position, speed * Time.deltaTime);
-            transform.LookAt(gameManager.basePlayer.transform.position);
-            PlayAnimation("Run");
-        }
-        
-        //Enemy Detection Sphere
-        if (!checkEnemy && type != Type.Messenger)
-        {
-            Vector3 boxCenter = transform.position + transform.forward * 3;
-            Vector3 boxSize = Vector3.one * flankRange;
-            Quaternion boxOrientation = transform.rotation;
-        
-            //Enemy Detection Forward Box
-            RaycastHit[] hitsBox = Physics.BoxCastAll(boxCenter, boxSize, transform.forward, boxOrientation, 3, layerMaskTroopTarget);
-            
-            foreach (var hit in hitsBox)
-            {
-                Troop enemyTroop = null;
-                if (hit.transform.gameObject.TryGetComponent(out enemyTroop))
-                {
-                    if (enemyTroop.owner != owner && enemyTroop.type != Type.Messenger)
-                    {
-                        enemyTroop = hit.transform.gameObject.GetComponent<Troop>();
-                        state = State.RUNATTACK;
-                        PlayAnimation("Run");
-                        target = enemyTroop.GetNearestUnitFromTroop(transform.position);
-                        // Check flank 
-                        TargetEnemyFlank(Vector3.Angle(enemyTroop.transform.forward, transform.forward));
-                        enemyTroop.GetTargeted(this);
+                        GiveTarget();
                         checkEnemy = true;
-                        break;
                     }
-                }
-            }
-            Vector3[] cubePoint = CubePoints(boxCenter, boxSize, boxOrientation);
-            DrawCubePoints(cubePoint);
-            
-            RaycastHit[] hitsSphere = Physics.SphereCastAll(transform.position, aoeRange / 2, transform.up, 10000, layerMaskTroopTarget);
-            
-            foreach (var hit in hitsSphere)
-            {
-                if (hit.transform.gameObject.TryGetComponent(out Troop enemyTroop))
-                {
-                    if (enemyTroop.owner != owner && enemyTroop.type != Type.Messenger)
-                    {
-                        enemyTroop = hit.transform.gameObject.GetComponent<Troop>();
-                        target = enemyTroop.GetNearestUnitFromTroop(transform.position);
-
-                    }
-                }
-
-                if (hit.transform.gameObject.TryGetComponent(out EntityHouse enemyBuilding))
-                {
-                    if (enemyBuilding.House.owner != owner)
-                    {
-                        target = enemyBuilding;
-                    }
-                }
-
-                if (target != null)
-                {
-                    state = State.RUNATTACK;
-                    PlayAnimation("Run");
-                    GiveTarget();
-                    checkEnemy = true;
                 }
             }
         }
@@ -586,7 +587,7 @@ public class Troop : Selectable
         };
         GiveTarget(value);
     }
-    
+
     void OnDrawGizmosSelected()
     {
         // Draw a yellow sphere at the transform's position
@@ -608,7 +609,7 @@ public class Troop : Selectable
 
         return points;
     }
-    
+
     void DrawCubePoints(Vector3[] points, float duration = 0.2f)
     {
         Debug.DrawLine(points[0], points[1], Color.green, duration);
@@ -641,5 +642,5 @@ public class Troop : Selectable
         // GiveTarget();
         // checkEnemy = true;
         // }
-    }
+    }  
 }
