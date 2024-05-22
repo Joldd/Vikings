@@ -37,6 +37,7 @@ public class Troop : Selectable
     //Waypoints
     public WayPoints myWayPoints;
     public WayPoints changingWayPoints;
+    private Vector3 lastPositionMove;
     Mark currentMark;
     LineRenderer currentLine;
     private bool canRun = true;
@@ -96,6 +97,7 @@ public class Troop : Selectable
         maxTroop = unitRef.maxTroop;
 
         state = State.WAITING;
+        lastPositionMove = transform.position;
 
         if (!gameManager.CheckIsVicars(owner))
         {
@@ -388,12 +390,23 @@ public class Troop : Selectable
                     Destroy(myWayPoints.gameObject);
                     state = State.WAITING;
                 }
+                
+                // Save last position before changing state
+                lastPositionMove = transform.position;
             }
 
             if (state == State.WAITING && type != Type.Messenger)
             {
-                PlayAnimation("Idle");
-            }
+                if (Vector3.Distance(transform.position, lastPositionMove) >= 1)
+                {
+                    PlayAnimation("Run");
+                    navMeshAgent.enabled = true;
+                    navMeshAgent.SetDestination(lastPositionMove);
+                }
+                else
+                {
+                    PlayAnimation("Idle");
+                }
 
             //////////////// FIGHTING  ////////////////
             if (state == State.RUNATTACK)
