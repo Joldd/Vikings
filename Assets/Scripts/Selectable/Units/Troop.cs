@@ -492,8 +492,9 @@ public class Troop : Selectable
         //////////////////   ENEMY   ////////////////////////////////////
         if (state == State.ENEMY)
         {
-            navMeshAgent.enabled = false;
-            transform.position += speed * directionEnemy * Time.deltaTime;
+            //navMeshAgent.enabled = false;
+            transform.position = Vector3.MoveTowards(transform.position, gameManager.basePlayer.transform.position, speed * Time.deltaTime);
+            transform.LookAt(gameManager.basePlayer.transform.position);
             PlayAnimation("Run");
         }
         
