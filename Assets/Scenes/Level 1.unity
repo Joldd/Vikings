@@ -3397,10 +3397,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2307417907664494320, guid: c0d7b3901c217fa498d6d466877e7a99, type: 3}
-      propertyPath: troop
-      value: 
-      objectReference: {fileID: 2953771740510689689, guid: c4ae4464363fbbc47b67d3e72b2ece80, type: 3}
-    - target: {fileID: 2307417907664494320, guid: c0d7b3901c217fa498d6d466877e7a99, type: 3}
       propertyPath: rotation
       value: -90
       objectReference: {fileID: 0}

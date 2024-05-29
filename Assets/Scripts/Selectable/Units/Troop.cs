@@ -468,7 +468,7 @@ public class Troop : Selectable
                     target.Die();
                     //DEATH
                     KillTarget();
-
+                    timerAttack = 0f;
                     state = State.RUNATTACK;
 
                     if (!gameManager.CheckIsVicars(owner))
@@ -488,7 +488,7 @@ public class Troop : Selectable
                     }
                     if (Vector3.Distance(transform.position, target.transform.position) > 5f)
                     {
-                        timerAttack = timerAttackMax;
+                        timerAttack = 0f;
                         state = State.RUNATTACK;
                         PlayAnimation("Run");
                     }
@@ -520,7 +520,6 @@ public class Troop : Selectable
 
             //Enemy Detection Forward Box
             RaycastHit[] hitsBox = Physics.BoxCastAll(boxCenter, boxSize, transform.forward, boxOrientation, 3, layerMaskTroopTarget);
-
             foreach (var hit in hitsBox)
             {
                 Troop enemyTroop = null;
@@ -631,15 +630,15 @@ public class Troop : Selectable
 
     private void OnTriggerStay(Collider other)
     {
-        // if (checkEnemy) return;
-        //
-        // if ((other.tag == "Enemy" && tag == "Player") || (other.tag == "Player" && tag == "Enemy"))
-        // {
-        // state = State.RUNATTACK;
-        // PlayAnimation("Run");
-        // target = other.gameObject.GetComponent<Entity>();
-        // GiveTarget();
-        // checkEnemy = true;
-        // }
+        //if (checkEnemy) return;
+
+        //if ((other.tag == "Enemy" && tag == "Player") || (other.tag == "Player" && tag == "Enemy"))
+        //{
+        //    state = State.RUNATTACK;
+        //    PlayAnimation("Run");
+        //    target = other.gameObject.GetComponent<Entity>();
+        //    GiveTarget();
+        //    checkEnemy = true;
+        //}
     }  
 }
