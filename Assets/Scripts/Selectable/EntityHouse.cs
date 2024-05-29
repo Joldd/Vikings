@@ -8,6 +8,9 @@ public class EntityHouse : Entity
 
     public House House { get => house; }
 
+    private GameObject flameEffect;
+    private bool isFlaming;
+
     public override void Start()
     {
         base.Start();
@@ -15,6 +18,8 @@ public class EntityHouse : Entity
         house = GetComponent<House>();
         gameManager = GameManager.Instance;
         if (!isBuilt) animator.Play("Build");
+        flameEffect = transform.Find("Flame").gameObject;
+        flameEffect.SetActive(false);
     }
 
     public override void Die()
@@ -41,6 +46,17 @@ public class EntityHouse : Entity
         {
             animator.Play("Idle");
             isBuilt = true;
+        }
+
+        if (!isFlaming && (float)PV < (float)maxPV / 2)
+        {
+            flameEffect.SetActive(true);
+            isFlaming = true;
+        }
+        if (isFlaming && (float)PV > (float)maxPV / 2)
+        {
+            flameEffect.SetActive(false);
+            isFlaming = false;
         }
     }
 }

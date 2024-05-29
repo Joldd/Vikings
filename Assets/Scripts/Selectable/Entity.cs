@@ -8,7 +8,8 @@ public class Entity : MonoBehaviour
     public Animator animator;
 
     //Stats
-    public int PV;
+    [HideInInspector] public int PV;
+    public int maxPV;
     public float size;
 
     //Construction
@@ -23,7 +24,7 @@ public class Entity : MonoBehaviour
     public virtual void Start()
     {
         timeBuild = timeBuildMax;
-
+        PV = maxPV;
         animator = GetComponent<Animator>();
 
         //Health Bar

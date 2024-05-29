@@ -9,7 +9,6 @@ public class HealthBar : MonoBehaviour
     [Range(0, 5)] public float healthBarUpOffset;
     RectTransform canvasRectTransform;
     public Slider slider;
-    float maxPV;
     [SerializeField] GameObject blocToHide;
 
     private GameManager gameManager;
@@ -44,11 +43,10 @@ public class HealthBar : MonoBehaviour
         canvasRectTransform = FindObjectOfType<HealthBarCanvas>().rectTransform;
         transform.SetParent(canvasRectTransform);
         unit = target.GetComponent<Entity>();
-        maxPV = unit.PV;
     }
 
     public void UpdateValue()
     {
-        slider.value = (float)unit.PV / (float)maxPV;
+        slider.value = (float)unit.PV / (float)unit.maxPV;
     }
 }
