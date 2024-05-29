@@ -444,7 +444,6 @@ public class Troop : Selectable
                     navMeshAgent.isStopped = false;
                     Vector3 targetPos = new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z);
                     navMeshAgent.SetDestination(targetPos);
-                    
                     if (Vector3.Distance(transform.position, target.transform.position) <= range + target.size)
                     {
                         state = State.ATTACK;
@@ -474,7 +473,6 @@ public class Troop : Selectable
                     KillTarget();
                     timerAttack = 0f;
                     state = State.RUNATTACK;
-
                     if (!gameManager.CheckIsVicars(owner))
                     {
                         state = State.ENEMY;
@@ -491,7 +489,7 @@ public class Troop : Selectable
                         Attack();
                         timerAttack = timerAttackMax;
                     }
-                    if (Vector3.Distance(transform.position, target.transform.position) > 5f)
+                    if (Vector3.Distance(transform.position, target.transform.position) > 5f + target.size)
                     {
                         timerAttack = 0f;
                         state = State.RUNATTACK;
@@ -555,26 +553,26 @@ public class Troop : Selectable
                 {
                     if (enemyTroop.owner != owner && enemyTroop.type != Type.Messenger)
                     {
+                        timerAttack = 0f;
                         enemyTroop = hit.transform.gameObject.GetComponent<Troop>();
                         target = enemyTroop.GetNearestUnitFromTroop(transform.position);
                         checkEnemy = true;
+                        state = State.RUNATTACK;
+                        PlayAnimation("Run");
+                        GiveTarget();
                     }
                 }
 
-                if (hit.transform.gameObject.TryGetComponent(out EntityHouse enemyBuilding) && !checkBuilding)
+                if (hit.transform.gameObject.TryGetComponent(out EntityHouse enemyBuilding))
                 {
-                    if (enemyBuilding.House.owner != owner)
+                    if (!checkBuilding && enemyBuilding.House.owner != owner)
                     {
                         target = enemyBuilding;
                         checkBuilding = true;
+                        state = State.RUNATTACK;
+                        PlayAnimation("Run");
+                        GiveTarget();
                     }
-                }
-
-                if (target != null)
-                {
-                    state = State.RUNATTACK;
-                    PlayAnimation("Run");
-                    GiveTarget();
                 }
             }
         }
