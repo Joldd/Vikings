@@ -9,6 +9,7 @@ public class Entity : MonoBehaviour
 
     //Stats
     public int PV;
+    public float size;
 
     //Construction
     public float timeBuildMax;
