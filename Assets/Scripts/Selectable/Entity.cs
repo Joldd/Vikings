@@ -8,7 +8,7 @@ public class Entity : MonoBehaviour
     public Animator animator;
 
     //Stats
-    [HideInInspector] public int PV;
+    public int PV;
     public int maxPV;
     public float size;
 

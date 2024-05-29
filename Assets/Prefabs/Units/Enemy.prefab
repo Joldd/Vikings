@@ -65,7 +65,7 @@ MonoBehaviour:
   range: 1
   aoeRange: 8
   flankRange: 1
-  damage: 3
+  damage: 2
   armor: 0
   maxTroop: 5
   body: {fileID: 0}
