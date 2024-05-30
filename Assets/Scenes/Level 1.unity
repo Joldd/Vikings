@@ -957,6 +957,10 @@ PrefabInstance:
       propertyPath: myTroop
       value: 
       objectReference: {fileID: 768456908}
+    - target: {fileID: 9103238300217284742, guid: 962ffa1a0ed6881439deda31b6b8968e, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2570,6 +2574,14 @@ PrefabInstance:
       propertyPath: myTroop
       value: 
       objectReference: {fileID: 768456908}
+    - target: {fileID: 9103238300217284742, guid: 962ffa1a0ed6881439deda31b6b8968e, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9103238300217284742, guid: 962ffa1a0ed6881439deda31b6b8968e, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2911,6 +2923,10 @@ PrefabInstance:
     - target: {fileID: 3781780756546850849, guid: c4ae4464363fbbc47b67d3e72b2ece80, type: 3}
       propertyPath: m_Name
       value: Troop (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7892107597424942323, guid: c4ae4464363fbbc47b67d3e72b2ece80, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3345,12 +3361,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -644968189417681239, guid: c0d7b3901c217fa498d6d466877e7a99, type: 3}
+      propertyPath: size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -644968189417681239, guid: c0d7b3901c217fa498d6d466877e7a99, type: 3}
       propertyPath: isBuilt
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1540952965192831555, guid: c0d7b3901c217fa498d6d466877e7a99, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 32.6
+      value: -59.98
       objectReference: {fileID: 0}
     - target: {fileID: 1540952965192831555, guid: c0d7b3901c217fa498d6d466877e7a99, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3358,7 +3378,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1540952965192831555, guid: c0d7b3901c217fa498d6d466877e7a99, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 58.2
+      value: 16.56
       objectReference: {fileID: 0}
     - target: {fileID: 1540952965192831555, guid: c0d7b3901c217fa498d6d466877e7a99, type: 3}
       propertyPath: m_LocalRotation.w
@@ -3405,9 +3425,17 @@ PrefabInstance:
       value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 2307417907664494320, guid: c0d7b3901c217fa498d6d466877e7a99, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307417907664494320, guid: c0d7b3901c217fa498d6d466877e7a99, type: 3}
       propertyPath: ennemyToSpawn
       value: 
       objectReference: {fileID: 8143974586233405072, guid: 444836a435cc386498ea979dac74ad5e, type: 3}
+    - target: {fileID: 2307417907664494320, guid: c0d7b3901c217fa498d6d466877e7a99, type: 3}
+      propertyPath: timerMaxTroop
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 5550205664086979457, guid: c0d7b3901c217fa498d6d466877e7a99, type: 3}
       propertyPath: m_Name
       value: BaseEnemy
@@ -3942,6 +3970,10 @@ PrefabInstance:
       propertyPath: myTroop
       value: 
       objectReference: {fileID: 768456908}
+    - target: {fileID: 9103238300217284742, guid: 962ffa1a0ed6881439deda31b6b8968e, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

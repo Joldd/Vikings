@@ -303,21 +303,28 @@ public class GameManager : MonoBehaviour
             {
                 L_WayPoints.Remove(currentWayPoints);
                 Destroy(currentWayPoints.gameObject);
+                if (selectedUnit.TryGetComponent<Troop>(out Troop troopMsg))
+                {
+                    if (troopMsg.L_Units[0].TryGetComponent<Messenger>(out Messenger msg))
+                    {
+                        msg.Reset();
+                    }
+                }
             }
             else
             {
                 currentWayPoints.marks.Remove(currentMark);
                 DestroyImmediate(currentMark.gameObject);
                 DestroyImmediate(currentLine.gameObject);
-            }
-            isPathing = false;
-            if (selectedUnit.TryGetComponent<Troop>(out Troop troop))
-            {
-                if (troop.L_Units[0].TryGetComponent<Messenger>(out Messenger messenger))
+                if (selectedUnit.TryGetComponent<Troop>(out Troop troop))
                 {
-                    messenger.canGo = true;
+                    if (troop.L_Units[0].TryGetComponent<Messenger>(out Messenger messenger))
+                    {
+                        messenger.canGo = true;
+                    }
                 }
             }
+            isPathing = false;
         }
         ////// GAME PAUSE
         else if (Input.GetKeyDown(KeyCode.Escape))
