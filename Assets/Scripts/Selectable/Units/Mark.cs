@@ -30,6 +30,8 @@ public class Mark : MonoBehaviour
     {
         if (gameManager.isPathing) return;
 
+        Debug.LogError(myWayPoints);
+        Debug.LogError(myWayPoints.myTroop);
         if (myWayPoints.myTroop.state != State.WAITING && myWayPoints == myWayPoints.myTroop.myWayPoints) return;
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
