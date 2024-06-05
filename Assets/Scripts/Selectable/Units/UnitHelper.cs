@@ -4,7 +4,7 @@ public class UnitHelper : MonoBehaviour
 {
     [SerializeField] EntityUnit unit;
     [SerializeField] AudioSource soundAttack;
-
+    [SerializeField] Arrow arrow;
     public void Deal()
     {
         if (!unit.target) return;
@@ -29,5 +29,12 @@ public class UnitHelper : MonoBehaviour
                 hero.UpdatePVHero();
             }
         }
+    }
+
+    public void ShootProjectile()
+    {
+        Arrow instancedArrow = Instantiate(arrow);
+        instancedArrow.transform.position = new Vector3(unit.transform.position.x, unit.transform.position.y + 1.5f, unit.transform.position.z);
+        instancedArrow.unit = unit;
     }
 }

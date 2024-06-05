@@ -1204,6 +1204,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unit: {fileID: 8143974586233405072}
   soundAttack: {fileID: 0}
+  arrow: {fileID: -296981327760249547, guid: 774135f5a5a04d34b98ea4f6fb5a91ad, type: 3}
 --- !u!95 &1088098486854486049
 Animator:
   serializedVersion: 5
