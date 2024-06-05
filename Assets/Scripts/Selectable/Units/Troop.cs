@@ -40,6 +40,7 @@ public class Troop : Selectable
     Mark currentMark;
     LineRenderer currentLine;
     private bool canRun = true;
+    float lastClickTime;
 
     //STATS
     protected float speed;
@@ -341,13 +342,21 @@ public class Troop : Selectable
         /////////////////  DO SOMETHING IF SELECTED ////////////////////
         if (gameManager.selectedUnit == this)
         {
-            if (type != Type.Messenger)
+            if (type != Type.Messenger && !gameManager.isPathing && state == State.WAITING)
             {
                 /////////////////////// GO //////////////////////////
-                if ((Input.GetMouseButtonDown(2) || Input.GetKeyDown(KeyCode.Space)) && myWayPoints && !gameManager.isPathing && state == State.WAITING)
+                                //DOUBLECLICK
+                if (Input.GetMouseButtonDown(2))
                 {
-                    Run();
-                    canRun = false;
+                    float timeSinceLastClick = Time.time - lastClickTime;
+
+                    if (timeSinceLastClick <= gameManager.DOUBLE_CLICK_TIME)
+                    {
+                        Run();
+                        canRun = false;
+                    }
+
+                    lastClickTime = Time.time;
                 }
             }
             else

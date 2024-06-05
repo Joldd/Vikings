@@ -114,7 +114,7 @@ public class WayPoints : MonoBehaviour
                 if (i == marks.Count - 1) break;
                 lines[i].SetPosition(0, mark.transform.position);             
             }
-            if (mark.isDragging)
+            if (mark.isMoving)
             {
                 lines[i-1].SetPosition(1, mark.transform.position);
                 if (i == marks.Count - 1) break;

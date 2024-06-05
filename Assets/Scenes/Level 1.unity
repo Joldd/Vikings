@@ -3434,7 +3434,11 @@ PrefabInstance:
       objectReference: {fileID: 8143974586233405072, guid: 444836a435cc386498ea979dac74ad5e, type: 3}
     - target: {fileID: 2307417907664494320, guid: c0d7b3901c217fa498d6d466877e7a99, type: 3}
       propertyPath: timerMaxTroop
-      value: 10
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307417907664494320, guid: c0d7b3901c217fa498d6d466877e7a99, type: 3}
+      propertyPath: timerMaxBaseUnit
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 5550205664086979457, guid: c0d7b3901c217fa498d6d466877e7a99, type: 3}
       propertyPath: m_Name
