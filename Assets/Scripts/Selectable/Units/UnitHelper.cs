@@ -9,7 +9,7 @@ public class UnitHelper : MonoBehaviour
     {
         if (!unit.target) return;
 
-        soundAttack.Play();
+        if (soundAttack) soundAttack.Play();
 
         if (unit.target.PV > 0)
         {

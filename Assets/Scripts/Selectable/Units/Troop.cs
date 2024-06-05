@@ -455,12 +455,14 @@ public class Troop : Selectable
                     navMeshAgent.SetDestination(targetPos);
                     if (Vector3.Distance(transform.position, target.transform.position) <= range + target.size)
                     {
+                        if (L_Units[0].type == Type.Archer) Debug.Log("attack");
                         state = State.ATTACK;
                         navMeshAgent.isStopped = true;
                         transform.LookAt(new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z));
                     }
                     if (Vector3.Distance(transform.position, target.transform.position) > 15f)
                     {
+                        if (L_Units[0].type == Type.Archer) Debug.Log("run");
                         state = State.RUNNING;
                         navMeshAgent.isStopped = false;
                         checkEnemy = false;
@@ -498,8 +500,9 @@ public class Troop : Selectable
                         Attack();
                         timerAttack = timerAttackMax;
                     }
-                    if (Vector3.Distance(transform.position, target.transform.position) > 5f + target.size)
+                    if (Vector3.Distance(transform.position, target.transform.position) > 1.5f * range + target.size)
                     {
+                        if (L_Units[0].type == Type.Archer) Debug.Log("osecours");
                         timerAttack = 0f;
                         state = State.RUNATTACK;
                         PlayAnimation("Run");
@@ -539,6 +542,7 @@ public class Troop : Selectable
                 {
                     if (enemyTroop.owner != owner && enemyTroop.type != Type.Messenger)
                     {
+                        if (L_Units[0].type == Type.Archer) Debug.Log("lala");
                         enemyTroop = hit.transform.gameObject.GetComponent<Troop>();
                         state = State.RUNATTACK;
                         PlayAnimation("Run");
@@ -562,6 +566,7 @@ public class Troop : Selectable
                 {
                     if (enemyTroop.owner != owner && enemyTroop.type != Type.Messenger)
                     {
+                        if (L_Units[0].type == Type.Archer) Debug.Log("lulu");
                         timerAttack = 0f;
                         enemyTroop = hit.transform.gameObject.GetComponent<Troop>();
                         target = enemyTroop.GetNearestUnitFromTroop(transform.position);
@@ -576,6 +581,7 @@ public class Troop : Selectable
                 {
                     if (!checkBuilding && enemyBuilding.House.owner != owner)
                     {
+                        if (L_Units[0].type == Type.Archer) Debug.Log("lolo");
                         target = enemyBuilding;
                         checkBuilding = true;
                         state = State.RUNATTACK;

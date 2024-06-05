@@ -11,7 +11,8 @@ public enum Type
     Guard,
     Mutant,
     Messenger,
-    Hero
+    Hero,
+    Archer
 }
 
 [Serializable]
