@@ -24,10 +24,6 @@ public class UIManager : MonoBehaviour
     [SerializeField] Image btnPauseGame;
     [SerializeField] Sprite spritePause, spritePlay;
 
-    public bool isSpeedy;
-    [SerializeField] Image btnSpeedGame;
-    [SerializeField] Sprite spriteSpeedy, spriteNormalSpeed;
-
     float currentTimeScale = 1f;
 
     private void Awake()
@@ -128,22 +124,10 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void SpeedGame()
+    public void SpeedGame(float speed)
     {
-        if (!isSpeedy)
-        {
-            isSpeedy = true;
-            currentTimeScale = 2f;
-            btnSpeedGame.sprite = spriteSpeedy;
-        }
-        else
-        {
-            isSpeedy = false;
-            currentTimeScale = 1f;
-            btnSpeedGame.sprite = spriteNormalSpeed;
-        }
-
-        if (!inGamePause) Time.timeScale = currentTimeScale;
+        currentTimeScale = speed;
+        if (!inGamePause) Time.timeScale = currentTimeScale;        
     }
 
     private void Update()
