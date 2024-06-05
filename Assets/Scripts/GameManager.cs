@@ -23,7 +23,6 @@ public class GameManager : MonoBehaviour
     
     [Header("Game System")]
     public bool isPause;
-    public bool inGamePause;
     public csFogWar fogWar;
     public float timerGame;
     [Header("Team System")]
@@ -373,21 +372,6 @@ public class GameManager : MonoBehaviour
             reputation += 100;
             gold += 100;
             UpdateRessources();
-        }
-
-        ////////////////////////////// PAUSE IN GAME //////////////////////////////////////////
-        if(Input.GetKeyDown(KeyCode.P))
-        {
-            if (!inGamePause) 
-            {
-                inGamePause = true;
-                Time.timeScale = 0;
-            }
-            else
-            {
-                inGamePause = false;
-                Time.timeScale = 1;
-            }
         }
 
         ////////////////////////////// SHOW / HIDE ALL WAYPOINTS //////////////////////////////////////////
