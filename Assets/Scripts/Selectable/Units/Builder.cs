@@ -1,10 +1,14 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Builder : MonoBehaviour
 {
     public Constructible constructible;
+    
     [SerializeField] private float speed;
     public bool isRunning;
+    
+    private NavMeshAgent _navMeshAgent;
     private Animator _anim;
     private GameObject body;
     
@@ -15,6 +19,7 @@ public class Builder : MonoBehaviour
     public void Start()
     {
         gameManager = GameManager.Instance;
+        _navMeshAgent = GetComponent<NavMeshAgent>();
         body = transform.Find("Body").gameObject;
 
         _anim = body.GetComponent<Animator>();
@@ -25,15 +30,19 @@ public class Builder : MonoBehaviour
         if (isRunning)
         {
             _anim.Play("Run");
-            transform.position = Vector3.MoveTowards(transform.position, constructible.transform.position, speed * Time.deltaTime);
-            transform.LookAt(constructible.transform);
+            _navMeshAgent.isStopped = false;
+            _navMeshAgent.SetDestination(constructible.transform.position);
+            // transform.position = Vector3.MoveTowards(transform.position, constructible.transform.position, speed * Time.deltaTime);
+            // transform.LookAt(constructible.transform);
         }
         else
         {
             _anim.Play("Idle");
+            _navMeshAgent.isStopped = true;
         }
 
-        if (Vector3.Distance(transform.position, constructible.transform.position) < 0.1f){
+        if (Vector3.Distance(transform.position, constructible.transform.position) < 0.1f)
+        {
             constructible.ChangeOwnership(owner);
         }
     }

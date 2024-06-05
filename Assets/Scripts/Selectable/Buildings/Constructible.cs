@@ -213,18 +213,17 @@ public class Constructible : MonoBehaviour
 
         if (needFirstPlayer)
         {
-            playerBuilder = Instantiate(PF_builder);
+            playerBuilder = Instantiate(PF_builder, gameManager.GetVicarBase().GetSpawnPosition(), Quaternion.identity);
             playerBuilder.owner = gameManager.VicarPlayer.Player;
-            playerBuilder.transform.position = basePlayer.transform.position;
+            // playerBuilder.transform.position = basePlayer.transform.position;
             playerBuilder.constructible = this;
             firstPlayerBuilder = true;
             needFirstPlayer = false;
         }
         if (needFirstEnemy)
         {
-            enemyBuilder = Instantiate(PF_builder);
+            enemyBuilder = Instantiate(PF_builder, gameManager.GetVikingBase().GetSpawnPosition(), Quaternion.identity);
             enemyBuilder.owner = gameManager.VikingPlayer.Player;
-            enemyBuilder.transform.position = baseEnemy.transform.position;
             enemyBuilder.constructible = this;
             firstEnemyBuilder = true;
             needFirstEnemy = false;

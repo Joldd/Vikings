@@ -417,4 +417,14 @@ public class GameManager : MonoBehaviour
     {
         return playerRef == vicarPlayer.Player;
     }
+
+    public House GetVicarBase()
+    {
+        return vicarPlayer.BaseBuildings.Find(house => house.isBase = true);
+    }
+    
+    public House GetVikingBase()
+    {
+        return vikingPlayer.BaseBuildings.Find(house => house.isBase = true);
+    }
 }

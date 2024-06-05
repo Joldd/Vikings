@@ -27,7 +27,7 @@ public class AITroop : Troop
             {
                 case AIEnemyState.RushBase:
                     NavMeshAgent.isStopped = false;
-                    NavMeshAgent.SetDestination(gameManager.basePlayer.transform.position);
+                    NavMeshAgent.SetDestination(gameManager.GetVicarBase().GetSpawnPosition());
                     PlayAnimation("Run");
                     break;
                 case AIEnemyState.Guard :

@@ -133,4 +133,9 @@ public class House : Selectable
             }
         }
     }
+
+    public Vector3 GetSpawnPosition()
+    {
+        return spawn.position;
+    }
 }
