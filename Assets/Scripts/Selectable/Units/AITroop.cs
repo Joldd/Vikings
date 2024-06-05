@@ -26,11 +26,12 @@ public class AITroop : Troop
             switch (aIState)
             {
                 case AIEnemyState.RushBase:
-                    transform.position = Vector3.MoveTowards(transform.position, gameManager.basePlayer.transform.position, speed * Time.deltaTime);
-                    transform.LookAt(gameManager.basePlayer.transform.position);
+                    NavMeshAgent.isStopped = false;
+                    NavMeshAgent.SetDestination(gameManager.basePlayer.transform.position);
                     PlayAnimation("Run");
                     break;
                 case AIEnemyState.Guard :
+                    PlayAnimation("Idle");
                     break;
             }
         }

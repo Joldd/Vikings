@@ -23,13 +23,13 @@ public class GameManager : MonoBehaviour
     
     [Header("Game System")]
     public bool isPause;
-    public bool inGamePause;
     public csFogWar fogWar;
     public float timerGame;
     [Header("Team System")]
     [SerializeField] private PlayerBaseSetup vicarPlayer;
     [SerializeField] private PlayerBaseSetup vikingPlayer;
-    
+    public float DOUBLE_CLICK_TIME = 0.2f;
+
     [Header("Pathing System")]
     [SerializeField] WayPoints wayPoints;
     public WayPoints currentWayPoints;
@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] LineRenderer _lr;
     LineRenderer currentLine;
-
+    public bool isOverMark;
 
     [Header("Pathing System")]
     [SerializeField] GameObject floor;
@@ -158,6 +158,14 @@ public class GameManager : MonoBehaviour
     public void ChangeCursor(Texture2D cursor)
     {
         Cursor.SetCursor(cursor, hotSpot, cursorMode);
+    }
+
+    public void ContinuePathing(Mark mark)
+    {
+        isPathing = true;
+        currentWayPoints = mark.myWayPoints;
+        currentMark = mark;
+        currentLine = currentWayPoints.lines[currentWayPoints.lines.Count - 1];
     }
 
     public void CreatePath()
@@ -297,27 +305,35 @@ public class GameManager : MonoBehaviour
         }
 
         //////// STOP PATHING
-        if (isPathing && (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButton(1)))
+        if (isPathing && Input.GetMouseButtonDown(2))
         {
             if (currentWayPoints.marks.Count <= 2)
             {
                 L_WayPoints.Remove(currentWayPoints);
                 Destroy(currentWayPoints.gameObject);
+                if (selectedUnit.TryGetComponent<Troop>(out Troop troopMsg))
+                {
+                    if (troopMsg.L_Units[0].TryGetComponent<Messenger>(out Messenger msg))
+                    {
+                        msg.Reset();
+                    }
+                }
             }
             else
             {
                 currentWayPoints.marks.Remove(currentMark);
+                currentWayPoints.lines.Remove(currentLine);
                 DestroyImmediate(currentMark.gameObject);
                 DestroyImmediate(currentLine.gameObject);
-            }
-            isPathing = false;
-            if (selectedUnit.TryGetComponent<Troop>(out Troop troop))
-            {
-                if (troop.L_Units[0].TryGetComponent<Messenger>(out Messenger messenger))
+                if (selectedUnit.TryGetComponent<Troop>(out Troop troop))
                 {
-                    messenger.canGo = true;
+                    if (troop.L_Units[0].TryGetComponent<Messenger>(out Messenger messenger))
+                    {
+                        messenger.canGo = true;
+                    }
                 }
             }
+            isPathing = false;
         }
         ////// GAME PAUSE
         else if (Input.GetKeyDown(KeyCode.Escape))
@@ -325,10 +341,20 @@ public class GameManager : MonoBehaviour
             UIManager.Instance.Pause();
         }
         ////// UNSELECT UNIT
-        else if (Input.GetMouseButtonDown(1))
+        else if (Input.GetMouseButtonDown(1) && !isPathing && !isOverMark)
         {
             if (selectedUnit) selectedUnit.UnSelect();
             selectedUnit = null;
+        }
+        ///////// GO BACK
+        else if (Input.GetMouseButtonDown(1) && isPathing && currentWayPoints.marks.Count > 2)
+        {
+            currentWayPoints.marks.Remove(currentMark);
+            currentWayPoints.lines.Remove(currentLine);
+            DestroyImmediate(currentMark.gameObject);
+            DestroyImmediate(currentLine.gameObject);
+            currentMark = currentWayPoints.marks[currentWayPoints.marks.Count - 1];
+            currentLine = currentWayPoints.lines[currentWayPoints.lines.Count - 1];
         }
 
         /////////////////////////////// BUILDING /////////////////////////////////////
@@ -346,21 +372,6 @@ public class GameManager : MonoBehaviour
             reputation += 100;
             gold += 100;
             UpdateRessources();
-        }
-
-        ////////////////////////////// PAUSE IN GAME //////////////////////////////////////////
-        if(Input.GetKeyDown(KeyCode.P))
-        {
-            if (!inGamePause) 
-            {
-                inGamePause = true;
-                Time.timeScale = 0;
-            }
-            else
-            {
-                inGamePause = false;
-                Time.timeScale = 1;
-            }
         }
 
         ////////////////////////////// SHOW / HIDE ALL WAYPOINTS //////////////////////////////////////////

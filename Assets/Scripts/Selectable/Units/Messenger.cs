@@ -135,4 +135,13 @@ public class Messenger : EntityUnit
         bringMessage = true;
         canGo = false;
     }
+
+    public void Reset()
+    {
+        canMsg = true;
+        canGo = false;
+        troopChoosen = false;
+        ChooseTroop();
+        gameManager.ChangeCursor(gameManager.cursorMsg);
+    }
 }

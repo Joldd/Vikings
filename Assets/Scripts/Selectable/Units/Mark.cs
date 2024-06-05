@@ -1,16 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Mark : MonoBehaviour
 {
-    public bool isDragging;
+    public bool isMoving;
     public bool deleted;
     Vector3 baseScale;
     float lastClickTime;
     public WayPoints myWayPoints;
-
-    const float DOUBLE_CLICK_TIME = 0.2f;
 
     private GameManager gameManager;
 
@@ -34,6 +30,8 @@ public class Mark : MonoBehaviour
         Debug.LogError(myWayPoints.myTroop);
         if (myWayPoints.myTroop.state != State.WAITING && myWayPoints == myWayPoints.myTroop.myWayPoints) return;
 
+        if (myWayPoints.marks[0] == this) return;
+
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, 100f, gameManager.layer_mark))
@@ -45,20 +43,39 @@ public class Mark : MonoBehaviour
                 {
                     transform.localScale = 2 * baseScale;
                     isHover = true;
+                    gameManager.isOverMark = true;
                 }
 
                 //CLICK && DOUBLECLICK
                 if (Input.GetMouseButtonDown(0))
                 {
-                    float timeSinceLastClick = Time.time - lastClickTime;
-                    startPosition = transform.position;
-                    isDragging = true;
+                    if (isMoving)
+                    {
+                        if (!canBuild)
+                        {
+                            transform.position = startPosition;
+                            goback = true;
+                        }
+                        isMoving = false;
+                    }
+                    else
+                    {
+                        if (myWayPoints.marks[myWayPoints.marks.Count - 1] == this)
+                        {
+                            gameManager.ContinuePathing(this);
+                        }
+                        else
+                        {
+                            startPosition = transform.position;
+                            isMoving = true;
+                        }
+                    }
 
-                    if (timeSinceLastClick <= DOUBLE_CLICK_TIME)
+                    float timeSinceLastClick = Time.time - lastClickTime;
+                    if (timeSinceLastClick <= gameManager.DOUBLE_CLICK_TIME)
                     {
                         myWayPoints.AddNewMark(this);
                     }
-
                     lastClickTime = Time.time;             
                 }
 
@@ -67,17 +84,18 @@ public class Mark : MonoBehaviour
                 {
                     deleted = true;
                 }
-
-                //MOUSEUP
-                if (Input.GetMouseButtonUp(0))
+                if (Input.GetMouseButtonDown(1))
                 {
-                    if (!canBuild)
+                    float timeSinceLastClick = Time.time - lastClickTime;
+
+                    if (timeSinceLastClick <= gameManager.DOUBLE_CLICK_TIME)
                     {
-                        transform.position = startPosition;
-                        goback = true;
+                        gameManager.isOverMark = false;
+                        deleted = true;
                     }
-                    isDragging = false;
-                }             
+
+                    lastClickTime = Time.time;
+                }         
             }
         }
         else
@@ -87,11 +105,12 @@ public class Mark : MonoBehaviour
             {
                 transform.localScale = baseScale;
                 isHover = false;
+                gameManager.isOverMark = false;
             }
         }
 
-        //DRAG
-        if (isDragging)
+        //MOVE THE MARK
+        if (isMoving)
         {
             RaycastHit hitFloor;
             if (Physics.Raycast(ray, out hitFloor, 100f, gameManager.layer_mask))

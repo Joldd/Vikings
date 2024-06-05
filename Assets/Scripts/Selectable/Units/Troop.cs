@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Serialization;
-using UnityEngine.UI;
 using static FischlWorks_FogWar.csFogWar;
 
 public enum FlankValues
@@ -29,6 +27,7 @@ public class Troop : Selectable
     public Type type;
     public State state;
     public bool checkEnemy;
+    public bool checkBuilding;
     public bool isOver;
     protected Entity target;
     Vector3 directionEnemy;
@@ -41,6 +40,7 @@ public class Troop : Selectable
     Mark currentMark;
     LineRenderer currentLine;
     private bool canRun = true;
+    float lastClickTime;
 
     //STATS
     protected float speed;
@@ -59,7 +59,6 @@ public class Troop : Selectable
     public Constructible areaToCapture;
 
     public bool hitByHouse;
-
 
     //FOGWAR
     [SerializeField] GameObject ward;
@@ -293,16 +292,15 @@ public class Troop : Selectable
 
     public void Run()
     {
+        navMeshAgent.isStopped = false;
         state = State.RUNNING;
         currentMark = myWayPoints.marks[0];
         navMeshAgent.SetDestination(currentMark.transform.position);
-        // transform.position = currentMark.transform.position;
         currentMark.gameObject.SetActive(false);
         currentMark = myWayPoints.nextPoint(currentMark);
         currentLine = myWayPoints.lines[0];
-        //transform.LookAt(currentMark.transform);
-        if (myHouse) myHouse.DetachTroop(this);
 
+        if (myHouse) myHouse.DetachTroop(this);
     }
 
     public void RemoveUnit(EntityUnit unit)
@@ -344,13 +342,21 @@ public class Troop : Selectable
         /////////////////  DO SOMETHING IF SELECTED ////////////////////
         if (gameManager.selectedUnit == this)
         {
-            if (type != Type.Messenger)
+            if (type != Type.Messenger && !gameManager.isPathing && state == State.WAITING)
             {
                 /////////////////////// GO //////////////////////////
-                if ((Input.GetMouseButtonDown(2) || Input.GetKeyDown(KeyCode.Space)) && myWayPoints && !gameManager.isPathing && state == State.WAITING)
+                                //DOUBLECLICK
+                if (Input.GetMouseButtonDown(2))
                 {
-                    Run();
-                    canRun = false;
+                    float timeSinceLastClick = Time.time - lastClickTime;
+
+                    if (timeSinceLastClick <= gameManager.DOUBLE_CLICK_TIME)
+                    {
+                        Run();
+                        canRun = false;
+                    }
+
+                    lastClickTime = Time.time;
                 }
             }
             else
@@ -369,6 +375,7 @@ public class Troop : Selectable
 
         Vector3 forward = transform.TransformDirection(Vector3.forward) * 3;
         Debug.DrawRay(transform.position, forward, Color.red);
+
         //////////////////   STATE   ////////////////////////////////////
         if (state != State.SLEEPING)
         {
@@ -381,15 +388,15 @@ public class Troop : Selectable
             {
                 PlayAnimation("Run");
                 navMeshAgent.enabled = true;
+                navMeshAgent.isStopped = false;
                 navMeshAgent.SetDestination(currentMark.transform.position);
-                // transform.position = Vector3.MoveTowards(transform.position, currentMark.transform.position, speed * Time.deltaTime);
+
                 if (Vector3.Distance(transform.position, currentMark.transform.position) < 0.4f && myWayPoints.marks.IndexOf(currentMark) < myWayPoints.marks.Count - 1)
                 {
                     currentMark.gameObject.SetActive(false);
                     currentMark = myWayPoints.nextPoint(currentMark);
                     currentLine.gameObject.SetActive(false);
                     currentLine = myWayPoints.nextLine(currentLine);
-                    // transform.LookAt(currentMark.transform);
                 }
                 if (Vector3.Distance(transform.position, currentMark.transform.position) < 0.4f && myWayPoints.marks.IndexOf(currentMark) == myWayPoints.marks.Count - 1)
                 {
@@ -407,6 +414,7 @@ public class Troop : Selectable
                 if (Vector3.Distance(transform.position, lastPositionMove) >= 1)
                 {
                     PlayAnimation("Run");
+                    navMeshAgent.isStopped = false;
                     navMeshAgent.enabled = true;
                     navMeshAgent.SetDestination(lastPositionMove);
 
@@ -430,6 +438,7 @@ public class Troop : Selectable
                     if (myWayPoints) state = State.RUNNING;
                     else state = State.WAITING;
                     checkEnemy = false;
+                    checkBuilding = false;
 
                     if (!gameManager.CheckIsVicars(owner))
                     {
@@ -440,19 +449,22 @@ public class Troop : Selectable
                 else
                 {
                     PlayAnimation("Run");
-                    navMeshAgent.enabled = false;
+                    navMeshAgent.enabled = true;
+                    navMeshAgent.isStopped = false;
                     Vector3 targetPos = new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z);
-                    // navMeshAgent.SetDestination(targetPos);
-                    transform.position = Vector3.MoveTowards(transform.position, targetPos, speed * Time.deltaTime);
-                    transform.LookAt(new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z));
-                    if (Vector3.Distance(transform.position, target.transform.position) <= range)
+                    navMeshAgent.SetDestination(targetPos);
+                    if (Vector3.Distance(transform.position, target.transform.position) <= range + target.size)
                     {
                         state = State.ATTACK;
+                        navMeshAgent.isStopped = true;
+                        transform.LookAt(new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z));
                     }
                     if (Vector3.Distance(transform.position, target.transform.position) > 15f)
                     {
                         state = State.RUNNING;
+                        navMeshAgent.isStopped = false;
                         checkEnemy = false;
+                        checkBuilding = false;
                         if (!gameManager.CheckIsVicars(owner))
                         {
                             state = State.ENEMY;
@@ -468,14 +480,14 @@ public class Troop : Selectable
                     target.Die();
                     //DEATH
                     KillTarget();
-
+                    timerAttack = 0f;
                     state = State.RUNATTACK;
-
                     if (!gameManager.CheckIsVicars(owner))
                     {
                         state = State.ENEMY;
                         transform.LookAt(directionEnemy);
                         checkEnemy = false;
+                        checkBuilding = false;
                     }
                 }
                 else
@@ -486,9 +498,9 @@ public class Troop : Selectable
                         Attack();
                         timerAttack = timerAttackMax;
                     }
-                    if (Vector3.Distance(transform.position, target.transform.position) > 5f)
+                    if (Vector3.Distance(transform.position, target.transform.position) > 5f + target.size)
                     {
-                        timerAttack = timerAttackMax;
+                        timerAttack = 0f;
                         state = State.RUNATTACK;
                         PlayAnimation("Run");
                     }
@@ -511,7 +523,7 @@ public class Troop : Selectable
             }
         }
         
-         //Enemy Detection Sphere
+        //ENEMY DETECTION
         if (!checkEnemy && type != Type.Messenger)
         {
             Vector3 boxCenter = transform.position + transform.forward * 3;
@@ -520,7 +532,6 @@ public class Troop : Selectable
 
             //Enemy Detection Forward Box
             RaycastHit[] hitsBox = Physics.BoxCastAll(boxCenter, boxSize, transform.forward, boxOrientation, 3, layerMaskTroopTarget);
-
             foreach (var hit in hitsBox)
             {
                 Troop enemyTroop = null;
@@ -551,26 +562,26 @@ public class Troop : Selectable
                 {
                     if (enemyTroop.owner != owner && enemyTroop.type != Type.Messenger)
                     {
+                        timerAttack = 0f;
                         enemyTroop = hit.transform.gameObject.GetComponent<Troop>();
                         target = enemyTroop.GetNearestUnitFromTroop(transform.position);
-
+                        checkEnemy = true;
+                        state = State.RUNATTACK;
+                        PlayAnimation("Run");
+                        GiveTarget();
                     }
                 }
 
                 if (hit.transform.gameObject.TryGetComponent(out EntityHouse enemyBuilding))
                 {
-                    if (enemyBuilding.House.owner != owner)
+                    if (!checkBuilding && enemyBuilding.House.owner != owner)
                     {
                         target = enemyBuilding;
+                        checkBuilding = true;
+                        state = State.RUNATTACK;
+                        PlayAnimation("Run");
+                        GiveTarget();
                     }
-                }
-
-                if (target != null)
-                {
-                    state = State.RUNATTACK;
-                    PlayAnimation("Run");
-                    GiveTarget();
-                    checkEnemy = true;
                 }
             }
         }
@@ -628,18 +639,4 @@ public class Troop : Selectable
         Debug.DrawLine(points[4], points[5], Color.green, duration);
         Debug.DrawLine(points[4], points[6], Color.green, duration);
     }
-
-    private void OnTriggerStay(Collider other)
-    {
-        // if (checkEnemy) return;
-        //
-        // if ((other.tag == "Enemy" && tag == "Player") || (other.tag == "Player" && tag == "Enemy"))
-        // {
-        // state = State.RUNATTACK;
-        // PlayAnimation("Run");
-        // target = other.gameObject.GetComponent<Entity>();
-        // GiveTarget();
-        // checkEnemy = true;
-        // }
-    }  
 }

@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using static FischlWorks_FogWar.csFogWar;
 
 public class House : Selectable
 {

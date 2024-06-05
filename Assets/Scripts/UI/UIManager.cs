@@ -20,6 +20,12 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Hero hero;
     [SerializeField] private GameObject basePlayer;
 
+    public bool inGamePause;
+    [SerializeField] Image btnPauseGame;
+    [SerializeField] Sprite spritePause, spritePlay;
+
+    float currentTimeScale = 1f;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -102,6 +108,28 @@ public class UIManager : MonoBehaviour
         uiTroopInfo.gameObject.SetActive(value);
     }
 
+    public void PauseGame()
+    {
+        if (!inGamePause)
+        {
+            inGamePause = true;
+            Time.timeScale = 0;
+            btnPauseGame.sprite = spritePlay;
+        }
+        else
+        {
+            inGamePause = false;
+            Time.timeScale = currentTimeScale;
+            btnPauseGame.sprite = spritePause;
+        }
+    }
+
+    public void SpeedGame(float speed)
+    {
+        currentTimeScale = speed;
+        if (!inGamePause) Time.timeScale = currentTimeScale;        
+    }
+
     private void Update()
     {
         if (hero.isDie)
@@ -113,6 +141,12 @@ public class UIManager : MonoBehaviour
                 hero.timerRespawn = hero.timerRespawnMax;
                 hero.Respawn();
             }
+        }
+
+        ////////////////////////////// PAUSE IN GAME //////////////////////////////////////////
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            PauseGame();
         }
     }
 }
