@@ -10,9 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 457264}
   - component: {fileID: 205000010259141890}
-  - component: {fileID: 136000010602361290}
-  - component: {fileID: 208541932340658984}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: FAE_Spruce_A
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -69,45 +67,6 @@ LODGroup:
     renderers:
     - renderer: {fileID: 2323190}
   m_Enabled: 1
---- !u!136 &136000010602361290
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 140404}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 22
-  m_Direction: 1
-  m_Center: {x: 0, y: 11, z: 0}
---- !u!208 &208541932340658984
-NavMeshObstacle:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 140404}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Shape: 0
-  m_Extents: {x: 0.5, y: 11, z: 0.5}
-  m_MoveThreshold: 0.1
-  m_Carve: 1
-  m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: 11, z: 0}
-  m_TimeToStationary: 0.5
 --- !u!1 &149404
 GameObject:
   m_ObjectHideFlags: 0
@@ -119,7 +78,7 @@ GameObject:
   - component: {fileID: 403522}
   - component: {fileID: 3395908}
   - component: {fileID: 2323190}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: FAE_Spruce_A_Billboard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -202,7 +161,7 @@ GameObject:
   - component: {fileID: 4000012855128178}
   - component: {fileID: 33000010754535338}
   - component: {fileID: 23000010148177136}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: FAE_Spruce_A_LOD0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -286,7 +245,7 @@ GameObject:
   - component: {fileID: 4000013781189648}
   - component: {fileID: 33000011637677198}
   - component: {fileID: 23000013826746168}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: FAE_Spruce_A_LOD1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -370,7 +329,7 @@ GameObject:
   - component: {fileID: 4000013845718702}
   - component: {fileID: 33000014014322784}
   - component: {fileID: 23000013406156606}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: FAE_Spruce_A_LOD2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
