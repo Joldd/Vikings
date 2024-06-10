@@ -73,28 +73,37 @@ MonoBehaviour:
   healthBar: {fileID: 1119104912643297415, guid: f17337097d63c1e4ebbea0de56ce28ea, type: 3}
   animator: {fileID: 0}
   PV: 0
+  maxPV: 0
+  size: 0
   timeBuildMax: 2
   isBuilt: 0
   timeBuild: 0
   priceReputation: 0
   priceGold: 100
   state: 0
+  imageUnit: {fileID: 0}
   target: {fileID: 0}
   timerAttackMax: 0
-  speed: 10
+  speed: 5
   range: 0
+  aoeRange: 0
+  flankRange: 0
   damage: 1
+  armor: 0
   maxTroop: 1
   body: {fileID: 0}
   enemyStop: 0
-  areaToCapture: {fileID: 0}
   goldToWin: 0
   type: 3
   myTroop: {fileID: 0}
   outline: {fileID: 0}
+  floorMask:
+    serializedVersion: 2
+    m_Bits: 0
   troopSelected: {fileID: 0}
-  chooseColor: {r: 0.26032397, g: 0.6308657, b: 0.8490566, a: 1}
-  messageBtn: {fileID: 0}
+  canMsg: 1
+  canGo: 0
+  troopChoosen: 0
 --- !u!114 &-5459590131084658361
 MonoBehaviour:
   m_ObjectHideFlags: 0

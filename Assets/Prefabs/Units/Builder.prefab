@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   constructible: {fileID: 0}
-  speed: 5
+  speed: 2.5
   isRunning: 0
   owner: {fileID: 0}
 --- !u!195 &-8825534390914816822

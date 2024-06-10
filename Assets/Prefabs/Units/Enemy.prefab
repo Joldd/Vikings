@@ -61,7 +61,7 @@ MonoBehaviour:
   imageUnit: {fileID: 0}
   target: {fileID: 0}
   timerAttackMax: 1
-  speed: 3
+  speed: 1
   range: 1
   aoeRange: 8
   flankRange: 1
@@ -610,6 +610,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unit: {fileID: 8143974586233405072}
   soundAttack: {fileID: 7732982146016558027}
+  arrow: {fileID: 0}
 --- !u!95 &8868816765936405873
 Animator:
   serializedVersion: 5
