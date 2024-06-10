@@ -62,7 +62,7 @@ MonoBehaviour:
   imageUnit: {fileID: 21300000, guid: 137de1bc599e46841a878813f559210d, type: 3}
   target: {fileID: 0}
   timerAttackMax: 1
-  speed: 3
+  speed: 1
   range: 8
   aoeRange: 14
   flankRange: 1

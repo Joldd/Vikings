@@ -157,7 +157,7 @@ MonoBehaviour:
   imageUnit: {fileID: 21300000, guid: eb59390d393296c4ebf846ed62742bbc, type: 3}
   target: {fileID: 0}
   timerAttackMax: 1
-  speed: 3
+  speed: 1
   range: 1
   aoeRange: 8
   flankRange: 1
@@ -987,6 +987,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unit: {fileID: 5818741239605662544}
   soundAttack: {fileID: 8760263104166725700}
+  arrow: {fileID: 0}
 --- !u!82 &8760263104166725700
 AudioSource:
   m_ObjectHideFlags: 0
