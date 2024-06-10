@@ -32,8 +32,6 @@ public class Builder : MonoBehaviour
             _anim.Play("Run");
             _navMeshAgent.isStopped = false;
             _navMeshAgent.SetDestination(constructible.transform.position);
-            // transform.position = Vector3.MoveTowards(transform.position, constructible.transform.position, speed * Time.deltaTime);
-            // transform.LookAt(constructible.transform);
         }
         else
         {
@@ -41,8 +39,9 @@ public class Builder : MonoBehaviour
             _navMeshAgent.isStopped = true;
         }
 
-        if (Vector3.Distance(transform.position, constructible.transform.position) < 0.1f)
+        if (Vector3.Distance(transform.position, constructible.transform.position) < 0.2f)
         {
+            Debug.LogError("ChangeOwnership");
             constructible.ChangeOwnership(owner);
         }
     }

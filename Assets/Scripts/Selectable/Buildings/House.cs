@@ -81,8 +81,7 @@ public class House : Selectable
 
     private void createUnit(EntityUnit unit, Transform spawn)
     {
-        EntityUnit u = Instantiate(unit);
-        u.transform.position = spawn.transform.position;
+        EntityUnit u = Instantiate(unit, spawn.transform.position,Quaternion.identity);
         bool isTroop = false;
         if (u.TryGetComponent<EntityUnit>(out EntityUnit v))
         {
@@ -98,11 +97,10 @@ public class House : Selectable
             if (isTroop) return;
 
             //ELSE CREATE TROOP
-            Troop troop = Instantiate(troopGO);
+            Troop troop = Instantiate(troopGO, spawn.transform.position, Quaternion.identity);
             L_Troop.Add(troop);
             troop.owner = owner;
             troop.type = v.type;
-            troop.transform.position = spawn.transform.position;
             troop.AddUnit(v);
             troop.myHouse = this;
         }

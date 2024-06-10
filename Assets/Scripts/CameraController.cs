@@ -17,6 +17,7 @@ public class CameraController : MonoBehaviour
     private GameManager gameManager;
 
     private Camera myCam;
+    [SerializeField] private Camera trailCamera;
 
     [SerializeField] private GameObject rightLimits;
     [SerializeField] private GameObject topLimits;
@@ -70,6 +71,8 @@ public class CameraController : MonoBehaviour
         {
             myCam.orthographicSize += zoomSpeed * Time.unscaledDeltaTime;
         }
+        
+        trailCamera.orthographicSize = myCam.orthographicSize;
     }
 
     private void Move()
