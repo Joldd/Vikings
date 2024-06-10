@@ -48,6 +48,7 @@ MonoBehaviour:
   linePF: {fileID: 7229208740688947864, guid: 3227842557e104943bb8a938baff9dd2, type: 3}
   marks: []
   lines: []
-  lineColor: {r: 0, g: 0, b: 0, a: 0}
+  lineColor: {r: 1, g: 1, b: 1, a: 0}
   myTroop: {fileID: 0}
   isNew: 0
+  lineWidth: 0.2

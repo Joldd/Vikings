@@ -184,7 +184,7 @@ public class GameManager : MonoBehaviour
             currentWayPoints.AddMark(firstMark);
             currentMark = Instantiate(mark, currentWayPoints.transform);
             currentWayPoints.AddMark(currentMark);
-            currentWayPoints.lineColor = Color.red;
+            currentWayPoints.lineColor = Color.white;
             CreateLine();
             isFirstMessage = true;
         }   
