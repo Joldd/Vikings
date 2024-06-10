@@ -15,11 +15,13 @@ public class SpawnerEnnemy : MonoBehaviour
     [SerializeField] AITroop troop;
     [SerializeField] EntityUnit baseUnitToSpawn;
 
+    private House buildingHouse;
     private GameManager gameManager;
 
     private void Start()
     {
         gameManager = GameManager.Instance;
+        buildingHouse = GetComponent<House>();
         ComputeRandomSpawnType();
     }
 
@@ -81,9 +83,8 @@ public class SpawnerEnnemy : MonoBehaviour
     private AITroop SpawnBaseUnit()
     {
         EntityUnit spawnedUnit = Instantiate(baseUnitToSpawn);
-        AITroop myTroop = Instantiate(troop);
+        AITroop myTroop = Instantiate(troop, buildingHouse.GetSpawnPosition(), Quaternion.identity);
         myTroop.owner = gameManager.VikingPlayer.Player;
-        myTroop.transform.position = transform.position;
         myTroop.tag = "Enemy";  
         myTroop.type = spawnedUnit.type;
         myTroop.AddUnit(spawnedUnit);
@@ -94,9 +95,8 @@ public class SpawnerEnnemy : MonoBehaviour
 
     private void SpawnTroop()
     {
-        AITroop myTroop = Instantiate(troop);
+        AITroop myTroop = Instantiate(troop, buildingHouse.GetSpawnPosition(), Quaternion.identity);
         myTroop.owner = gameManager.VikingPlayer.Player;
-        myTroop.transform.position = transform.position;
         myTroop.tag = "Enemy";
 
         for (int i = 0; i < 3; i++)

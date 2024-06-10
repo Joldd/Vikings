@@ -151,14 +151,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22ed03377adbff243842602b3c167e79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timerMaxBaseUnit: 0
-  timerMaxTroop: 0
-  timerMaxGuardTroop: 0
-  maxTroopPercentageSpawn: 0
-  baseTroopPercentageSpawn: 0
-  guardTroopPercentageSpawn: 0
-  troop: {fileID: 0}
-  baseUnitToSpawn: {fileID: 0}
+  timerMaxBaseUnit: 5
+  timerMaxTroop: 20
+  timerMaxGuardTroop: 5
+  maxTroopPercentageSpawn: 20
+  baseTroopPercentageSpawn: 40
+  guardTroopPercentageSpawn: 40
+  troop: {fileID: 4183316760437245466, guid: 58e3212a13dc5b8409b642b1dae8d189, type: 3}
+  baseUnitToSpawn: {fileID: 8143974586233405072, guid: 444836a435cc386498ea979dac74ad5e, type: 3}
 --- !u!208 &790402301020967241
 NavMeshObstacle:
   m_ObjectHideFlags: 0
