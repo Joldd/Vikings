@@ -348,15 +348,15 @@ public class Troop : Selectable
                                 //DOUBLECLICK
                 if (Input.GetMouseButtonDown(2))
                 {
-                    float timeSinceLastClick = Time.time - lastClickTime;
+                    float timeSinceLastClick = Time.unscaledTime - lastClickTime;
 
-                    if (timeSinceLastClick <= gameManager.DOUBLE_CLICK_TIME)
+                    if (timeSinceLastClick <= gameManager.DOUBLE_CLICK_TIME * Time.timeScale)
                     {
                         Run();
                         canRun = false;
                     }
 
-                    lastClickTime = Time.time;
+                    lastClickTime = Time.unscaledTime;
                 }
             }
             else
@@ -435,7 +435,7 @@ public class Troop : Selectable
             {
                 if (target == null)
                 {
-                    if (myWayPoints) state = State.RUNNING;
+                    if (myWayPoints && currentMark) state = State.RUNNING;
                     else state = State.WAITING;
                     checkEnemy = false;
                     checkBuilding = false;
@@ -549,7 +549,6 @@ public class Troop : Selectable
                         target = enemyTroop.GetNearestUnitFromTroop(transform.position);
                         // Check flank 
                         TargetEnemyFlank(Vector3.Angle(enemyTroop.transform.forward, transform.forward));
-                        enemyTroop.GetTargeted(this);
                         checkEnemy = true;
                         break;
                     }

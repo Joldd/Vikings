@@ -25,6 +25,7 @@ public class Mark : MonoBehaviour
     private void Update()
     {
         if (gameManager.isPathing) return;
+
         if (myWayPoints.myTroop.state != State.WAITING && myWayPoints == myWayPoints.myTroop.myWayPoints) return;
 
         if (myWayPoints.marks[0] == this) return;
