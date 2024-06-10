@@ -23,7 +23,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] private GameObject topLimits;
     [SerializeField] private GameObject bottomLimits;
     [SerializeField] private GameObject leftLimits;
-
+    
 
     private void Start()
     {

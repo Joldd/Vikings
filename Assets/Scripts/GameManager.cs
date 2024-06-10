@@ -2,7 +2,9 @@ using FischlWorks_FogWar;
 using System;
 using System.Collections.Generic;
 using TMPro;
+using Unity.AI.Navigation;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Events;
 
 [Serializable]
@@ -278,10 +280,15 @@ public class GameManager : MonoBehaviour
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
+            NavMeshHit navMeshHit;
+            
             if (Physics.Raycast(ray, out hit, 100f, layer_mask))
             {
                 currentMark.transform.position = hit.point;
                 currentLine.SetPosition(1, hit.point);
+                
+                currentMark.canBuild = NavMesh.SamplePosition(hit.point, out navMeshHit, 0.25f, NavMesh.AllAreas);
+                //TODO Faire un feedback pour informer que le point n'est pas placable
             }
         }
 

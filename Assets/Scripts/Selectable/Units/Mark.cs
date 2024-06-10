@@ -46,6 +46,7 @@ public class Mark : MonoBehaviour
                 //CLICK && DOUBLECLICK
                 if (Input.GetMouseButtonDown(0))
                 {
+                    Debug.LogError("GetMouseDown");
                     if (isMoving)
                     {
                         if (!canBuild)
