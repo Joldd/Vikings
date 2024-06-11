@@ -30,6 +30,9 @@ public class Troop : Selectable
     public bool checkBuilding;
     public bool isOver;
     protected Entity target;
+    private Troop currentFightingTroop;
+    private FlankValues currentFlank;
+    private 
     Vector3 directionEnemy;
     public House myHouse;
 
@@ -247,6 +250,7 @@ public class Troop : Selectable
 
     protected void GiveTarget(FlankValues flankValue = FlankValues.FRONT)
     {
+        Debug.Log(flankValue);
         foreach (EntityUnit unit in L_Units)
         {
             unit.target = target;
@@ -571,13 +575,17 @@ public class Troop : Selectable
                 {
                     if (enemyTroop.owner != owner && enemyTroop.type != Type.Messenger)
                     {
-                        if (L_Units[0].type == Type.Archer) Debug.Log("lala");
                         enemyTroop = hit.transform.gameObject.GetComponent<Troop>();
                         state = State.RUNATTACK;
                         PlayAnimation("Run");
                         target = enemyTroop.GetNearestUnitFromTroop(transform.position);
                         // Check flank 
-                        TargetEnemyFlank(Vector3.Angle(enemyTroop.transform.forward, transform.forward));
+                        if (enemyTroop == currentFightingTroop)
+                        {
+                            GiveTarget(currentFlank);
+                        }
+                        else TargetEnemyFlank(Vector3.Angle(enemyTroop.transform.forward, transform.forward));
+                        currentFightingTroop = enemyTroop;
                         checkEnemy = true;
                         break;
                     }
@@ -594,14 +602,17 @@ public class Troop : Selectable
                 {
                     if (enemyTroop.owner != owner && enemyTroop.type != Type.Messenger)
                     {
-                        if (L_Units[0].type == Type.Archer) Debug.Log("lulu");
                         timerAttack = 0f;
                         enemyTroop = hit.transform.gameObject.GetComponent<Troop>();
                         target = enemyTroop.GetNearestUnitFromTroop(transform.position);
                         checkEnemy = true;
                         state = State.RUNATTACK;
                         PlayAnimation("Run");
-                        GiveTarget();
+                        if (enemyTroop == currentFightingTroop)
+                        {
+                            GiveTarget(currentFlank);
+                        }
+                        else GiveTarget();
                     }
                 }
 
@@ -609,7 +620,6 @@ public class Troop : Selectable
                 {
                     if (!checkBuilding && enemyBuilding.House.owner != owner)
                     {
-                        if (L_Units[0].type == Type.Archer) Debug.Log("lolo");
                         target = enemyBuilding;
                         checkBuilding = true;
                         state = State.RUNATTACK;
@@ -629,6 +639,7 @@ public class Troop : Selectable
             <= 135 => FlankValues.SIDES,
             >= 136 => FlankValues.FRONT,
         };
+        currentFlank = value;
         GiveTarget(value);
     }
 
