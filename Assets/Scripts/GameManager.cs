@@ -234,6 +234,20 @@ public class GameManager : MonoBehaviour
         currentLine.endWidth = currentWayPoints.lineWidth;
         currentWayPoints.lines.Add(currentLine);
     }
+
+    private void StopPathing()
+    {
+        L_WayPoints.Remove(currentWayPoints);
+        Destroy(currentWayPoints.gameObject);
+        if (selectedUnit.TryGetComponent<Troop>(out Troop troopMsg))
+        {
+            if (troopMsg.L_Units[0].TryGetComponent<Messenger>(out Messenger msg))
+            {
+                msg.Reset();
+            }
+        }
+        isPathing = false;
+    }
     
     #endregion
 
@@ -312,19 +326,11 @@ public class GameManager : MonoBehaviour
         }
 
         //////// STOP PATHING
-        if (isPathing && Input.GetMouseButtonDown(2))
+        if (isPathing && Input.GetKeyUp(KeyCode.Space))
         {
             if (currentWayPoints.marks.Count <= 2)
             {
-                L_WayPoints.Remove(currentWayPoints);
-                Destroy(currentWayPoints.gameObject);
-                if (selectedUnit.TryGetComponent<Troop>(out Troop troopMsg))
-                {
-                    if (troopMsg.L_Units[0].TryGetComponent<Messenger>(out Messenger msg))
-                    {
-                        msg.Reset();
-                    }
-                }
+                StopPathing();
             }
             else
             {
@@ -338,9 +344,10 @@ public class GameManager : MonoBehaviour
                     {
                         messenger.canGo = true;
                     }
+                    else troop.uiInfos.btnGo.interactable = true;
                 }
+                isPathing = false;
             }
-            isPathing = false;
         }
         ////// GAME PAUSE
         else if (Input.GetKeyDown(KeyCode.Escape))
@@ -354,14 +361,23 @@ public class GameManager : MonoBehaviour
             selectedUnit = null;
         }
         ///////// GO BACK
-        else if (Input.GetMouseButtonDown(1) && isPathing && currentWayPoints.marks.Count > 2)
+        else if (Input.GetMouseButtonDown(1) && isPathing)
         {
-            currentWayPoints.marks.Remove(currentMark);
-            currentWayPoints.lines.Remove(currentLine);
-            DestroyImmediate(currentMark.gameObject);
-            DestroyImmediate(currentLine.gameObject);
-            currentMark = currentWayPoints.marks[currentWayPoints.marks.Count - 1];
-            currentLine = currentWayPoints.lines[currentWayPoints.lines.Count - 1];
+            if (currentWayPoints.marks.Count > 2)
+            {
+                currentWayPoints.marks.Remove(currentMark);
+                currentWayPoints.lines.Remove(currentLine);
+                DestroyImmediate(currentMark.gameObject);
+                DestroyImmediate(currentLine.gameObject);
+                currentMark = currentWayPoints.marks[currentWayPoints.marks.Count - 1];
+                currentLine = currentWayPoints.lines[currentWayPoints.lines.Count - 1];
+            }
+            else
+            {
+                StopPathing();
+                if (selectedUnit) selectedUnit.UnSelect();
+                selectedUnit = null;
+            }
         }
 
         /////////////////////////////// BUILDING /////////////////////////////////////

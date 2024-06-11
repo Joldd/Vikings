@@ -39,7 +39,6 @@ public class Troop : Selectable
     protected Vector3 lastPositionMove;
     Mark currentMark;
     LineRenderer currentLine;
-    private bool canRun = true;
     float lastClickTime;
 
     //STATS
@@ -50,6 +49,7 @@ public class Troop : Selectable
     protected float timerAttackMax;
     protected float timerAttack = 0f;
     public int maxTroop;
+    public UITroopInfo uiInfos;
 
     [SerializeField] protected LayerMask layerMaskTroopTarget; 
     [Header("Navigation")]
@@ -69,9 +69,7 @@ public class Troop : Selectable
     protected GameManager gameManager;
     
     public NavMeshAgent NavMeshAgent { get => navMeshAgent; }
-    
-    public bool CanRun { get => canRun; set => canRun = value; }
-    
+        
     public override void Start()
     {
         base.Start();
@@ -165,7 +163,6 @@ public class Troop : Selectable
     public void ResetTroop()
     {
         state = State.WAITING;
-        canRun = true;
         
         if (myWayPoints) 
         {
@@ -202,7 +199,7 @@ public class Troop : Selectable
             }
         }
 
-        if (!myWayPoints && canRun && type != Type.Messenger)
+        if (!myWayPoints && type != Type.Messenger)
         {
             gameManager.CreatePath();
         }
@@ -323,6 +320,8 @@ public class Troop : Selectable
         currentLine = myWayPoints.lines[0];
 
         if (myHouse) myHouse.DetachTroop(this);
+
+        uiInfos.btnGo.interactable = false;
     }
 
     public void RemoveUnit(EntityUnit unit)
@@ -368,14 +367,13 @@ public class Troop : Selectable
             {
                 /////////////////////// GO //////////////////////////
                                 //DOUBLECLICK
-                if (Input.GetMouseButtonDown(2))
+                if (Input.GetKeyUp(KeyCode.Space))
                 {
                     float timeSinceLastClick = Time.unscaledTime - lastClickTime;
 
                     if (timeSinceLastClick <= gameManager.DOUBLE_CLICK_TIME * Time.timeScale)
                     {
                         Run();
-                        canRun = false;
                     }
 
                     lastClickTime = Time.unscaledTime;
@@ -386,7 +384,7 @@ public class Troop : Selectable
                 if (L_Units[0].TryGetComponent<Messenger>(out Messenger messenger))
                 {
                     ////////////////////// BRING MESSAGE /////////////////////
-                    if ((Input.GetMouseButtonDown(2) || Input.GetKeyDown(KeyCode.Space)) && messenger.canGo)
+                    if (Input.GetKeyDown(KeyCode.Space) && messenger.canGo)
                     {
                         messenger.Go();
                         gameManager.ChangeCursor(gameManager.cursorNormal);
