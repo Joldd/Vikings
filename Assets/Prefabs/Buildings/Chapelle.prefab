@@ -159,7 +159,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   PV: 20
   maxPV: 30
-  size: 0
+  size: 4
   timeBuildMax: 2
   isBuilt: 0
   timeBuild: 0
