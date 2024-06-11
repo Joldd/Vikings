@@ -80,11 +80,9 @@ public class Messenger : EntityUnit
     {
         if (bringMessage)
         {
-            transform.position = Vector3.MoveTowards(transform.position, troopSelected.transform.position, Speed * Time.deltaTime);
-
+            myTroop.NavMeshAgent.SetDestination(troopSelected.transform.position);
             animator.Play("Run");
-            transform.LookAt(troopSelected.transform);
-            if (Vector3.Distance(transform.position, troopSelected.transform.position) < 0.1f )
+            if (Vector3.Distance(transform.position, troopSelected.transform.position) <= 1.5f )
             {
                 bringMessage = false;
                 if (troopSelected.myWayPoints)
@@ -101,9 +99,8 @@ public class Messenger : EntityUnit
         {
             QuitTroop();
             animator.Play("Run");
-            transform.LookAt(homePos);
-            transform.position = Vector3.MoveTowards(transform.position, homePos, Speed * Time.deltaTime);
-            if (Vector3.Distance(transform.position, homePos) < 0.1f)
+            myTroop.NavMeshAgent.SetDestination(homePos);
+            if (Vector3.Distance(transform.position, homePos) < 1.5f)
             {
                 backHome = false;
                 canMsg = true;
