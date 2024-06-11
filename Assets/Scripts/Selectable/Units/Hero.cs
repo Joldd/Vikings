@@ -44,6 +44,7 @@ public class Hero : EntityUnit
         heroLife.value = (float)PV / (float)maxPV;
     }
 
+    [ContextMenu("Respawn")]
     public void Respawn()
     {
         isDie = false;
@@ -55,15 +56,18 @@ public class Hero : EntityUnit
         UpdatePVHero();
         respawnParticle.Play();
         respawnSound.Play();
+        myTroop.ResetNavMesh();
     }
 
+    [ContextMenu("Die")]
     public override void Die()
     {
         panelRespawn.SetActive(true);
         healthBar.gameObject.SetActive(false);
         isDie = true;
-        myTroop.transform.position = gameManager.basePlayer.transform.Find("Spawn").position;
+        myTroop.transform.position = gameManager.CheckIsVicars(myTroop.owner) ? gameManager.GetVicarBase().GetSpawnPosition() : gameManager.GetVikingBase().GetSpawnPosition();
         myTroop.gameObject.SetActive(false);
+        myTroop.ResetTroop();
     }
 }
 

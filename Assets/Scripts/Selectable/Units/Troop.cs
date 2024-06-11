@@ -70,6 +70,8 @@ public class Troop : Selectable
     
     public NavMeshAgent NavMeshAgent { get => navMeshAgent; }
     
+    public bool CanRun { get => canRun; set => canRun = value; }
+    
     public override void Start()
     {
         base.Start();
@@ -158,6 +160,26 @@ public class Troop : Selectable
                 unit.outline.OutlineWidth = 1.3f;
             }
         }
+    }
+
+    public void ResetTroop()
+    {
+        state = State.WAITING;
+        canRun = true;
+        
+        if (myWayPoints) 
+        {
+            gameManager.L_WayPoints.Remove(myWayPoints);
+            Destroy(myWayPoints.gameObject);
+            myWayPoints = null;
+        }
+    }
+
+    public void ResetNavMesh()
+    {
+        lastPositionMove = transform.position;
+        navMeshAgent.isStopped = true;
+        navMeshAgent.ResetPath();
     }
 
     public override void Select()
