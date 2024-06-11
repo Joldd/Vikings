@@ -10,12 +10,31 @@ public class HealthBar : MonoBehaviour
     RectTransform canvasRectTransform;
     public Slider slider;
     [SerializeField] GameObject blocToHide;
+    [SerializeField] Image bonus;
 
     private GameManager gameManager;
 
     private void Start()
     {
         gameManager = GameManager.Instance;
+    }
+
+    public void Bonus(FlankValues flankValue)
+    {
+        switch (flankValue)
+        {
+            case FlankValues.BACK:
+                bonus.gameObject.SetActive(true);
+                bonus.color = Color.red;
+                    break;
+            case FlankValues.FRONT:
+                bonus.gameObject.SetActive(false);
+                break;
+            case FlankValues.SIDES:
+                bonus.gameObject.SetActive(true);
+                bonus.color = Color.blue;
+                break;
+        }
     }
 
     void Update()

@@ -263,7 +263,16 @@ public class Troop : Selectable
                     multiValue = 1.5f;
                     break;
             }
+            unit.healthBar.Bonus(flankValue);
             unit.AddBonusDmgFlank(multiValue);
+        }
+    }
+
+    private void NoBonus()
+    {
+        foreach (EntityUnit unit in L_Units)
+        {
+            unit.healthBar.Bonus(FlankValues.FRONT);
         }
     }
 
@@ -459,7 +468,7 @@ public class Troop : Selectable
                     else state = State.WAITING;
                     checkEnemy = false;
                     checkBuilding = false;
-
+                    NoBonus();
                     if (!gameManager.CheckIsVicars(owner))
                     {
                         state = State.ENEMY;
