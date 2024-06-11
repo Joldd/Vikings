@@ -282,7 +282,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unit: {fileID: 8143974586233405072}
-  soundAttack: {fileID: 2538080188775527355}
+  soundAttack: Punch
   arrow: {fileID: 0}
 --- !u!82 &2538080188775527355
 AudioSource:

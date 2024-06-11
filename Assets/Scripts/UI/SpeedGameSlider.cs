@@ -7,15 +7,19 @@ public class SpeedGameSlider : Slider
 {
     UIManager uIManager;
     [SerializeField] TextMeshProUGUI currentMultiplierTMP;
+    private GameManager gameManager;
 
     protected override void Start()
     {
+        gameManager = GameManager.Instance;
         uIManager = UIManager.Instance;
         currentMultiplierTMP.text = "x 1";
     }
 
     public override void OnPointerUp(PointerEventData eventData)
     {
+        if (gameManager.isPause) return;
+
         base.OnPointerUp(eventData);
 
         if (value <= 0.25f)
@@ -35,5 +39,17 @@ public class SpeedGameSlider : Slider
 
         uIManager.SpeedGame(speedMultiplier);
         currentMultiplierTMP.text = "x " + speedMultiplier;
+    }
+
+    public override void OnDrag(PointerEventData eventData)
+    {
+        if (gameManager.isPause) return;
+        base.OnDrag(eventData);
+    }
+
+    public override void OnPointerDown(PointerEventData eventData)
+    {
+        if (gameManager.isPause) return;
+        base.OnPointerDown(eventData);
     }
 }

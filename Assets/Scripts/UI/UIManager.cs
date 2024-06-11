@@ -64,7 +64,7 @@ public class UIManager : MonoBehaviour
     public void Continue()
     {
         pauseMenu.SetActive(false);
-        Time.timeScale = 1f;
+        Time.timeScale = currentTimeScale;
         gameManager.isPause = false;
     }
 
@@ -110,6 +110,7 @@ public class UIManager : MonoBehaviour
 
     public void PauseGame()
     {
+        if (gameManager.isPause) return;
         if (!inGamePause)
         {
             inGamePause = true;

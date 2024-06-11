@@ -4,13 +4,19 @@ using static UnityEngine.GraphicsBuffer;
 public class UnitHelper : MonoBehaviour
 {
     [SerializeField] EntityUnit unit;
-    [SerializeField] AudioSource soundAttack;
+    [SerializeField] string soundAttack;
     [SerializeField] Arrow arrow;
+    private AudioManager audioManager;
+
+    private void Start()
+    {
+        audioManager = AudioManager.Instance;
+    }
     public void Deal()
     {
         if (!unit.target) return;
 
-        if (soundAttack) soundAttack.Play();
+        audioManager.Play(soundAttack);
 
         if (unit.target.PV > 0)
         {

@@ -3265,6 +3265,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2582249866165288520, guid: 1098e81cf0f681e4b886346c436c0dda, type: 3}
+      propertyPath: owner
+      value: 
+      objectReference: {fileID: 562592572}
+    - target: {fileID: 2582249866165288520, guid: 1098e81cf0f681e4b886346c436c0dda, type: 3}
       propertyPath: troopGO
       value: 
       objectReference: {fileID: 2953771740510689689, guid: c4ae4464363fbbc47b67d3e72b2ece80, type: 3}
@@ -5053,7 +5057,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3362574790166142500, guid: 8c8fb444237c98c48a10d48bc34845ef, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8650053179972722898, guid: 8c8fb444237c98c48a10d48bc34845ef, type: 3}
       propertyPath: levelMidPoint
