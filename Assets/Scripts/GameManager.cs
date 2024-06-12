@@ -298,10 +298,13 @@ public class GameManager : MonoBehaviour
             
             if (Physics.Raycast(ray, out hit, 100f, layer_mask))
             {
-                currentMark.transform.position = hit.point;
-                currentLine.SetPosition(1, hit.point);
+                if (currentMark != null)
+                {
+                    currentMark.transform.position = hit.point;
+                    currentLine.SetPosition(1, hit.point);
                 
-                currentMark.canBuild = NavMesh.SamplePosition(hit.point, out navMeshHit, 0.25f, NavMesh.AllAreas);
+                    currentMark.canBuild = NavMesh.SamplePosition(hit.point, out navMeshHit, 0.25f, NavMesh.AllAreas);
+                }
                 //TODO Faire un feedback pour informer que le point n'est pas placable
             }
         }

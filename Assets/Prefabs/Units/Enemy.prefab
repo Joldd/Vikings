@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 7573587994892062493}
   - component: {fileID: 8143974586233405072}
   - component: {fileID: 9103238300217284742}
-  m_Layer: 8
+  - component: {fileID: 6216945414057239402}
+  m_Layer: 10
   m_Name: Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -99,6 +100,33 @@ CapsuleCollider:
   m_Height: 1.5
   m_Direction: 1
   m_Center: {x: 0, y: 0.8, z: 0}
+--- !u!54 &6216945414057239402
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1429273588724494570}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &2590404679658909341
 GameObject:
   m_ObjectHideFlags: 0
@@ -589,6 +617,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 511458b17892e8c438ba93f5a0359402, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7732982146016558027}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 511458b17892e8c438ba93f5a0359402, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5718805128990622393}
   m_SourcePrefab: {fileID: 100100000, guid: 511458b17892e8c438ba93f5a0359402, type: 3}
 --- !u!1 &1304498797276921887 stripped
 GameObject:
@@ -609,6 +640,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unit: {fileID: 8143974586233405072}
   soundAttack: Punch
+  attackType: 0
+  aoeRange: 0
+  attackEffect: 0
+  vfxDamageEffectPrefab: {fileID: 0}
+  layerMaskTroopTarget:
+    serializedVersion: 2
+    m_Bits: 0
   arrow: {fileID: 0}
 --- !u!95 &8868816765936405873
 Animator:
@@ -727,6 +765,33 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!54 &5718805128990622393
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1304498797276921887}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!4 &1824329561445096101 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 511458b17892e8c438ba93f5a0359402, type: 3}

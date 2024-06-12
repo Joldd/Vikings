@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5887719911303186611}
   - component: {fileID: 5872375954559741682}
   - component: {fileID: 4416731486672657384}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: AITroop
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -65,9 +65,10 @@ MonoBehaviour:
   myWayPoints: {fileID: 0}
   changingWayPoints: {fileID: 0}
   maxTroop: 0
+  uiInfos: {fileID: 0}
   layerMaskTroopTarget:
     serializedVersion: 2
-    m_Bits: 3072
+    m_Bits: 2304
   navMeshAgent: {fileID: 4416731486672657384}
   areaToCapture: {fileID: 0}
   hitByHouse: 0

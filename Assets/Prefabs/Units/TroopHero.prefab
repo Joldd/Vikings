@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8987955895002578171}
   - component: {fileID: 7892107597424942323}
   - component: {fileID: 569545795746225242}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: TroopHero
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -67,6 +67,7 @@ MonoBehaviour:
   myWayPoints: {fileID: 0}
   changingWayPoints: {fileID: 0}
   maxTroop: 0
+  uiInfos: {fileID: 0}
   layerMaskTroopTarget:
     serializedVersion: 2
     m_Bits: 3072
