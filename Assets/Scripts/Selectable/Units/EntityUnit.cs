@@ -1,9 +1,5 @@
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.AI;
-using UnityEngine.Serialization;
-using UnityEngine.UI;
 
 public enum Type
 {
@@ -162,5 +158,12 @@ public class EntityUnit : Entity
         }
 
         if (myTroop) myTroop.DisableUnit(this);
+    }
+
+    public override void TakeDamage(float damage)
+    {
+        base.TakeDamage(damage);    
+
+        if (myTroop) myTroop.UpdateHealthBarTroop();
     }
 }
