@@ -88,19 +88,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaad1496fc9a0834482a87fdff9cf989, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvas: {fileID: 4912654323482623879}
   isSelect: 0
   canBeSelected: 0
   outline: {fileID: 0}
   owner: {fileID: 0}
-  L_EntityUnits:
-  - {fileID: 8143974586233405072, guid: c1f0eaf837bc85047a503f81a64c640d, type: 3}
-  L_Buttons:
-  - {fileID: 8325493312001079855}
   spawn: {fileID: 1745729143058281864}
+  currentSliderUnit: {fileID: 0}
   constructible: {fileID: 0}
   isBase: 0
   troopGO: {fileID: 2953771740510689689, guid: c4ae4464363fbbc47b67d3e72b2ece80, type: 3}
+  myButtonsToCreate:
+  - unit: {fileID: 8143974586233405072, guid: 962ffa1a0ed6881439deda31b6b8968e, type: 3}
+    sprite: {fileID: 21300000, guid: 91a0529bd4e6aa14c9816e30431770a4, type: 3}
+    nameUnit: Paladin
+    BtnPF: {fileID: 931265639525859496, guid: 8a6ac55a65fec284684c44851b7fd3f0, type: 3}
+  myButtonsToDisplay: []
 --- !u!65 &7255845743970466150
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -692,22 +694,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8600773397929658998, guid: 4209454fd92a28549ac75bd96fd906aa, type: 3}
   m_PrefabInstance: {fileID: 7637062683843546608}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &4912654323482623879 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3301434400223605367, guid: 4209454fd92a28549ac75bd96fd906aa, type: 3}
-  m_PrefabInstance: {fileID: 7637062683843546608}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &8325493312001079855 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1906803863501158367, guid: 4209454fd92a28549ac75bd96fd906aa, type: 3}
-  m_PrefabInstance: {fileID: 7637062683843546608}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &8389078987073745356
 PrefabInstance:
   m_ObjectHideFlags: 0

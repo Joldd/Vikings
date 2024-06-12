@@ -9,7 +9,7 @@ public class HoverTitle : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 {
     public bool isOver = false;
     [SerializeField] string text;
-    [SerializeField] Entity unit;
+    public Entity unit;
 
     private GameManager gameManager;
 

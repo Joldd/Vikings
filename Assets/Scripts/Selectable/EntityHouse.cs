@@ -1,8 +1,5 @@
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
-using static UnityEngine.UI.GridLayoutGroup;
 
 public class EntityHouse : Entity
 {
@@ -12,8 +9,8 @@ public class EntityHouse : Entity
     
     private House house;
     private GameManager gameManager;
+    private UIManager uIManager;
 
-    private Button btnRepair;
     private bool isRepairing;
     private bool canRepair;
     private LayerMask layerUnit;
@@ -35,14 +32,14 @@ public class EntityHouse : Entity
 
         house = GetComponent<House>();
         gameManager = GameManager.Instance;
+        uIManager = UIManager.Instance;
         if (!isBuilt) animator.Play("Build");
         flameEffect = transform.Find("Flame").gameObject;
         flameEffect.SetActive(false);
 
         timerCheckEnemies = timerCheckEnemiesMax;
         timeRepair = timerRepairMax;
-        btnRepair = house.canvas.transform.Find("Panel").Find("Repair").gameObject.GetComponent<Button>();
-        btnRepair.onClick.AddListener(() => { if (gameManager.reputation > 0 && PV < maxPV) isRepairing = true; });
+        uIManager.btnRepair.onClick.AddListener(() => { if (gameManager.reputation > 0 && PV < maxPV) isRepairing = true; });
         
         //Health Bar
         healthBarHouse = Instantiate(healthBarHousePrefab, transform.position, Quaternion.identity);
@@ -114,7 +111,7 @@ public class EntityHouse : Entity
                     }
                 }
             }
-            btnRepair.interactable = canRepair;
+            uIManager.btnRepair.interactable = canRepair;
             timerCheckEnemies = timerCheckEnemiesMax;
         }
 
