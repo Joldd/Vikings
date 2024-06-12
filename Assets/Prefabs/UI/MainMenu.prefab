@@ -7364,6 +7364,13 @@ MonoBehaviour:
     loop: 0
     source: {fileID: 0}
     isSFX: 1
+  - clip: {fileID: 8300000, guid: fe3556d416d4795439d6f0a18d15bc8c, type: 3}
+    volume: 1
+    pitch: 1
+    Name: Hero
+    loop: 0
+    source: {fileID: 0}
+    isSFX: 1
   sliderMusic: {fileID: 3663068377076515936}
   sliderSFX: {fileID: 5112901385116801059}
 --- !u!1 &6766035637280040396

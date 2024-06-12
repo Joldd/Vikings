@@ -49,7 +49,7 @@ public class Troop : Selectable
     LineRenderer currentLine;
     float lastClickTime;
     private bool isRunning;
-    private bool isWaypoints;
+    public bool isWaypoints;
 
     [Header("Stats")]
     protected float speed;
