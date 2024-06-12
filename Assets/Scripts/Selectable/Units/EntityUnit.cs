@@ -124,6 +124,7 @@ public class EntityUnit : Entity
     
     public void Attack()
     {
+        if (!animator.isActiveAndEnabled) return;
         animator.speed = 1f / timerAttackMax;
         animator.Play("Attack");
     }

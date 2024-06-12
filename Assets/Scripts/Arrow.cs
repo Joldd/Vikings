@@ -8,6 +8,11 @@ public class Arrow : MonoBehaviour
 
     void Update()
     {
+        if (unit.target == null)
+        {
+            Destroy(gameObject);
+        }
+
         transform.position = Vector3.MoveTowards(transform.position, unit.target.transform.position, speed * Time.deltaTime);
         transform.LookAt(unit.target.transform);
 

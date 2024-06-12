@@ -265,7 +265,7 @@ public class Troop : Selectable
     {
         foreach (EntityUnit unit in L_Units)
         {
-            unit.animator.Play(name);
+            if (unit.animator.isActiveAndEnabled) unit.animator.Play(name);
         }
     }
 
@@ -313,6 +313,7 @@ public class Troop : Selectable
         EntityUnit nearestUnit = null;
         foreach (EntityUnit unit in L_Units)
         {
+            if (!unit.isActiveAndEnabled) continue;
             Vector3 unitPos = unit.transform.position;
             if (nearestUnit != null)
             {
@@ -340,8 +341,7 @@ public class Troop : Selectable
 
     protected void KillTarget()
     {
-        if (!target.TryGetComponent<Hero>(out Hero hero)) Destroy(target.gameObject);
-
+        //if (!target.TryGetComponent<Hero>(out Hero hero)) Destroy(target.gameObject);
         target = null;
         foreach (EntityUnit unit in L_Units)
         {
@@ -395,7 +395,8 @@ public class Troop : Selectable
                     areaToCapture.enemyCapturing = false;
                 }
             }
-            
+            Destroy(healthBar.gameObject);
+
             Destroy(gameObject);
         }
     }

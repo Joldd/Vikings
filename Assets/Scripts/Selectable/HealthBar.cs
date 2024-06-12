@@ -59,6 +59,7 @@ public class HealthBar : MonoBehaviour
     public virtual void StartBar(GameObject target, Color color)
     {
         slider = GetComponent<Slider>();
+        slider.value = 1;
         rectTransform = GetComponent<RectTransform>();
         canvasRectTransform = FindObjectOfType<HealthBarCanvas>().rectTransform;
         transform.SetParent(canvasRectTransform);
