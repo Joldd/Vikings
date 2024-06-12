@@ -4912,6 +4912,10 @@ PrefabInstance:
       propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9049865407920337549, guid: 4136d3ddf12737144876a6e32402401a, type: 3}
+      propertyPath: sounds.Array.data[4].Name
+      value: Arrow
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

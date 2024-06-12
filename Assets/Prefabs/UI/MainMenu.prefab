@@ -7071,6 +7071,13 @@ MonoBehaviour:
     loop: 1
     source: {fileID: 0}
     isSFX: 0
+  - clip: {fileID: 8300000, guid: ace702564c6674a4bb7dcf3556e33673, type: 3}
+    volume: 1
+    pitch: 1
+    Name: Arrow
+    loop: 0
+    source: {fileID: 0}
+    isSFX: 1
   sliderMusic: {fileID: 3663068377076515936}
   sliderSFX: {fileID: 5112901385116801059}
 --- !u!1 &6766035637280040396
