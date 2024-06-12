@@ -32,6 +32,9 @@ public class Troop : Selectable
     public bool checkBuilding;
     public bool isOver;
     protected Entity target;
+    private Troop currentFightingTroop;
+    private FlankValues currentFlank;
+    private 
     Vector3 directionEnemy;
     public House myHouse;
     public Color healthBarColor;
@@ -44,8 +47,9 @@ public class Troop : Selectable
     protected Vector3 lastPositionMove;
     Mark currentMark;
     LineRenderer currentLine;
-    private bool canRun = true;
     float lastClickTime;
+    private bool isRunning;
+    private bool isWaypoints;
 
     [Header("Stats")]
     protected float speed;
@@ -55,6 +59,7 @@ public class Troop : Selectable
     protected float timerAttackMax;
     protected float timerAttack = 0f;
     public int maxTroop;
+    public UITroopInfo uiInfos;
 
     [SerializeField] protected LayerMask layerMaskTroopTarget; 
     [Header("Navigation")]
@@ -190,7 +195,6 @@ public class Troop : Selectable
     public void ResetTroop()
     {
         state = State.WAITING;
-        canRun = true;
         
         if (myWayPoints) 
         {
@@ -227,7 +231,7 @@ public class Troop : Selectable
             }
         }
 
-        if (!myWayPoints && canRun && type != Type.Messenger)
+        if (!myWayPoints && type != Type.Messenger && !isWaypoints)
         {
             gameManager.CreatePath();
         }
@@ -291,7 +295,16 @@ public class Troop : Selectable
                     multiValue = 1.5f;
                     break;
             }
+            unit.healthBar.Bonus(flankValue);
             unit.AddBonusDmgFlank(multiValue);
+        }
+    }
+
+    private void NoBonus()
+    {
+        foreach (EntityUnit unit in L_Units)
+        {
+            unit.healthBar.Bonus(FlankValues.FRONT);
         }
     }
 
@@ -339,15 +352,19 @@ public class Troop : Selectable
 
     public void Run()
     {
+        PlayAnimation("Run");
+        navMeshAgent.enabled = true;
         navMeshAgent.isStopped = false;
         state = State.RUNNING;
         currentMark = myWayPoints.marks[0];
-        navMeshAgent.SetDestination(currentMark.transform.position);
         currentMark.gameObject.SetActive(false);
         currentMark = myWayPoints.nextPoint(currentMark);
         currentLine = myWayPoints.lines[0];
+        navMeshAgent.SetDestination(currentMark.transform.position);
 
         if (myHouse) myHouse.DetachTroop(this);
+
+        if (uiInfos) uiInfos.btnGo.interactable = false;
     }
 
     public void RemoveUnit(EntityUnit unit)
@@ -398,6 +415,15 @@ public class Troop : Selectable
         navMeshAgent.speed = newSpeed;
     }
 
+    private void GoTo(Vector3 pos)
+    {
+        PlayAnimation("Run");
+        navMeshAgent.enabled = true;
+        navMeshAgent.isStopped = false;
+        navMeshAgent.SetDestination(pos);
+        isRunning = true;
+    }
+
      protected virtual void Update()
     {
         /////////////////  DO SOMETHING IF SELECTED ////////////////////
@@ -407,14 +433,14 @@ public class Troop : Selectable
             {
                 /////////////////////// GO //////////////////////////
                                 //DOUBLECLICK
-                if (Input.GetMouseButtonDown(2))
+                if (Input.GetKeyUp(KeyCode.Space))
                 {
                     float timeSinceLastClick = Time.unscaledTime - lastClickTime;
 
                     if (timeSinceLastClick <= gameManager.DOUBLE_CLICK_TIME * Time.timeScale)
                     {
                         Run();
-                        canRun = false;
+                        isWaypoints = true;
                     }
 
                     lastClickTime = Time.unscaledTime;
@@ -425,7 +451,7 @@ public class Troop : Selectable
                 if (L_Units[0].TryGetComponent<Messenger>(out Messenger messenger))
                 {
                     ////////////////////// BRING MESSAGE /////////////////////
-                    if ((Input.GetMouseButtonDown(2) || Input.GetKeyDown(KeyCode.Space)) && messenger.canGo)
+                    if (Input.GetKeyDown(KeyCode.Space) && messenger.canGo)
                     {
                         messenger.Go();
                         gameManager.ChangeCursor(gameManager.cursorNormal);
@@ -447,10 +473,7 @@ public class Troop : Selectable
 
             if (state == State.RUNNING && myWayPoints)
             {
-                PlayAnimation("Run");
-                navMeshAgent.enabled = true;
-                navMeshAgent.isStopped = false;
-                navMeshAgent.SetDestination(currentMark.transform.position);
+                if (!isRunning) GoTo(currentMark.transform.position);
 
                 if (Vector3.Distance(transform.position, currentMark.transform.position) < 0.4f && myWayPoints.marks.IndexOf(currentMark) < myWayPoints.marks.Count - 1)
                 {
@@ -458,6 +481,7 @@ public class Troop : Selectable
                     currentMark = myWayPoints.nextPoint(currentMark);
                     currentLine.gameObject.SetActive(false);
                     currentLine = myWayPoints.nextLine(currentLine);
+                    isRunning = false;
                 }
                 if (Vector3.Distance(transform.position, currentMark.transform.position) < 0.4f && myWayPoints.marks.IndexOf(currentMark) == myWayPoints.marks.Count - 1)
                 {
@@ -474,10 +498,7 @@ public class Troop : Selectable
             {
                 if (Vector3.Distance(transform.position, lastPositionMove) >= 1)
                 {
-                    PlayAnimation("Run");
-                    navMeshAgent.isStopped = false;
-                    navMeshAgent.enabled = true;
-                    navMeshAgent.SetDestination(lastPositionMove);
+                    if (!isRunning) GoTo(lastPositionMove);
 
                     if (hitByHouse)
                     {
@@ -496,11 +517,12 @@ public class Troop : Selectable
             {
                 if (target == null)
                 {
+                    isRunning = false;
                     if (myWayPoints && currentMark) state = State.RUNNING;
                     else state = State.WAITING;
                     checkEnemy = false;
                     checkBuilding = false;
-
+                    NoBonus();
                     if (!gameManager.CheckIsVicars(owner))
                     {
                         state = State.ENEMY;
@@ -509,25 +531,21 @@ public class Troop : Selectable
                 }
                 else
                 {
-                    PlayAnimation("Run");
-                    navMeshAgent.enabled = true;
-                    navMeshAgent.isStopped = false;
                     Vector3 targetPos = new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z);
-                    navMeshAgent.SetDestination(targetPos);
+                    if (!isRunning) GoTo(targetPos);
                     if (Vector3.Distance(transform.position, target.transform.position) <= range + target.size)
                     {
-                        if (L_Units[0].type == Type.Archer) Debug.Log("attack");
                         state = State.ATTACK;
                         navMeshAgent.isStopped = true;
                         transform.LookAt(new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z));
                     }
                     if (Vector3.Distance(transform.position, target.transform.position) > 15f)
                     {
-                        if (L_Units[0].type == Type.Archer) Debug.Log("run");
                         state = State.RUNNING;
                         navMeshAgent.isStopped = false;
                         checkEnemy = false;
                         checkBuilding = false;
+                        isRunning = false;
                         if (!gameManager.CheckIsVicars(owner))
                         {
                             state = State.ENEMY;
@@ -563,7 +581,6 @@ public class Troop : Selectable
                     }
                     if (Vector3.Distance(transform.position, target.transform.position) > 1.5f * range + target.size)
                     {
-                        if (L_Units[0].type == Type.Archer) Debug.Log("osecours");
                         timerAttack = 0f;
                         state = State.RUNATTACK;
                         PlayAnimation("Run");
@@ -603,13 +620,18 @@ public class Troop : Selectable
                 {
                     if (enemyTroop.owner != owner && enemyTroop.type != Type.Messenger)
                     {
-                        if (L_Units[0].type == Type.Archer) Debug.Log("lala");
+                        isRunning = false;
                         enemyTroop = hit.transform.gameObject.GetComponent<Troop>();
                         state = State.RUNATTACK;
                         PlayAnimation("Run");
                         target = enemyTroop.GetNearestUnitFromTroop(transform.position);
                         // Check flank 
-                        TargetEnemyFlank(Vector3.Angle(enemyTroop.transform.forward, transform.forward));
+                        if (enemyTroop == currentFightingTroop)
+                        {
+                            GiveTarget(currentFlank);
+                        }
+                        else TargetEnemyFlank(Vector3.Angle(enemyTroop.transform.forward, transform.forward));
+                        currentFightingTroop = enemyTroop;
                         checkEnemy = true;
                         break;
                     }
@@ -626,14 +648,18 @@ public class Troop : Selectable
                 {
                     if (enemyTroop.owner != owner && enemyTroop.type != Type.Messenger)
                     {
-                        if (L_Units[0].type == Type.Archer) Debug.Log("lulu");
+                        isRunning = false;
                         timerAttack = 0f;
                         enemyTroop = hit.transform.gameObject.GetComponent<Troop>();
                         target = enemyTroop.GetNearestUnitFromTroop(transform.position);
                         checkEnemy = true;
                         state = State.RUNATTACK;
                         PlayAnimation("Run");
-                        GiveTarget();
+                        if (enemyTroop == currentFightingTroop)
+                        {
+                            GiveTarget(currentFlank);
+                        }
+                        else GiveTarget();
                     }
                 }
 
@@ -641,7 +667,6 @@ public class Troop : Selectable
                 {
                     if (!checkBuilding && enemyBuilding.House.owner != owner)
                     {
-                        if (L_Units[0].type == Type.Archer) Debug.Log("lolo");
                         target = enemyBuilding;
                         checkBuilding = true;
                         state = State.RUNATTACK;
@@ -661,6 +686,7 @@ public class Troop : Selectable
             <= 135 => FlankValues.SIDES,
             >= 136 => FlankValues.FRONT,
         };
+        currentFlank = value;
         GiveTarget(value);
     }
 

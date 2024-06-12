@@ -9,7 +9,8 @@ public class HealthBar : MonoBehaviour
     [Range(0, 5)] public float healthBarUpOffset;
     protected RectTransform canvasRectTransform;
     public Slider slider;
-    [SerializeField] protected GameObject blocToHide;
+    [SerializeField] GameObject blocToHide;
+    [SerializeField] Image bonus;
     public Image fillImage;
 
     protected GameManager gameManager;
@@ -19,7 +20,25 @@ public class HealthBar : MonoBehaviour
         gameManager = GameManager.Instance;
     }
 
-    private void Update()
+    public void Bonus(FlankValues flankValue)
+    {
+        switch (flankValue)
+        {
+            case FlankValues.BACK:
+                bonus.gameObject.SetActive(true);
+                bonus.color = Color.red;
+                    break;
+            case FlankValues.FRONT:
+                bonus.gameObject.SetActive(false);
+                break;
+            case FlankValues.SIDES:
+                bonus.gameObject.SetActive(true);
+                bonus.color = Color.blue;
+                break;
+        }
+    }
+
+    void Update()
     {
         Vector3 worldTargetPosition = troopUnity.transform.position + Vector3.up * healthBarUpOffset;
         rectTransform.position = Camera.main.WorldToScreenPoint(worldTargetPosition);

@@ -609,7 +609,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unit: {fileID: 8143974586233405072}
-  soundAttack: {fileID: 7732982146016558027}
+  soundAttack: Punch
   arrow: {fileID: 0}
 --- !u!95 &8868816765936405873
 Animator:

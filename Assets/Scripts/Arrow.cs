@@ -4,7 +4,7 @@ public class Arrow : MonoBehaviour
 {
     public EntityUnit unit;
     public UnitHelper unitHelper;
-    private int speed = 22;
+    [SerializeField] private int speed;
 
     void Update()
     {
