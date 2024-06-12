@@ -4,12 +4,10 @@ using UnityEngine.UI;
 
 public class House : Selectable
 {
-    [SerializeField] public List<EntityUnit> L_EntityUnits;
-    public List<Button> L_Buttons;
     [SerializeField] Transform spawn;
 
     EntityUnit currentUnit;
-    Slider currentSliderUnit = null;
+    public Slider currentSliderUnit = null;
     bool isBuilding = false;
 
     public Constructible constructible;
@@ -23,48 +21,50 @@ public class House : Selectable
     [SerializeField] private Troop troopGO;
 
     private GameManager gameManager;
+    private UIManager uiManager;
+
+    public ButtonUnit[] myButtonsToCreate;
+    public List<GameObject> myButtonsToDisplay = new List<GameObject>();
 
     public override void Start()
     {
         base.Start();
 
         gameManager = GameManager.Instance;
+        uiManager = UIManager.Instance;
 
-        canvas.SetActive(false);
+        uiManager.CreateButtonsBuilding(this);
+    }
 
-        canvas = transform.Find("CanvasBuilding").gameObject;
-
-        if (L_EntityUnits.Count == L_Buttons.Count)
+    public void StartBuild(EntityUnit unit)
+    {
+        if (!isBuilding && gameManager.gold >= unit.priceGold
+                        && (!GetTroop(unit.GetComponent<EntityUnit>())
+                            || GetTroop(unit.GetComponent<EntityUnit>()).L_Units.Count < GetTroop(unit.GetComponent<EntityUnit>()).maxTroop))
         {
-            for (int i = 0; i < L_Buttons.Count; i++)
+            if (unit)
             {
-                Slider sliderUnit = L_Buttons[i].transform.Find("Slider").GetComponent<Slider>();
-                sliderUnit.gameObject.SetActive(false);
-                int n = i;
-                L_Buttons[i].onClick.AddListener(() =>
-                {
-                    if (!isBuilding && gameManager.gold >= L_EntityUnits[n].priceGold
-                        && (!GetTroop(L_EntityUnits[n].GetComponent<EntityUnit>())
-                            || GetTroop(L_EntityUnits[n].GetComponent<EntityUnit>()).L_Units.Count < GetTroop(L_EntityUnits[n].GetComponent<EntityUnit>()).maxTroop))
-                    {
-                        if (L_EntityUnits[n])
-                        {
-                            currentUnit = L_EntityUnits[n];
-                            sliderUnit.gameObject.SetActive(true);
-                            currentSliderUnit = sliderUnit;
-                            isBuilding = true;
-                            timer = currentUnit.timeBuildMax;
-                            gameManager.gold -= currentUnit.priceGold;
-                            gameManager.UpdateRessources();
-                        }
-                    }
-                });
+                currentUnit = unit;
+                isBuilding = true;
+                timer = currentUnit.timeBuildMax;
+                gameManager.gold -= currentUnit.priceGold;
+                gameManager.UpdateRessources();
             }
         }
-        else
-        {
-            Debug.LogWarning("The Building " + name + " miss units or buttons");
-        }
+    }
+
+    public override void Select()
+    {
+        base.Select();
+
+        uiManager.DisplayUIBuilding(this, true);
+    }
+
+    public override void UnSelect()
+    {
+        base.UnSelect();
+
+        uiManager.DisplayUIBuilding(this, false);
     }
 
     private Troop GetTroop(EntityUnit v)

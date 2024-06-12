@@ -12,6 +12,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject victoryMenu;
     [SerializeField] private GameObject defeatMenu;
     [SerializeField] private UITroopInfo uiTroopInfo;
+    [SerializeField] private GameObject uiBuilding;
+    [SerializeField] private Transform buttonsBuildings;
+    public Button btnRepair;
 
     private GameManager gameManager;
     [Header("Timer")]
@@ -106,6 +109,24 @@ public class UIManager : MonoBehaviour
             uiTroopInfo.SetupTroop(troop);
         }
         uiTroopInfo.gameObject.SetActive(value);
+    }
+
+    public void CreateButtonsBuilding(House house)
+    {
+        foreach (ButtonUnit btn in house.myButtonsToCreate)
+        {
+            GameObject btnGO = btn.SetupButton(buttonsBuildings, house);
+            house.myButtonsToDisplay.Add(btnGO);
+        }
+    }
+
+    public void DisplayUIBuilding(House house, bool value)
+    {
+        uiBuilding.SetActive(value);
+        foreach(GameObject btn in house.myButtonsToDisplay)
+        {
+            btn.SetActive(value);
+        }
     }
 
     public void PauseGame()

@@ -1,9 +1,8 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class Selectable : MonoBehaviour
 {
-    public GameObject canvas;
-
     public bool isSelect;
 
     public bool canBeSelected;
@@ -59,20 +58,19 @@ public class Selectable : MonoBehaviour
         gameManager.selectedUnit = this;
         selectOutline();
         isSelect = true;
-        if (canvas) canvas.SetActive(true);
     }
 
     public virtual void UnSelect()
     {
         noOutLine();
         isSelect = false;
-        if (canvas) canvas.SetActive(false);
     }
 
     public virtual void OnMouseDown()
     {
         if (gameManager.isPathing) return;
         if (gameManager.isPause) return;
+        if (EventSystem.current.IsPointerOverGameObject()) return;
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
@@ -108,6 +106,7 @@ public class Selectable : MonoBehaviour
     private void OnMouseOver()
     {
         if (gameManager.isPause) return;
+        if (EventSystem.current.IsPointerOverGameObject()) return;
 
         if (!isSelect)
         {

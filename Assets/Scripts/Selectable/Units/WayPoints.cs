@@ -127,14 +127,14 @@ public class WayPoints : MonoBehaviour
                 {
                     LineRenderer l = lines[i];
                     lines.Remove(l);
-                    Destroy(l);
+                    Destroy(l.gameObject);
                     lines[i - 1].SetPosition(1, marks[i].transform.position);
                 }
                 else
                 {
                     LineRenderer l = lines[i-1];
                     lines.Remove(l);
-                    Destroy(l);
+                    Destroy(l.gameObject);
                 }      
             }
         }
