@@ -295,7 +295,7 @@ public class Troop : Selectable
                     multiValue = 1.5f;
                     break;
             }
-            unit.healthBar.Bonus(flankValue);
+            healthBar.Bonus(flankValue);
             unit.AddBonusDmgFlank(multiValue);
         }
     }
@@ -304,7 +304,7 @@ public class Troop : Selectable
     {
         foreach (EntityUnit unit in L_Units)
         {
-            unit.healthBar.Bonus(FlankValues.FRONT);
+            healthBar.Bonus(FlankValues.FRONT);
         }
     }
 

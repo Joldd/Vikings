@@ -9,7 +9,7 @@ public class HealthBar : MonoBehaviour
     [Range(0, 5)] public float healthBarUpOffset;
     protected RectTransform canvasRectTransform;
     public Slider slider;
-    [SerializeField] GameObject blocToHide;
+    [SerializeField] protected GameObject blocToHide;
     [SerializeField] Image bonus;
     public Image fillImage;
 
