@@ -56,8 +56,12 @@ MonoBehaviour:
   type: 0
   state: 0
   checkEnemy: 0
+  checkBuilding: 0
   isOver: 0
   myHouse: {fileID: 0}
+  healthBarColor: {r: 1, g: 0.4474938, b: 0, a: 1}
+  healthBarPrefab: {fileID: 1119104912643297415, guid: f17337097d63c1e4ebbea0de56ce28ea, type: 3}
+  healthBar: {fileID: 0}
   myWayPoints: {fileID: 0}
   changingWayPoints: {fileID: 0}
   maxTroop: 0

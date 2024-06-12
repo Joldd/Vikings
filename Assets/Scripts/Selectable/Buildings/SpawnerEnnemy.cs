@@ -87,7 +87,7 @@ public class SpawnerEnnemy : MonoBehaviour
         myTroop.owner = gameManager.VikingPlayer.Player;
         myTroop.tag = "Enemy";  
         myTroop.type = spawnedUnit.type;
-        myTroop.AddUnit(spawnedUnit);
+        StartCoroutine(myTroop.AddUnit(spawnedUnit));
 
         myTroop.SetAIState(AIEnemyState.RushBase);
         return myTroop;
@@ -102,7 +102,7 @@ public class SpawnerEnnemy : MonoBehaviour
         for (int i = 0; i < 3; i++)
         {
             EntityUnit spawnedUnit = Instantiate(baseUnitToSpawn);
-            myTroop.AddUnit(spawnedUnit);
+            StartCoroutine(myTroop.AddUnit(spawnedUnit));
         }
 
         myTroop.type = baseUnitToSpawn.type;

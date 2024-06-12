@@ -4,7 +4,6 @@ using UnityEngine.Events;
 
 public class Entity : MonoBehaviour
 {
-    public HealthBar healthBar;
     public Animator animator;
 
     //Stats
@@ -26,23 +25,14 @@ public class Entity : MonoBehaviour
         timeBuild = timeBuildMax;
         PV = maxPV;
         animator = GetComponent<Animator>();
-
-        //Health Bar
-        healthBar = Instantiate(healthBar, transform.position, Quaternion.identity);
-        healthBar.StartBar(gameObject);
-        healthBar.UpdateValue();
     }
 
-    public virtual void Die()
-    {
-        Destroy(healthBar.gameObject);
-    }
+    public virtual void Die() { }
     
-    public void TakeDamage(float damage)
+    public virtual void TakeDamage(float damage)
     {
         PV -= (int) damage;
-        healthBar.UpdateValue();
-        onDamageTaken.Invoke(healthBar.slider.value);
+        onDamageTaken.Invoke((float) PV/maxPV);
     }
 
     public void AddListenerOnDamageTaken(UnityAction<float> action)

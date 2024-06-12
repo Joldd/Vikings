@@ -156,7 +156,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2af75026737cf24a898bd9687f60475, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthBar: {fileID: 1119104912643297415, guid: f17337097d63c1e4ebbea0de56ce28ea, type: 3}
   animator: {fileID: 0}
   PV: 20
   maxPV: 30
@@ -166,6 +165,9 @@ MonoBehaviour:
   timeBuild: 0
   priceReputation: 120
   priceGold: 0
+  healthBarColor: {r: 0.33333334, g: 0.9607843, b: 0, a: 1}
+  healthBarHousePrefab: {fileID: -2205284920490260026, guid: f047968025925904da731c68d8f2ce27, type: 3}
+  healthBarHouse: {fileID: 0}
 --- !u!114 &9095287807567057100
 MonoBehaviour:
   m_ObjectHideFlags: 0

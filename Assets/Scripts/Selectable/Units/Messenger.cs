@@ -18,8 +18,6 @@ public class Messenger : EntityUnit
         gameManager = GameManager.Instance;
 
         homePos = transform.position;
-
-        healthBar.gameObject.SetActive(false);
     }
 
     public void Select()

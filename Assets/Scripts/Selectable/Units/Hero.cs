@@ -49,10 +49,10 @@ public class Hero : EntityUnit
     {
         isDie = false;
         panelRespawn.gameObject.SetActive(false);
-        healthBar.gameObject.SetActive(true);
+        myTroop.healthBar.gameObject.SetActive(true);
         myTroop.gameObject.SetActive(true);
         PV = maxPV;
-        healthBar.UpdateValue();
+        myTroop.UpdateHealthBarTroop();
         UpdatePVHero();
         respawnParticle.Play();
         respawnSound.Play();
@@ -63,7 +63,7 @@ public class Hero : EntityUnit
     public override void Die()
     {
         panelRespawn.SetActive(true);
-        healthBar.gameObject.SetActive(false);
+        myTroop.healthBar.gameObject.SetActive(false);
         isDie = true;
         myTroop.transform.position = gameManager.CheckIsVicars(myTroop.owner) ? gameManager.GetVicarBase().GetSpawnPosition() : gameManager.GetVikingBase().GetSpawnPosition();
         myTroop.gameObject.SetActive(false);

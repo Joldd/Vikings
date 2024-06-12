@@ -91,7 +91,7 @@ public class House : Selectable
                 if (t.type == v.type)
                 {
                     isTroop = true;
-                    t.AddUnit(v);
+                    StartCoroutine(t.AddUnit(v));
                 }
             }
             if (isTroop) return;
@@ -101,7 +101,7 @@ public class House : Selectable
             L_Troop.Add(troop);
             troop.owner = owner;
             troop.type = v.type;
-            troop.AddUnit(v);
+            StartCoroutine(troop.AddUnit(v));
             troop.myHouse = this;
         }
     }

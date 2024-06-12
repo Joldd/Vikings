@@ -77,8 +77,6 @@ public class EntityUnit : Entity
     {
         base.Start();
 
-        healthBar.UpdateValue();
-
         body = transform.Find("Body").gameObject;
         animator = body.GetComponent<Animator>();
 
@@ -162,6 +160,6 @@ public class EntityUnit : Entity
             gameManager.UpdateRessources();
         }
 
-        if (myTroop) myTroop.RemoveUnit(this);
+        if (myTroop) myTroop.DisableUnit(this);
     }
 }

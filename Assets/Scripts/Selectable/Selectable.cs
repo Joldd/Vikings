@@ -18,7 +18,7 @@ public class Selectable : MonoBehaviour
     {
         gameManager = GameManager.Instance;
         canBeSelected = true;
-
+        
         if (!gameManager.CheckIsVicars(owner))
         {
             canBeSelected = false;

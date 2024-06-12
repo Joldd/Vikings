@@ -58,8 +58,12 @@ MonoBehaviour:
   type: 4
   state: 0
   checkEnemy: 0
+  checkBuilding: 0
   isOver: 0
   myHouse: {fileID: 0}
+  healthBarColor: {r: 0.33333334, g: 0.9607843, b: 0, a: 1}
+  healthBarPrefab: {fileID: 0}
+  healthBar: {fileID: 0}
   myWayPoints: {fileID: 0}
   changingWayPoints: {fileID: 0}
   maxTroop: 0
@@ -68,6 +72,7 @@ MonoBehaviour:
     m_Bits: 3072
   navMeshAgent: {fileID: 569545795746225242}
   areaToCapture: {fileID: 0}
+  hitByHouse: 0
   ward: {fileID: 6568633019215398634, guid: fcb80284e09ebde4aa4118a87a9dbddd, type: 3}
   fogRevealer:
     revealerTransform: {fileID: 0}

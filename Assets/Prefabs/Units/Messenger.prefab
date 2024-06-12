@@ -70,10 +70,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d27faedd536686b46887d97906bbb99e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthBar: {fileID: 1119104912643297415, guid: f17337097d63c1e4ebbea0de56ce28ea, type: 3}
   animator: {fileID: 0}
-  PV: 0
-  maxPV: 0
+  PV: 1
+  maxPV: 1
   size: 0
   timeBuildMax: 2
   isBuilt: 0

@@ -1,10 +1,15 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using static UnityEngine.UI.GridLayoutGroup;
 
 public class EntityHouse : Entity
 {
+    public Color healthBarColor;
+    public HealthBarHouse healthBarHousePrefab;
+    [HideInInspector] public HealthBarHouse healthBarHouse;
+    
     private House house;
     private GameManager gameManager;
 
@@ -38,6 +43,11 @@ public class EntityHouse : Entity
         timeRepair = timerRepairMax;
         btnRepair = house.canvas.transform.Find("Panel").Find("Repair").gameObject.GetComponent<Button>();
         btnRepair.onClick.AddListener(() => { if (gameManager.reputation > 0 && PV < maxPV) isRepairing = true; });
+        
+        //Health Bar
+        healthBarHouse = Instantiate(healthBarHousePrefab, transform.position, Quaternion.identity);
+        healthBarHouse.StartBar(gameObject, healthBarColor);
+        healthBarHouse.UpdateValue();
     }
 
     public override void Die()
@@ -50,6 +60,14 @@ public class EntityHouse : Entity
         {
             gameManager.onBaseIsDestroyed.Invoke( gameManager.CheckIsVicars(house.owner) ? gameManager.VikingPlayer.Player : gameManager.VicarPlayer.Player);
         }
+        
+        Destroy(healthBarHouse.gameObject);
+    }
+
+    public override void TakeDamage(float damage)
+    {
+        base.TakeDamage(damage);
+        healthBarHouse.UpdateValue();
     }
 
     private void Update()
@@ -58,7 +76,7 @@ public class EntityHouse : Entity
         if (!isBuilt)
         {
             timeBuild -= Time.deltaTime;
-            healthBar.slider.value = (timeBuildMax - timeBuild) / timeBuildMax;
+            healthBarHouse.slider.value = (timeBuildMax - timeBuild) / timeBuildMax;
         }
         if (timeBuild <= 0 && !isBuilt)
         {
@@ -109,7 +127,7 @@ public class EntityHouse : Entity
                 PV++;
                 gameManager.reputation--;
                 timeRepair = timerRepairMax;
-                healthBar.UpdateValue();
+                healthBarHouse.UpdateValue();
                 gameManager.UpdateRessources();
             }
             if (gameManager.reputation <= 0 || PV >= maxPV) isRepairing = false;

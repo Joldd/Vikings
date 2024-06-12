@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -21,6 +22,7 @@ public enum State
 
 public class Troop : Selectable
 {
+    [Header("Base Troop")]
     public List<EntityUnit> L_Units = new List<EntityUnit>();
     private EntityUnit unitRef;
     protected float radius = 0.8f;
@@ -32,8 +34,11 @@ public class Troop : Selectable
     protected Entity target;
     Vector3 directionEnemy;
     public House myHouse;
+    public Color healthBarColor;
+    public HealthBar healthBarPrefab;
+    [HideInInspector] public HealthBar healthBar;
 
-    //Waypoints
+    [Header("WayPoints")]
     public WayPoints myWayPoints;
     public WayPoints changingWayPoints;
     protected Vector3 lastPositionMove;
@@ -42,7 +47,7 @@ public class Troop : Selectable
     private bool canRun = true;
     float lastClickTime;
 
-    //STATS
+    [Header("Stats")]
     protected float speed;
     protected float range;
     protected int aoeRange;
@@ -55,12 +60,13 @@ public class Troop : Selectable
     [Header("Navigation")]
     [SerializeField] private NavMeshAgent navMeshAgent;
     
-    //Constructible Capture
+    [Header("Constructible Capture")]
     public Constructible areaToCapture;
 
     public bool hitByHouse;
 
-    //FOGWAR
+
+    [Header("Fogwar")]
     [SerializeField] GameObject ward;
     private float timerWardMax = 2f;
     private float timerWard;
@@ -69,9 +75,7 @@ public class Troop : Selectable
     protected GameManager gameManager;
     
     public NavMeshAgent NavMeshAgent { get => navMeshAgent; }
-    
-    public bool CanRun { get => canRun; set => canRun = value; }
-    
+
     public override void Start()
     {
         base.Start();
@@ -107,9 +111,14 @@ public class Troop : Selectable
             state = State.ENEMY;
             directionEnemy = transform.forward;
         }
+
+        //Health Bar
+        healthBar = Instantiate(healthBarPrefab, transform.position, Quaternion.identity);
+        healthBar.StartBar(gameObject, healthBarColor);
+        UpdateHealthBarTroop();
     }
 
-    public void AddUnit(EntityUnit unit)
+    public IEnumerator AddUnit(EntityUnit unit)
     {
         unitRef = unit;
         unit.transform.SetParent(transform);
@@ -121,6 +130,22 @@ public class Troop : Selectable
             v.transform.position = L_Units.Count > 1 ? new Vector3(transform.position.x + radius * Mathf.Cos(i * 2 * Mathf.PI / L_Units.Count), transform.position.y, transform.position.z + radius * Mathf.Sin(i * 2 * Mathf.PI / L_Units.Count)) : transform.position;
         }
         noOutLine();
+        yield return new WaitUntil(() => healthBar != null);
+        UpdateHealthBarTroop();
+    }
+
+    public void UpdateHealthBarTroop()
+    {
+        //Refresh for each unit life
+        if (L_Units.Count > 0)
+        {
+            float totalValueLife = 0;
+            foreach (var unit in L_Units)
+            {
+                totalValueLife += unit.PV / unit.maxPV;
+            }
+            healthBar.slider.value = totalValueLife / L_Units.Count;
+        }
     }
 
     public override void noOutLine()
@@ -328,7 +353,12 @@ public class Troop : Selectable
     public void RemoveUnit(EntityUnit unit)
     {
         L_Units.Remove(unit);
-        if (L_Units.Count <= 0)
+        CheckTroopIsEmpty();
+    }
+
+    private void CheckTroopIsEmpty()
+    {
+        if (L_Units.Find(unit => unit.PV > 0) == null)
         {
             if (fogRevealer != null) gameManager.fogWar._FogRevealers.Remove(fogRevealer);
             if (myWayPoints) 
@@ -351,6 +381,15 @@ public class Troop : Selectable
             
             Destroy(gameObject);
         }
+    }
+
+    public void DisableUnit(EntityUnit unit)
+    {
+        //TODO Faire une animation de mort
+        unit.gameObject.SetActive(false);
+        CheckTroopIsEmpty();
+        
+        UpdateHealthBarTroop();
     }
 
     public void UpdateSpeedTroop(float newSpeed)

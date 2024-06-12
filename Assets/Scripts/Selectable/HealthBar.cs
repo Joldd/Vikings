@@ -4,26 +4,27 @@ using UnityEngine.UI;
 public class HealthBar : MonoBehaviour
 {
     public Image healthSprite;
-    Entity unit;
-    RectTransform rectTransform;
+    private Troop troopUnity;
+    protected RectTransform rectTransform;
     [Range(0, 5)] public float healthBarUpOffset;
-    RectTransform canvasRectTransform;
+    protected RectTransform canvasRectTransform;
     public Slider slider;
-    [SerializeField] GameObject blocToHide;
+    [SerializeField] protected GameObject blocToHide;
+    public Image fillImage;
 
-    private GameManager gameManager;
+    protected GameManager gameManager;
 
     private void Start()
     {
         gameManager = GameManager.Instance;
     }
 
-    void Update()
+    private void Update()
     {
-        Vector3 worldTargetPosition = unit.transform.position + Vector3.up * healthBarUpOffset;
+        Vector3 worldTargetPosition = troopUnity.transform.position + Vector3.up * healthBarUpOffset;
         rectTransform.position = Camera.main.WorldToScreenPoint(worldTargetPosition);
 
-        if (unit && unit.tag == "Enemy" && unit.TryGetComponent<EntityUnit>(out EntityUnit e))
+        if (troopUnity && troopUnity.tag == "Enemy" && troopUnity.GetComponent<Troop>() != null)
         {
             if (gameManager.fogWar.CheckVisibility(worldTargetPosition, 1))
             {
@@ -36,17 +37,13 @@ public class HealthBar : MonoBehaviour
         }
     }
 
-    public void StartBar(GameObject target)
+    public virtual void StartBar(GameObject target, Color color)
     {
         slider = GetComponent<Slider>();
         rectTransform = GetComponent<RectTransform>();
         canvasRectTransform = FindObjectOfType<HealthBarCanvas>().rectTransform;
         transform.SetParent(canvasRectTransform);
-        unit = target.GetComponent<Entity>();
-    }
-
-    public void UpdateValue()
-    {
-        slider.value = (float)unit.PV / (float)unit.maxPV;
+        troopUnity = target.GetComponent<Troop>();
+        fillImage.color = color;
     }
 }

@@ -56,8 +56,12 @@ MonoBehaviour:
   type: 0
   state: 0
   checkEnemy: 0
+  checkBuilding: 0
   isOver: 0
   myHouse: {fileID: 0}
+  healthBarColor: {r: 0.33333334, g: 0.9607844, b: 0, a: 1}
+  healthBarPrefab: {fileID: 1119104912643297415, guid: f17337097d63c1e4ebbea0de56ce28ea, type: 3}
+  healthBar: {fileID: 1119104912643297415, guid: f047968025925904da731c68d8f2ce27, type: 3}
   myWayPoints: {fileID: 0}
   changingWayPoints: {fileID: 0}
   maxTroop: 0
@@ -65,14 +69,14 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 3072
   navMeshAgent: {fileID: 569545795746225242}
+  areaToCapture: {fileID: 0}
+  hitByHouse: 0
   ward: {fileID: 6568633019215398634, guid: fcb80284e09ebde4aa4118a87a9dbddd, type: 3}
   fogRevealer:
     revealerTransform: {fileID: 0}
     sightRange: 0
     updateOnlyOnMove: 0
     lastSeenAt: {x: 0, y: 0}
-  cursorMsg: {fileID: 2800000, guid: 788f6edc4ed2a0148b4c52c8d9b5ca1a, type: 3}
-  cursorNormal: {fileID: 2800000, guid: fc3c22a9b7f8a164bb40ff5150f33d2a, type: 3}
 --- !u!54 &8987955895002578171
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -4010,7 +4010,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1940298899935905221, guid: c4ae4464363fbbc47b67d3e72b2ece80, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -92.83
+      value: -92.67
       objectReference: {fileID: 0}
     - target: {fileID: 1940298899935905221, guid: c4ae4464363fbbc47b67d3e72b2ece80, type: 3}
       propertyPath: m_LocalPosition.y
@@ -4056,6 +4056,10 @@ PrefabInstance:
       propertyPath: owner
       value: 
       objectReference: {fileID: 562592572}
+    - target: {fileID: 2953771740510689689, guid: c4ae4464363fbbc47b67d3e72b2ece80, type: 3}
+      propertyPath: healthBar
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 2953771740510689689, guid: c4ae4464363fbbc47b67d3e72b2ece80, type: 3}
       propertyPath: L_Units.Array.size
       value: 1
@@ -4228,6 +4232,10 @@ PrefabInstance:
       propertyPath: owner
       value: 
       objectReference: {fileID: 562592572}
+    - target: {fileID: 2953771740510689689, guid: c4ae4464363fbbc47b67d3e72b2ece80, type: 3}
+      propertyPath: healthBar
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 2953771740510689689, guid: c4ae4464363fbbc47b67d3e72b2ece80, type: 3}
       propertyPath: L_Units.Array.size
       value: 3
@@ -4596,6 +4604,10 @@ PrefabInstance:
       propertyPath: owner
       value: 
       objectReference: {fileID: 562592572}
+    - target: {fileID: 2953771740510689689, guid: c4ae4464363fbbc47b67d3e72b2ece80, type: 3}
+      propertyPath: healthBar
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 2953771740510689689, guid: c4ae4464363fbbc47b67d3e72b2ece80, type: 3}
       propertyPath: L_Units.Array.size
       value: 3
@@ -5053,7 +5065,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3362574790166142500, guid: 8c8fb444237c98c48a10d48bc34845ef, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8650053179972722898, guid: 8c8fb444237c98c48a10d48bc34845ef, type: 3}
       propertyPath: levelMidPoint
@@ -5437,6 +5449,18 @@ PrefabInstance:
     - target: {fileID: 6230955363413056210, guid: 81487770799ee8447a8e2e4db6d48660, type: 3}
       propertyPath: m_Name
       value: Messenger
+      objectReference: {fileID: 0}
+    - target: {fileID: 8832144208627769007, guid: 81487770799ee8447a8e2e4db6d48660, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8978655514157494650, guid: 81487770799ee8447a8e2e4db6d48660, type: 3}
+      propertyPath: PV
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8978655514157494650, guid: 81487770799ee8447a8e2e4db6d48660, type: 3}
+      propertyPath: maxPV
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8978655514157494650, guid: 81487770799ee8447a8e2e4db6d48660, type: 3}
       propertyPath: myTroop
@@ -6537,6 +6561,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 787296164314250829, guid: 4136d3ddf12737144876a6e32402401a, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: -0.000061035
+      objectReference: {fileID: 0}
+    - target: {fileID: 787296164314250829, guid: 4136d3ddf12737144876a6e32402401a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.000030517578
+      objectReference: {fileID: 0}
     - target: {fileID: 1258962214724710795, guid: 4136d3ddf12737144876a6e32402401a, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -6680,6 +6712,10 @@ PrefabInstance:
     - target: {fileID: 8389430852053960843, guid: 4136d3ddf12737144876a6e32402401a, type: 3}
       propertyPath: m_AnchorMin.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8505181887453477941, guid: 4136d3ddf12737144876a6e32402401a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9223,6 +9259,26 @@ PrefabInstance:
       propertyPath: owner
       value: 
       objectReference: {fileID: 562592572}
+    - target: {fileID: 2953771740510689689, guid: e6e68dd53924cd04e9ba2b661a2f6750, type: 3}
+      propertyPath: healthBar
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2953771740510689689, guid: e6e68dd53924cd04e9ba2b661a2f6750, type: 3}
+      propertyPath: healthBarPrefab
+      value: 
+      objectReference: {fileID: 1119104912643297415, guid: f17337097d63c1e4ebbea0de56ce28ea, type: 3}
+    - target: {fileID: 2953771740510689689, guid: e6e68dd53924cd04e9ba2b661a2f6750, type: 3}
+      propertyPath: healthBarColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2953771740510689689, guid: e6e68dd53924cd04e9ba2b661a2f6750, type: 3}
+      propertyPath: healthBarColor.g
+      value: 0.9607843
+      objectReference: {fileID: 0}
+    - target: {fileID: 2953771740510689689, guid: e6e68dd53924cd04e9ba2b661a2f6750, type: 3}
+      propertyPath: healthBarColor.r
+      value: 0.33333334
+      objectReference: {fileID: 0}
     - target: {fileID: 3781780756546850849, guid: e6e68dd53924cd04e9ba2b661a2f6750, type: 3}
       propertyPath: m_Name
       value: TroopHero

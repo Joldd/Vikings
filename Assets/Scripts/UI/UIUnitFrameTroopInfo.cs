@@ -14,7 +14,7 @@ public class UIUnitFrameTroopInfo : MonoBehaviour
     public void SetupUnitData(EntityUnit unit)
     {
         image.sprite = unit.imageUnit;
-        slider.value = unit.healthBar.slider.value;
+        slider.value = (float) unit.PV/unit.maxPV;
         unit.AddListenerOnDamageTaken(UpdateSliderValue);
     }
     
