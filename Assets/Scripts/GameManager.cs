@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PlayerBaseSetup vicarPlayer;
     [SerializeField] private PlayerBaseSetup vikingPlayer;
     public float DOUBLE_CLICK_TIME = 0.2f;
+    public CameraController cameraController;
 
     [Header("Pathing System")]
     [SerializeField] WayPoints wayPoints;

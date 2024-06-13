@@ -8433,6 +8433,7 @@ GameObject:
   - component: {fileID: 7821503393145096562}
   - component: {fileID: 6187805908843132250}
   - component: {fileID: 3424245971841417968}
+  - component: {fileID: 5036400658605102627}
   m_Layer: 0
   m_Name: Hero
   m_TagString: Untagged
@@ -8533,6 +8534,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myHero: {fileID: 0}
+--- !u!114 &5036400658605102627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7962749066136153260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09ac9186870743e499ab553d028d02c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isOver: 0
+  text: Victor
+  unit: {fileID: 0}
 --- !u!1 &8211114162449409086
 GameObject:
   m_ObjectHideFlags: 0

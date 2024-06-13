@@ -638,7 +638,6 @@ public class Troop : Selectable
                 Troop enemyTroop = null;
                 if (hit.transform.gameObject.TryGetComponent(out enemyTroop))
                 {
-                    if (type == Type.Hero) Debug.Log(enemyTroop);
                     if (enemyTroop.owner != owner && enemyTroop.type != Type.Messenger)
                     {
                         isRunning = false;

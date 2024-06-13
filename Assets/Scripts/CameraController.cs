@@ -10,20 +10,16 @@ public class CameraController : MonoBehaviour
     [SerializeField] private LayerMask layerMaskEvent;
     private Vector3 newPos;
 
-    private float delta = 10f;
-
-    private bool goBackNormal;
-
     private GameManager gameManager;
 
     private Camera myCam;
     [SerializeField] private Camera trailCamera;
 
-    [SerializeField] private GameObject rightLimits;
-    [SerializeField] private GameObject topLimits;
-    [SerializeField] private GameObject bottomLimits;
-    [SerializeField] private GameObject leftLimits;
-    
+    [SerializeField] Vector2 rangeX;
+    [SerializeField] Vector2 rangeZ;
+    private float factorHorizontal = 1.8f;
+    private float factorVertical = 1.4f;
+
 
     private void Start()
     {
@@ -42,23 +38,6 @@ public class CameraController : MonoBehaviour
         Zoom();
         
         Move();
-
-        transform.position = newPos;
-    }
-
-    private bool isLimit(GameObject listLimits)
-    {
-        bool result = false;
-        for (int i = 0; i < listLimits.transform.childCount; i++)
-        {
-            LevelLimit limit = listLimits.transform.GetChild(i).gameObject.GetComponent<LevelLimit>();
-            if (limit.isView)
-            {
-                result = true;
-                break;
-            }
-        }
-        return result;
     }
 
     private void Zoom()
@@ -67,12 +46,24 @@ public class CameraController : MonoBehaviour
         {
             myCam.orthographicSize -= zoomSpeed * Time.unscaledDeltaTime; 
         }
-        if (Input.mouseScrollDelta.y < 0 && myCam.orthographicSize < rangeZoom.y && !isLimit(rightLimits) && !isLimit(leftLimits) && !isLimit(topLimits) && !isLimit(bottomLimits))
+        if (Input.mouseScrollDelta.y < 0 && myCam.orthographicSize < rangeZoom.y
+            && transform.position.x < rangeX.y - factorHorizontal * myCam.orthographicSize
+            && transform.position.x > rangeX.x + factorHorizontal * myCam.orthographicSize
+            && transform.position.z < rangeZ.y - factorVertical * myCam.orthographicSize
+            && transform.position.z > rangeZ.x + factorVertical * myCam.orthographicSize)
         {
             myCam.orthographicSize += zoomSpeed * Time.unscaledDeltaTime;
         }
         
-        trailCamera.orthographicSize = myCam.orthographicSize;
+        if (Input.mouseScrollDelta.y != 0) trailCamera.orthographicSize = myCam.orthographicSize;
+    }
+
+    public void CenterTo(Vector3 pos)
+    {
+        myCam.orthographicSize = 7;
+        newPos = new Vector3(pos.x , transform.position.y , pos.z - 45);
+        transform.position = newPos;
+
     }
 
     private void Move()
@@ -80,22 +71,23 @@ public class CameraController : MonoBehaviour
         float x = Input.GetAxisRaw("Horizontal");
         float z = Input.GetAxisRaw("Vertical");
 
-        if (x > 0 && !isLimit(rightLimits))
+        if (x > 0 && transform.position.x < rangeX.y - factorHorizontal * myCam.orthographicSize)
         {
             newPos += transform.right * moveSpeed * Time.unscaledDeltaTime;
         }
-        if (x < 0 && !isLimit(leftLimits))
+        if (x < 0 && transform.position.x > rangeX.x + factorHorizontal * myCam.orthographicSize)
         {
             newPos -= transform.right * moveSpeed * Time.unscaledDeltaTime;
         }
-        if (z > 0 && !isLimit(topLimits))
+        if (z > 0 && transform.position.z < rangeZ.y - factorVertical * myCam.orthographicSize)
         {
             newPos += transform.up * moveSpeed * Time.unscaledDeltaTime + transform.forward * moveSpeed * Time.unscaledDeltaTime;
         }
-        if (z < 0 && !isLimit(bottomLimits))
+        if (z < 0 && transform.position.z > rangeZ.x + factorVertical * myCam.orthographicSize)
         {
             newPos -= transform.up * moveSpeed * Time.unscaledDeltaTime + transform.forward * moveSpeed * Time.unscaledDeltaTime;
         }
+        if (x != 0 || z != 0) transform.position = newPos;
 
         ////RIGHT
         //if (Input.mousePosition.x >= Screen.width - 3*delta)

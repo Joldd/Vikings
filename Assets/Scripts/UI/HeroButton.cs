@@ -15,6 +15,7 @@ public class HeroButton : MonoBehaviour
         {
             if (gameManager.isPathing) return;
             myHero.myTroop.Select();
+            gameManager.cameraController.CenterTo(myHero.myTroop.transform.position);
         });
     }
 }
