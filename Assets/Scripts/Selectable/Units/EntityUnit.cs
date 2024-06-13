@@ -55,7 +55,7 @@ public class EntityUnit : Entity
 
     public Outline outline;
 
-    private GameManager gameManager;
+    protected GameManager gameManager;
 
     [Header("Floor System")]
     [SerializeField] private LayerMask floorMask;
@@ -68,6 +68,13 @@ public class EntityUnit : Entity
     public float Range { get => range * unitBuffs.rangeMutliplier; }
     public float AttackDamage { get => (damage + unitBuffs.additionalEnvironmentDamage) * unitBuffs.damageMultiplier; }
     public float Armor { get => (armor + unitBuffs.additionalEnvironmentArmor); }
+    
+    public (bool,bool) IsAttackModified { get => (unitBuffs.additionalEnvironmentDamage > 0 || unitBuffs.additionalUpgradeDamage > 0 || unitBuffs.damageMultiplier > 1, AttackDamage > damage); }
+    public (bool,bool) IsAttackSpeedModified { get => (unitBuffs.attackSpeedMutliplier > 1, AttackSpeed > timerAttackMax); }
+    public (bool,bool) IsSpeedModified { get => (unitBuffs.attackSpeedMutliplier > 1, Speed > speed); }
+    public (bool,bool) IsArmorModified { get => (unitBuffs.additionalEnvironmentDamage > 0 || unitBuffs.additionalUpgradeArmor > 0, Armor > armor); }
+    public (bool,bool) IsRangeModified { get => (unitBuffs.rangeMutliplier > 1, Range > range); }
+
 
     public override void Start()
     {

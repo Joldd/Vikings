@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
 using static FischlWorks_FogWar.csFogWar;
 
 public enum FlankValues
@@ -60,6 +61,7 @@ public class Troop : Selectable
     protected float timerAttack = 0f;
     public int maxTroop;
     public UITroopInfo uiInfos;
+    private UnityEvent onStatChangeEvent = new UnityEvent();
 
     [SerializeField] protected LayerMask layerMaskTroopTarget; 
     [Header("Navigation")]
@@ -77,7 +79,7 @@ public class Troop : Selectable
     private float timerWard;
     public FogRevealer fogRevealer;
 
-    protected GameManager gameManager;
+    private UIManager uiManager;
     
     public NavMeshAgent NavMeshAgent { get => navMeshAgent; }
 
@@ -86,6 +88,7 @@ public class Troop : Selectable
         base.Start();
 
         gameManager = GameManager.Instance;
+        uiManager = UIManager.Instance;
 
         //STATS UNIT FOR TROOPS NOT INSTANCED
         if (L_Units.Count > 0)
@@ -121,6 +124,11 @@ public class Troop : Selectable
         healthBar = Instantiate(healthBarPrefab, transform.position, Quaternion.identity);
         healthBar.StartBar(gameObject, healthBarColor);
         UpdateHealthBarTroop();
+        
+        onStatChangeEvent.AddListener(()=>
+        {
+            uiManager.UpdateTroopInfos(this);
+        });
     }
 
     public IEnumerator AddUnit(EntityUnit unit)
@@ -296,9 +304,15 @@ public class Troop : Selectable
                     multiValue = 1.5f;
                     break;
             }
-            healthBar.Bonus(flankValue);
             unit.AddBonusDmgFlank(multiValue);
         }
+        healthBar.Bonus(flankValue);
+        onStatChangeEvent.Invoke();
+    }
+
+    public void AddListenerOnStatChangeEvent(UnityAction action)
+    {
+        onStatChangeEvent.AddListener(action);
     }
 
     private void NoBonus()
@@ -348,6 +362,7 @@ public class Troop : Selectable
         {
             unit.target = null;
             unit.ResetBonusDmg();
+            onStatChangeEvent.Invoke();
         }
     }
 
@@ -415,6 +430,7 @@ public class Troop : Selectable
     {
         speed = newSpeed; 
         navMeshAgent.speed = newSpeed;
+        onStatChangeEvent.Invoke();
     }
 
     private void GoTo(Vector3 pos)
@@ -684,9 +700,9 @@ public class Troop : Selectable
     {
         FlankValues value = angleFlank switch
         {
-            <= 45 => FlankValues.BACK,
-            <= 135 => FlankValues.SIDES,
-            >= 136 => FlankValues.FRONT,
+            <= 45f => FlankValues.BACK,
+            <= 135f => FlankValues.SIDES,
+            _ => FlankValues.FRONT,
         };
         currentFlank = value;
         GiveTarget(value);

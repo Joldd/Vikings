@@ -11,7 +11,7 @@ public class Selectable : MonoBehaviour
 
     public Player owner;
 
-    private GameManager gameManager;
+    protected GameManager gameManager;
 
     public virtual void Start()
     {

@@ -12,7 +12,6 @@ public class Hero : EntityUnit
     public bool isDie;
     public float timerRespawnMax;
     public float timerRespawn;
-    GameManager gameManager;
     [SerializeField] ParticleSystem respawnParticle;
     [SerializeField] AudioSource respawnSound;
 

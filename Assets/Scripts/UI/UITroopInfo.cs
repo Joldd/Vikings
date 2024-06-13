@@ -9,13 +9,16 @@ public class UITroopInfo : MonoBehaviour
     [SerializeField] private TextMeshProUGUI attackTextInfo, attackSpeedTextInfo, defenseTextInfo, speedTextInfo, rangeTextInfo;
 
     [SerializeField] private UIUnitFrameTroopInfo unitFramePrefab;
+    [SerializeField] private Color baseColor = Color.white, bonusColor = Color.green, malusColor = Color.red;
     
     private List<UIUnitFrameTroopInfo> L_InstanciatedUnitImages = new List<UIUnitFrameTroopInfo>();
-
-    public Button btnGo;
+    private Troop displayedTroop;
     
+    public Button btnGo;
+
     public void SetupTroop(Troop troop)
     {
+        displayedTroop = troop;
         troop.uiInfos = this;
 
         btnGo.onClick.RemoveAllListeners();
@@ -42,14 +45,43 @@ public class UITroopInfo : MonoBehaviour
             
         }
 
-        EntityUnit troopEntityUnity = troop.L_Units[0];
-
-        attackTextInfo.text = troopEntityUnity.AttackDamage.ToString();
-        attackSpeedTextInfo.text = troopEntityUnity.AttackSpeed.ToString();
-        defenseTextInfo.text = troopEntityUnity.Armor.ToString();
-        speedTextInfo.text = troopEntityUnity.Speed.ToString();
-        rangeTextInfo.text = troopEntityUnity.Range.ToString();
+        UpdateBonus(troop);
 
         btnGo.interactable = false;
+    }
+
+    public void UpdateBonus(Troop troopRef)
+    {
+        if (troopRef == displayedTroop)
+        {
+            Debug.LogError("UpdateBonus Troop");
+            EntityUnit troopEntityUnity = troopRef.L_Units[0];
+        
+            attackTextInfo.text = troopEntityUnity.AttackDamage.ToString();
+            attackTextInfo.color = troopEntityUnity.IsAttackModified.Item1 
+                ? (troopEntityUnity.IsAttackModified.Item2 ? bonusColor : malusColor) 
+                : baseColor;
+            
+            attackSpeedTextInfo.text = troopEntityUnity.AttackSpeed.ToString();
+            attackSpeedTextInfo.color = troopEntityUnity.IsAttackModified.Item1 
+                ? (troopEntityUnity.IsAttackModified.Item2 ? bonusColor : malusColor) 
+                : baseColor;
+            
+            defenseTextInfo.text = troopEntityUnity.Armor.ToString();
+            defenseTextInfo.color = troopEntityUnity.IsArmorModified.Item1 
+                ? (troopEntityUnity.IsArmorModified.Item2 ? bonusColor : malusColor) 
+                : baseColor;
+            
+            speedTextInfo.text = troopEntityUnity.Speed.ToString();
+            speedTextInfo.color = troopEntityUnity.IsSpeedModified.Item1 
+                ? (troopEntityUnity.IsSpeedModified.Item2 ? bonusColor : malusColor) 
+                : baseColor;
+            
+            rangeTextInfo.text = troopEntityUnity.Range.ToString();
+            rangeTextInfo.color = troopEntityUnity.IsRangeModified.Item1 
+                ? (troopEntityUnity.IsRangeModified.Item2 ? bonusColor : malusColor) 
+                : baseColor;
+            
+        }
     }
 }

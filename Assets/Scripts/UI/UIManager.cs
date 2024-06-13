@@ -111,6 +111,11 @@ public class UIManager : MonoBehaviour
         uiTroopInfo.gameObject.SetActive(value);
     }
 
+    public void UpdateTroopInfos(Troop troop)
+    {
+        uiTroopInfo.UpdateBonus(troop);
+    }
+
     public void CreateButtonsBuilding(House house)
     {
         foreach (ButtonUnit btn in house.myButtonsToCreate)

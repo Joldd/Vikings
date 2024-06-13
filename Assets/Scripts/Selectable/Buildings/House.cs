@@ -20,7 +20,6 @@ public class House : Selectable
 
     [SerializeField] private Troop troopGO;
 
-    private GameManager gameManager;
     private UIManager uiManager;
 
     public ButtonUnit[] myButtonsToCreate;

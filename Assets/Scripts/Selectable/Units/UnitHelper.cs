@@ -51,15 +51,17 @@ public class UnitHelper : MonoBehaviour
                 damage = (int)unit.GetDamage();
             }
 
-            if (vfxDamageEffectPrefab != null)
+            if (vfxDamageEffectPrefab != null && vfxDamageEffect == null)
             {
                 vfxDamageEffect = Instantiate(vfxDamageEffectPrefab, unit.target.transform.position, Quaternion.identity).GetComponent<ParticleSystem>();
-                if (vfxDamageEffect != null)
-                {
-                    vfxDamageEffect.transform.position = unit.target.transform.position;
-                    vfxDamageEffect.Play();
-                }
             }
+            
+            if (vfxDamageEffect != null)
+            {
+                vfxDamageEffect.transform.position = unit.target.transform.position;
+                vfxDamageEffect.Play();
+            }
+            
             unit.target.TakeDamage(damage);
 
             // Check AOE

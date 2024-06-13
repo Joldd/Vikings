@@ -9,7 +9,6 @@ public class Messenger : EntityUnit
     public bool canMsg = true;
     public bool canGo;
     public bool troopChoosen;
-    private GameManager gameManager;
 
     public override void Start()
     {
