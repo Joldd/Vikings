@@ -122,6 +122,7 @@ public class UIManager : MonoBehaviour
         {
             GameObject btnGO = btn.SetupButton(buttonsBuildings, house);
             house.myButtonsToDisplay.Add(btnGO);
+            btnGO.SetActive(false);
         }
     }
 

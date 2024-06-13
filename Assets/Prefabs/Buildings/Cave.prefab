@@ -88,15 +88,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaad1496fc9a0834482a87fdff9cf989, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvas: {fileID: 0}
   isSelect: 0
   canBeSelected: 0
   outline: {fileID: 0}
   owner: {fileID: 0}
-  L_EntityUnits:
-  - {fileID: 8143974586233405072, guid: 962ffa1a0ed6881439deda31b6b8968e, type: 3}
-  L_Buttons:
-  - {fileID: 0}
   spawn: {fileID: 1745729143058281864}
   currentSliderUnit: {fileID: 0}
   constructible: {fileID: 0}
@@ -163,8 +158,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 0}
-  PV: 20
-  maxPV: 30
+  PV: 80
+  maxPV: 80
   size: 3
   timeBuildMax: 2
   isBuilt: 0

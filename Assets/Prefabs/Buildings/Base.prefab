@@ -159,7 +159,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 0}
   PV: 50
-  maxPV: 50
+  maxPV: 150
   size: 4
   timeBuildMax: 1
   isBuilt: 1

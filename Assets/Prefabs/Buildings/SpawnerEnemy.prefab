@@ -46,6 +46,7 @@ GameObject:
   - component: {fileID: 2307417907664494320}
   - component: {fileID: 790402301020967241}
   - component: {fileID: 2898695930437179498}
+  - component: {fileID: 1748611108859353942}
   m_Layer: 11
   m_Name: SpawnerEnemy
   m_TagString: Enemy
@@ -199,6 +200,30 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &1748611108859353942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5550205664086979457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2af75026737cf24a898bd9687f60475, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  PV: 0
+  maxPV: 80
+  size: 4
+  timeBuildMax: 2
+  isBuilt: 0
+  timeBuild: 0
+  priceReputation: 0
+  priceGold: 0
+  healthBarColor: {r: 1, g: 0.3160377, b: 0.3160377, a: 0}
+  healthBarHousePrefab: {fileID: -2205284920490260026, guid: f047968025925904da731c68d8f2ce27, type: 3}
+  healthBarHouse: {fileID: 0}
 --- !u!1001 &2642696806625898527
 PrefabInstance:
   m_ObjectHideFlags: 0

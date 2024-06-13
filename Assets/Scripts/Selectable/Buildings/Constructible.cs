@@ -5,10 +5,6 @@ using UnityEngine.UI;
 
 public class Constructible : MonoBehaviour
 {
-
-    private GameObject basePlayer;
-    private GameObject baseEnemy;
-
     private bool firstPlayerBuilder;
     private bool firstEnemyBuilder;
     private bool needFirstPlayer;
@@ -26,7 +22,8 @@ public class Constructible : MonoBehaviour
     private bool isConstructible;
     private bool isEmpty = true;
 
-    [SerializeField] private GameObject HUD;
+    [SerializeField] private GameObject btnBuildings;
+    [SerializeField] private GameObject btnCanBuild;
     [SerializeField] private Image imageToBuild;
     [SerializeField] private List<HouseToBuild> L_HousesToBuild = new List<HouseToBuild>();
     private int currentImg = 0;
@@ -46,9 +43,8 @@ public class Constructible : MonoBehaviour
 
     private void Start()
     {
-        basePlayer = GameObject.Find("BasePlayer");
-        baseEnemy = GameObject.Find("BaseEnemy");
-        HUD.SetActive(false);
+        btnBuildings.SetActive(false);
+        btnCanBuild.SetActive(false);
         gameManager = GameManager.Instance;
     }
 
@@ -63,14 +59,17 @@ public class Constructible : MonoBehaviour
         if (gameManager.CheckIsVicars(owner))
         {
             isConstructible = true;
+            btnCanBuild.SetActive(true);
         }
         else
         {
             if (playerBuilder) Destroy(playerBuilder.gameObject);
             if (enemyBuilder) Destroy(enemyBuilder.gameObject);
             GameObject enemyBuild = Instantiate(enemySpawner);
+            House enemyHouse = enemyBuild.GetComponent<House>();
             enemyBuild.transform.position = transform.position;
-            enemyBuild.GetComponent<House>().constructible = this;
+            enemyHouse.constructible = this;
+            enemyHouse.owner = this.owner;
             isEmpty = false;
         }
     }
@@ -83,18 +82,22 @@ public class Constructible : MonoBehaviour
         firstPlayerBuilder = false;
         firstEnemyBuilder = false;
         isConstructible = false;
-        HUD.SetActive(false);
+        btnCanBuild.SetActive(false);
+        btnBuildings.SetActive(false);
         houseDestroy = false;
         isEmpty = true;
     }
 
-    private void OnMouseDown()
+    public void CanBeBuild()
     {
+        Debug.Log("yes");
         if (isConstructible)
         {
-            HUD.SetActive(true);
+            Debug.Log("no");
+            btnBuildings.SetActive(true);
             UpdateHouseToBuild();
             isConstructible = false;
+            btnCanBuild.SetActive(false);
         }
     }
 
@@ -112,7 +115,7 @@ public class Constructible : MonoBehaviour
         House house = houseInstanced.GetComponent<House>();
         house.constructible = this;
         house.owner = this.owner;
-        HUD.SetActive(false);
+        btnBuildings.SetActive(false);
         after.SetActive(false);
         isEmpty = false;
         gameManager.reputation -= L_HousesToBuild[currentImg].PB_House.GetComponent<EntityHouse>().priceReputation;
