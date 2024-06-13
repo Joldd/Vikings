@@ -72,6 +72,7 @@ MonoBehaviour:
   body: {fileID: 0}
   enemyStop: 0
   goldToWin: 0
+  soundBuilding: YesPaladin
   type: 0
   myTroop: {fileID: 0}
   outline: {fileID: 0}

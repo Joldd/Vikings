@@ -21,6 +21,7 @@ public class House : Selectable
     [SerializeField] private Troop troopGO;
 
     private UIManager uiManager;
+    private AudioManager audioManager;
 
     public ButtonUnit[] myButtonsToCreate;
     public List<GameObject> myButtonsToDisplay = new List<GameObject>();
@@ -29,8 +30,8 @@ public class House : Selectable
     {
         base.Start();
 
-        gameManager = GameManager.Instance;
         uiManager = UIManager.Instance;
+        audioManager = AudioManager.Instance;
 
         uiManager.CreateButtonsBuilding(this);
     }
@@ -81,6 +82,7 @@ public class House : Selectable
     private void createUnit(EntityUnit unit, Transform spawn)
     {
         EntityUnit u = Instantiate(unit, spawn.transform.position,Quaternion.identity);
+        if (u.soundBuilding != null) audioManager.Play(u.soundBuilding);
         bool isTroop = false;
         if (u.TryGetComponent<EntityUnit>(out EntityUnit v))
         {
