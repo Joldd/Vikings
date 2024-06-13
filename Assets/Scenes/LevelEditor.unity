@@ -5093,7 +5093,7 @@ PrefabInstance:
       objectReference: {fileID: 8637579168912861507}
     - target: {fileID: 8650053179972722898, guid: 8c8fb444237c98c48a10d48bc34845ef, type: 3}
       propertyPath: fogRevealers.Array.size
-      value: 4
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8650053179972722898, guid: 8c8fb444237c98c48a10d48bc34845ef, type: 3}
       propertyPath: fogRevealers.Array.data[2].sightRange
@@ -5101,6 +5101,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8650053179972722898, guid: 8c8fb444237c98c48a10d48bc34845ef, type: 3}
       propertyPath: fogRevealers.Array.data[3].sightRange
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8650053179972722898, guid: 8c8fb444237c98c48a10d48bc34845ef, type: 3}
+      propertyPath: fogRevealers.Array.data[4].sightRange
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8650053179972722898, guid: 8c8fb444237c98c48a10d48bc34845ef, type: 3}
+      propertyPath: fogRevealers.Array.data[5].sightRange
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8650053179972722898, guid: 8c8fb444237c98c48a10d48bc34845ef, type: 3}
@@ -5119,6 +5127,14 @@ PrefabInstance:
       propertyPath: fogRevealers.Array.data[3].revealerTransform
       value: 
       objectReference: {fileID: 2060595676}
+    - target: {fileID: 8650053179972722898, guid: 8c8fb444237c98c48a10d48bc34845ef, type: 3}
+      propertyPath: fogRevealers.Array.data[4].revealerTransform
+      value: 
+      objectReference: {fileID: 1064368835}
+    - target: {fileID: 8650053179972722898, guid: 8c8fb444237c98c48a10d48bc34845ef, type: 3}
+      propertyPath: fogRevealers.Array.data[5].revealerTransform
+      value: 
+      objectReference: {fileID: 1728216557}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6069,6 +6085,11 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 14, z: 0}
   m_TimeToStationary: 0.5
+--- !u!4 &1064368835 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6941472907006184147, guid: e2e35149aec410141ba1912d2b921eb1, type: 3}
+  m_PrefabInstance: {fileID: 796708644}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1071012676
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9478,6 +9499,11 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 11, z: 0}
   m_TimeToStationary: 0.5
+--- !u!4 &1728216557 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6941472907006184147, guid: e2e35149aec410141ba1912d2b921eb1, type: 3}
+  m_PrefabInstance: {fileID: 5593159}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1736503383
 GameObject:
   m_ObjectHideFlags: 0

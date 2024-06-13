@@ -41,7 +41,6 @@ public class Builder : MonoBehaviour
 
         if (Vector3.Distance(transform.position, constructible.transform.position) < 0.2f)
         {
-            Debug.LogError("ChangeOwnership");
             constructible.ChangeOwnership(owner);
         }
     }
