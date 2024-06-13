@@ -20,10 +20,14 @@ public class Entity : MonoBehaviour
 
     private UnityEvent<float> onDamageTaken = new UnityEvent<float>();
 
+    private void Awake()
+    {
+        PV = maxPV;
+    }
+
     public virtual void Start()
     {
         timeBuild = timeBuildMax;
-        PV = maxPV;
         animator = GetComponent<Animator>();
     }
 

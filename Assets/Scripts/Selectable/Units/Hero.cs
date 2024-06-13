@@ -9,7 +9,6 @@ public class Hero : EntityUnit
     private Slider heroLife;
     private GameObject panelRespawn;
     public TextMeshProUGUI textTimer;
-    int maxPV;
     public bool isDie;
     public float timerRespawnMax;
     public float timerRespawn;
@@ -27,8 +26,6 @@ public class Hero : EntityUnit
         textTimer = panelRespawn.transform.Find("Timer").gameObject.GetComponent<TextMeshProUGUI>();
 
         panelRespawn.SetActive(false);
-
-        maxPV = PV;
 
         timerRespawn = timerRespawnMax;
 
@@ -57,6 +54,8 @@ public class Hero : EntityUnit
         respawnParticle.Play();
         respawnSound.Play();
         myTroop.ResetNavMesh();
+        myTroop.isWaypoints = false;
+        myTroop.checkEnemy = false;
     }
 
     [ContextMenu("Die")]

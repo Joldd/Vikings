@@ -49,7 +49,7 @@ public class Troop : Selectable
     LineRenderer currentLine;
     float lastClickTime;
     private bool isRunning;
-    private bool isWaypoints;
+    public bool isWaypoints;
 
     [Header("Stats")]
     protected float speed;
@@ -148,6 +148,7 @@ public class Troop : Selectable
             foreach (var unit in L_Units)
             {
                 totalValueLife += (float)unit.PV / (float)unit.maxPV;
+                Debug.Log(unit.PV + unit.name);
             }
             healthBar.slider.value = totalValueLife / (float)L_Units.Count;
         }
