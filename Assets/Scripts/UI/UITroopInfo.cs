@@ -26,6 +26,7 @@ public class UITroopInfo : MonoBehaviour
         btnGo.onClick.AddListener(() =>
         {
             troop.Run();
+            troop.isWaypoints = true;
         });
 
         if (L_InstanciatedUnitImages.Count > 0)
@@ -47,14 +48,14 @@ public class UITroopInfo : MonoBehaviour
 
         UpdateBonus(troop);
 
-        btnGo.interactable = false;
+        if (troop.myWayPoints && troop.state == State.WAITING) btnGo.interactable = true;
+        else btnGo.interactable = false;
     }
 
     public void UpdateBonus(Troop troopRef)
     {
         if (troopRef == displayedTroop)
         {
-            Debug.LogError("UpdateBonus Troop");
             EntityUnit troopEntityUnity = troopRef.L_Units[0];
         
             attackTextInfo.text = troopEntityUnity.AttackDamage.ToString();
