@@ -7401,6 +7401,20 @@ MonoBehaviour:
     loop: 0
     source: {fileID: 0}
     isSFX: 1
+  - clip: {fileID: 8300000, guid: 1ebd615e509149f49b66fcb2023c2a36, type: 3}
+    volume: 1
+    pitch: 1
+    Name: GoBoy
+    loop: 0
+    source: {fileID: 0}
+    isSFX: 1
+  - clip: {fileID: 8300000, guid: 31adf36650e7f2f4bb82e7ba0dbce0b7, type: 3}
+    volume: 1
+    pitch: 1
+    Name: GoGirl
+    loop: 0
+    source: {fileID: 0}
+    isSFX: 1
   sliderMusic: {fileID: 3663068377076515936}
   sliderSFX: {fileID: 5112901385116801059}
 --- !u!1 &6766035637280040396

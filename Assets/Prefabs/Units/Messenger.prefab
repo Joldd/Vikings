@@ -93,6 +93,8 @@ MonoBehaviour:
   body: {fileID: 0}
   enemyStop: 0
   goldToWin: 0
+  soundBuilding: YesArcher
+  soundGo: GoGirl
   type: 3
   myTroop: {fileID: 0}
   outline: {fileID: 0}
