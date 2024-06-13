@@ -84,17 +84,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaad1496fc9a0834482a87fdff9cf989, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvas: {fileID: 0}
   isSelect: 0
   canBeSelected: 1
   outline: {fileID: 0}
   owner: {fileID: 0}
-  L_EntityUnits:
-  - {fileID: 8143974586233405072, guid: 4dcc042a30e95784da8840efe1f0f421, type: 3}
-  - {fileID: 8143974586233405072, guid: 962ffa1a0ed6881439deda31b6b8968e, type: 3}
-  L_Buttons:
-  - {fileID: 0}
-  - {fileID: 0}
   spawn: {fileID: 1745729143058281864}
   currentSliderUnit: {fileID: 0}
   constructible: {fileID: 0}
@@ -315,6 +308,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Baker_house
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 1bbb91c8d96cb2446a07151ce95d1f0f, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 1bbb91c8d96cb2446a07151ce95d1f0f, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.4
@@ -369,6 +366,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 1bbb91c8d96cb2446a07151ce95d1f0f, type: 3}
       propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: 1bbb91c8d96cb2446a07151ce95d1f0f, type: 3}
+      propertyPath: m_ReceiveGI
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
