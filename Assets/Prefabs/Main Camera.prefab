@@ -106,8 +106,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74d13087fe5e8e44f8c7af2cdfba618c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 30
-  zoomSpeed: 150
+  moveSpeed: 0.8
+  zoomSpeed: 1.6
   rangeZoom: {x: 5, y: 60}
   layerMaskEvent:
     serializedVersion: 2
