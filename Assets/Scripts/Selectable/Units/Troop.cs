@@ -148,6 +148,7 @@ public class Troop : Selectable
             foreach (var unit in L_Units)
             {
                 totalValueLife += (float)unit.PV / (float)unit.maxPV;
+                Debug.Log(unit.PV + unit.name);
             }
             healthBar.slider.value = totalValueLife / (float)L_Units.Count;
         }
