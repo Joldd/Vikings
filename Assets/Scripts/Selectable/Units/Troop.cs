@@ -148,7 +148,6 @@ public class Troop : Selectable
             foreach (var unit in L_Units)
             {
                 totalValueLife += (float)unit.PV / (float)unit.maxPV;
-                Debug.Log(unit.PV + unit.name);
             }
             healthBar.slider.value = totalValueLife / (float)L_Units.Count;
         }
@@ -217,6 +216,7 @@ public class Troop : Selectable
         base.Select();
 
         if (myWayPoints) myWayPoints.gameObject.SetActive(true);
+        if (changingWayPoints) changingWayPoints.gameObject.SetActive(true);
 
         if (type == Type.Messenger)
         {
@@ -249,6 +249,7 @@ public class Troop : Selectable
         base.UnSelect();
 
         if (myWayPoints) myWayPoints.gameObject.SetActive(false);
+        if (changingWayPoints) changingWayPoints.gameObject.SetActive(false);
 
         if (type == Type.Messenger)
         {

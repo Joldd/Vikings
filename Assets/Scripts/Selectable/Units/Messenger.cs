@@ -49,6 +49,11 @@ public class Messenger : EntityUnit
                 troopSelected.changingWayPoints.gameObject.SetActive(false);
             }
         }
+        else if (backHome)
+        {
+            canGo = false;
+            troopChoosen = false;
+        }
         else
         {
             canGo = false;
@@ -78,6 +83,7 @@ public class Messenger : EntityUnit
     {
         if (bringMessage)
         {
+            troopSelected.changingWayPoints.isModifiable = false;
             myTroop.NavMeshAgent.SetDestination(troopSelected.transform.position);
             animator.Play("Run");
             if (Vector3.Distance(transform.position, troopSelected.transform.position) <= 1.5f )
@@ -102,6 +108,7 @@ public class Messenger : EntityUnit
             {
                 backHome = false;
                 canMsg = true;
+                if (gameManager.selectedUnit == myTroop) myTroop.Select();
             }
         }
         else

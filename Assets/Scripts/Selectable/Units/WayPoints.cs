@@ -12,6 +12,7 @@ public class WayPoints : MonoBehaviour
     public bool isNew;
     public float lineWidth = 0.2f;
     private GameManager gameManager;
+    public bool isModifiable = true;
 
     private void Start()
     {
