@@ -43,7 +43,7 @@ public class HealthBar : MonoBehaviour
         Vector3 worldTargetPosition = troopUnity.transform.position + Vector3.up * healthBarUpOffset;
         rectTransform.position = Camera.main.WorldToScreenPoint(worldTargetPosition);
 
-        if (troopUnity && troopUnity.tag == "Enemy" && troopUnity.GetComponent<Troop>() != null)
+        if (troopUnity && !gameManager.CheckIsVicars(troopUnity.owner) && troopUnity.GetComponent<Troop>() != null)
         {
             if (gameManager.fogWar.CheckVisibility(worldTargetPosition, 1))
             {
@@ -65,5 +65,8 @@ public class HealthBar : MonoBehaviour
         transform.SetParent(canvasRectTransform);
         troopUnity = target.GetComponent<Troop>();
         fillImage.color = color;
+        rectTransform.position = Camera.main.WorldToScreenPoint(target.transform.position + Vector3.up * healthBarUpOffset);
+        blocToHide.SetActive(true);
     }
+
 }
