@@ -448,7 +448,7 @@ public class Troop : Selectable
         /////////////////  DO SOMETHING IF SELECTED ////////////////////
         if (gameManager.selectedUnit == this)
         {
-            if (type != Type.Messenger && !gameManager.isPathing && state == State.WAITING)
+            if (type != Type.Messenger && !gameManager.isPathing && state == State.WAITING && myWayPoints)
             {
                 /////////////////////// GO //////////////////////////
                                 //DOUBLECLICK

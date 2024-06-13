@@ -48,6 +48,8 @@ public class EntityUnit : Entity
 
     [SerializeField] int goldToWin;
 
+    public string soundBuilding;
+
     [SerializeField] 
     public Type type;
 

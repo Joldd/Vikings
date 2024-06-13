@@ -70,7 +70,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 7
+  orthographic size: 15
   m_Depth: 1
   m_CullingMask:
     serializedVersion: 2
@@ -106,8 +106,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74d13087fe5e8e44f8c7af2cdfba618c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 30
-  zoomSpeed: 150
+  moveSpeed: 0.8
+  zoomSpeed: 1.6
   rangeZoom: {x: 5, y: 60}
   layerMaskEvent:
     serializedVersion: 2
@@ -186,7 +186,7 @@ Camera:
   m_Depth: 2
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4096
+    m_Bits: 4104
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0

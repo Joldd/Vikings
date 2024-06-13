@@ -7345,8 +7345,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sounds:
-  - clip: {fileID: 8300000, guid: 918e45bbc5ed87b468e8c265c5fd5402, type: 3}
-    volume: 0.1
+  - clip: {fileID: 8300000, guid: faa325adc5f226e45acab2d4b52c424b, type: 3}
+    volume: 0.325
     pitch: 1
     Name: Punch
     loop: 0
@@ -7384,6 +7384,20 @@ MonoBehaviour:
     volume: 1
     pitch: 1
     Name: Hero
+    loop: 0
+    source: {fileID: 0}
+    isSFX: 1
+  - clip: {fileID: 8300000, guid: 8e88b7260a0c42e4aa9191cd3de3f959, type: 3}
+    volume: 1
+    pitch: 1
+    Name: YesArcher
+    loop: 0
+    source: {fileID: 0}
+    isSFX: 1
+  - clip: {fileID: 8300000, guid: da0cd407382124841a2cbf1cad49a1cd, type: 3}
+    volume: 1
+    pitch: 1
+    Name: YesPaladin
     loop: 0
     source: {fileID: 0}
     isSFX: 1
@@ -9075,6 +9089,9 @@ MonoBehaviour:
   speedTextInfo: {fileID: 2435022961533291220}
   rangeTextInfo: {fileID: 8082915425161525199}
   unitFramePrefab: {fileID: 7222719765327326751, guid: 59644eb25eb539c4aae6ebce98230a4d, type: 3}
+  baseColor: {r: 1, g: 1, b: 1, a: 1}
+  bonusColor: {r: 0, g: 1, b: 0, a: 1}
+  malusColor: {r: 1, g: 0, b: 0, a: 1}
   btnGo: {fileID: 6400462256023335888}
 --- !u!1 &8505181887453477941
 GameObject:

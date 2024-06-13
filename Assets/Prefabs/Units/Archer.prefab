@@ -72,6 +72,7 @@ MonoBehaviour:
   body: {fileID: 0}
   enemyStop: 1
   goldToWin: 5
+  soundBuilding: YesArcher
   type: 5
   myTroop: {fileID: 0}
   outline: {fileID: 0}

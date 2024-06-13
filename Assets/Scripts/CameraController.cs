@@ -44,7 +44,7 @@ public class CameraController : MonoBehaviour
     {
         if (Input.mouseScrollDelta.y > 0 && myCam.orthographicSize > rangeZoom.x)
         {
-            myCam.orthographicSize -= zoomSpeed * Time.unscaledDeltaTime; 
+            myCam.orthographicSize -= zoomSpeed; 
         }
         if (Input.mouseScrollDelta.y < 0 && myCam.orthographicSize < rangeZoom.y
             && transform.position.x < rangeX.y - factorHorizontal * myCam.orthographicSize
@@ -52,7 +52,7 @@ public class CameraController : MonoBehaviour
             && transform.position.z < rangeZ.y - factorVertical * myCam.orthographicSize
             && transform.position.z > rangeZ.x + factorVertical * myCam.orthographicSize)
         {
-            myCam.orthographicSize += zoomSpeed * Time.unscaledDeltaTime;
+            myCam.orthographicSize += zoomSpeed;
         }
         
         if (Input.mouseScrollDelta.y != 0) trailCamera.orthographicSize = myCam.orthographicSize;
@@ -73,19 +73,19 @@ public class CameraController : MonoBehaviour
 
         if (x > 0 && transform.position.x < rangeX.y - factorHorizontal * myCam.orthographicSize)
         {
-            newPos += transform.right * moveSpeed * Time.unscaledDeltaTime;
+            newPos += transform.right * moveSpeed;
         }
         if (x < 0 && transform.position.x > rangeX.x + factorHorizontal * myCam.orthographicSize)
         {
-            newPos -= transform.right * moveSpeed * Time.unscaledDeltaTime;
+            newPos -= transform.right * moveSpeed;
         }
         if (z > 0 && transform.position.z < rangeZ.y - factorVertical * myCam.orthographicSize)
         {
-            newPos += transform.up * moveSpeed * Time.unscaledDeltaTime + transform.forward * moveSpeed * Time.unscaledDeltaTime;
+            newPos += transform.up * moveSpeed + transform.forward * moveSpeed;
         }
         if (z < 0 && transform.position.z > rangeZ.x + factorVertical * myCam.orthographicSize)
         {
-            newPos -= transform.up * moveSpeed * Time.unscaledDeltaTime + transform.forward * moveSpeed * Time.unscaledDeltaTime;
+            newPos -= transform.up * moveSpeed + transform.forward * moveSpeed;
         }
         if (x != 0 || z != 0) transform.position = newPos;
 
