@@ -148,9 +148,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22ed03377adbff243842602b3c167e79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timerMaxBaseUnit: 5
-  timerMaxTroop: 20
-  timerMaxGuardTroop: 5
+  timerMaxBaseUnit: 10
+  timerMaxTroop: 40
+  timerMaxGuardTroop: 10
   maxTroopPercentageSpawn: 20
   baseTroopPercentageSpawn: 40
   guardTroopPercentageSpawn: 40

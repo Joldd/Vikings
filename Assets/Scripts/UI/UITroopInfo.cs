@@ -54,7 +54,6 @@ public class UITroopInfo : MonoBehaviour
     {
         if (troopRef == displayedTroop)
         {
-            Debug.LogError("UpdateBonus Troop");
             EntityUnit troopEntityUnity = troopRef.L_Units[0];
         
             attackTextInfo.text = troopEntityUnity.AttackDamage.ToString();

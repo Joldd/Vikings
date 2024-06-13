@@ -59,6 +59,7 @@ public class EntityHouse : Entity
         }
         
         Destroy(healthBarHouse.gameObject);
+        Destroy(gameObject);
     }
 
     public override void TakeDamage(float damage)
