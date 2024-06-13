@@ -71,7 +71,7 @@ MonoBehaviour:
   body: {fileID: 0}
   enemyStop: 0
   goldToWin: 50
-  type: 0
+  type: 2
   myTroop: {fileID: 0}
   outline: {fileID: 0}
   floorMask:

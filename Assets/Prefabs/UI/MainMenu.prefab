@@ -3135,6 +3135,7 @@ GameObject:
   - component: {fileID: 4908897334931469345}
   - component: {fileID: 3945991056023866089}
   - component: {fileID: 6219330669296739358}
+  - component: {fileID: 1931050875160725706}
   m_Layer: 5
   m_Name: BtnPauseGame
   m_TagString: Untagged
@@ -3256,6 +3257,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1931050875160725706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3408829423236778831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09ac9186870743e499ab553d028d02c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isOver: 0
+  text: Pause
+  unit: {fileID: 0}
 --- !u!1 &3490762386598420763
 GameObject:
   m_ObjectHideFlags: 0
@@ -5023,8 +5039,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -7210,7 +7226,6 @@ RectTransform:
   - {fileID: 2387741038394743459}
   - {fileID: 3305305100968019000}
   - {fileID: 7885595615915649675}
-  - {fileID: 1721882324672626135}
   - {fileID: 6740648550974384935}
   - {fileID: 4464841685849421067}
   - {fileID: 4564742798228294391}
@@ -7220,6 +7235,7 @@ RectTransform:
   - {fileID: 6680000014014273564}
   - {fileID: 3486750868734056599}
   - {fileID: 2597309536089759265}
+  - {fileID: 1721882324672626135}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -7330,7 +7346,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sounds:
   - clip: {fileID: 8300000, guid: 918e45bbc5ed87b468e8c265c5fd5402, type: 3}
-    volume: 1
+    volume: 0.1
     pitch: 1
     Name: Punch
     loop: 0
@@ -8415,6 +8431,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6740648550974384935}
   - component: {fileID: 7821503393145096562}
+  - component: {fileID: 6187805908843132250}
+  - component: {fileID: 3424245971841417968}
   m_Layer: 0
   m_Name: Hero
   m_TagString: Untagged
@@ -8458,6 +8476,63 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Padding: {x: 0, y: 0, z: 0, w: 0}
   m_Softness: {x: 0, y: 0}
+--- !u!114 &6187805908843132250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7962749066136153260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 0}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &3424245971841417968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7962749066136153260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 060a36cf13e85a546b4d9a726e0b4d46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myHero: {fileID: 0}
 --- !u!1 &8211114162449409086
 GameObject:
   m_ObjectHideFlags: 0
@@ -10406,6 +10481,7 @@ GameObject:
   - component: {fileID: 1279275772500749802}
   - component: {fileID: 7339898952661231956}
   - component: {fileID: 1639349193121994920}
+  - component: {fileID: 6642328345921864265}
   m_Layer: 5
   m_Name: Repair
   m_TagString: Untagged
@@ -10515,6 +10591,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &6642328345921864265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9170250912588680829}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09ac9186870743e499ab553d028d02c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isOver: 0
+  text: "R\xE9parer"
+  unit: {fileID: 0}
 --- !u!1001 &3217644456357510105
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10634,8 +10725,31 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5600132042966961070, guid: 3009a088221160640927a0cede6ea07d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4734861878422071094}
   m_SourcePrefab: {fileID: 100100000, guid: 3009a088221160640927a0cede6ea07d, type: 3}
+--- !u!1 &6994359575061573751 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5600132042966961070, guid: 3009a088221160640927a0cede6ea07d, type: 3}
+  m_PrefabInstance: {fileID: 3217644456357510105}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4734861878422071094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6994359575061573751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09ac9186870743e499ab553d028d02c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isOver: 0
+  text: Vitesse de la partie
+  unit: {fileID: 0}
 --- !u!224 &9085482735066214337 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5958615236522103832, guid: 3009a088221160640927a0cede6ea07d, type: 3}

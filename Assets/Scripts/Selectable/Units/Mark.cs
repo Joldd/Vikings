@@ -29,6 +29,7 @@ public class Mark : MonoBehaviour
         if (myWayPoints.myTroop.state != State.WAITING && myWayPoints == myWayPoints.myTroop.myWayPoints) return;
         if (myWayPoints.marks[0] == this) return;
         if (EventSystem.current.IsPointerOverGameObject()) return;
+        if (!myWayPoints.isModifiable) return;
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;

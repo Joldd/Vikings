@@ -57,7 +57,7 @@ MonoBehaviour:
   isBuilt: 0
   timeBuild: 0
   priceReputation: 0
-  priceGold: 100
+  priceGold: 150
   state: 0
   imageUnit: {fileID: 21300000, guid: 137de1bc599e46841a878813f559210d, type: 3}
   target: {fileID: 0}

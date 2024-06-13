@@ -156,7 +156,6 @@ public class Troop : Selectable
             foreach (var unit in L_Units)
             {
                 totalValueLife += (float)unit.PV / (float)unit.maxPV;
-                Debug.Log(unit.PV + unit.name);
             }
             healthBar.slider.value = totalValueLife / (float)L_Units.Count;
         }
@@ -225,6 +224,7 @@ public class Troop : Selectable
         base.Select();
 
         if (myWayPoints) myWayPoints.gameObject.SetActive(true);
+        if (changingWayPoints) changingWayPoints.gameObject.SetActive(true);
 
         if (type == Type.Messenger)
         {
@@ -257,6 +257,7 @@ public class Troop : Selectable
         base.UnSelect();
 
         if (myWayPoints) myWayPoints.gameObject.SetActive(false);
+        if (changingWayPoints) changingWayPoints.gameObject.SetActive(false);
 
         if (type == Type.Messenger)
         {
@@ -602,6 +603,7 @@ public class Troop : Selectable
                         timerAttack = 0f;
                         state = State.RUNATTACK;
                         PlayAnimation("Run");
+                        isRunning = false;
                     }
                 }
             }
@@ -636,6 +638,7 @@ public class Troop : Selectable
                 Troop enemyTroop = null;
                 if (hit.transform.gameObject.TryGetComponent(out enemyTroop))
                 {
+                    if (type == Type.Hero) Debug.Log(enemyTroop);
                     if (enemyTroop.owner != owner && enemyTroop.type != Type.Messenger)
                     {
                         isRunning = false;
@@ -655,41 +658,50 @@ public class Troop : Selectable
                     }
                 }
             }
-            Vector3[] cubePoint = CubePoints(boxCenter, boxSize, boxOrientation);
-            DrawCubePoints(cubePoint);
 
-            RaycastHit[] hitsSphere = Physics.SphereCastAll(transform.position, aoeRange / 2, transform.up, 10000, layerMaskTroopTarget);
-
-            foreach (var hit in hitsSphere)
+            //Enemy Detection All Around If No Target
+            if (!checkEnemy)
             {
-                if (hit.transform.gameObject.TryGetComponent(out Troop enemyTroop))
-                {
-                    if (enemyTroop.owner != owner && enemyTroop.type != Type.Messenger)
-                    {
-                        isRunning = false;
-                        timerAttack = 0f;
-                        enemyTroop = hit.transform.gameObject.GetComponent<Troop>();
-                        target = enemyTroop.GetNearestUnitFromTroop(transform.position);
-                        checkEnemy = true;
-                        state = State.RUNATTACK;
-                        PlayAnimation("Run");
-                        if (enemyTroop == currentFightingTroop)
-                        {
-                            GiveTarget(currentFlank);
-                        }
-                        else GiveTarget();
-                    }
-                }
+                Vector3[] cubePoint = CubePoints(boxCenter, boxSize, boxOrientation);
+                DrawCubePoints(cubePoint);
 
-                if (hit.transform.gameObject.TryGetComponent(out EntityHouse enemyBuilding))
+                RaycastHit[] hitsSphere = Physics.SphereCastAll(transform.position, aoeRange / 2, transform.up, 10000, layerMaskTroopTarget);
+                float minD = aoeRange;
+                foreach (var hit in hitsSphere)
                 {
-                    if (!checkBuilding && enemyBuilding.House.owner != owner)
+                    if (hit.transform.gameObject.TryGetComponent(out Troop enemyTroop))
                     {
-                        target = enemyBuilding;
-                        checkBuilding = true;
-                        state = State.RUNATTACK;
-                        PlayAnimation("Run");
-                        GiveTarget();
+                        float d = Vector3.Distance(enemyTroop.transform.position, transform.position);
+                        if (d < minD) minD = d;
+                        else continue;
+
+                        if (enemyTroop.owner != owner && enemyTroop.type != Type.Messenger)
+                        {
+                            isRunning = false;
+                            timerAttack = 0f;
+                            enemyTroop = hit.transform.gameObject.GetComponent<Troop>();
+                            target = enemyTroop.GetNearestUnitFromTroop(transform.position);
+                            checkEnemy = true;
+                            state = State.RUNATTACK;
+                            PlayAnimation("Run");
+                            if (enemyTroop == currentFightingTroop)
+                            {
+                                GiveTarget(currentFlank);
+                            }
+                            else GiveTarget();
+                        }
+                    }
+
+                    if (hit.transform.gameObject.TryGetComponent(out EntityHouse enemyBuilding))
+                    {
+                        if (!checkBuilding && enemyBuilding.House.owner != owner)
+                        {
+                            target = enemyBuilding;
+                            checkBuilding = true;
+                            state = State.RUNATTACK;
+                            PlayAnimation("Run");
+                            GiveTarget();
+                        }
                     }
                 }
             }

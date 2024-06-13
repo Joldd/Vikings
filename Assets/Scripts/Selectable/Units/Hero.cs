@@ -20,6 +20,7 @@ public class Hero : EntityUnit
         base.Start();
 
         heroMenu = mainMenu.transform.Find("Hero").gameObject;
+        heroMenu.GetComponent<HeroButton>().myHero = this;
         heroLife = heroMenu.transform.Find("Slider").gameObject.GetComponent<Slider>();
         panelRespawn = heroMenu.transform.Find("Respawn").gameObject;
         textTimer = panelRespawn.transform.Find("Timer").gameObject.GetComponent<TextMeshProUGUI>();
