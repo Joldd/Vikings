@@ -73,6 +73,7 @@ MonoBehaviour:
   enemyStop: 0
   goldToWin: 0
   soundBuilding: YesPaladin
+  soundGo: GoBoy
   type: 0
   myTroop: {fileID: 0}
   outline: {fileID: 0}

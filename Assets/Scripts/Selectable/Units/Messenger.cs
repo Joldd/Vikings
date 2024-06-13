@@ -10,11 +10,13 @@ public class Messenger : EntityUnit
     public bool canGo;
     public bool troopChoosen;
 
+    private AudioManager audioManager;
+
     public override void Start()
     {
         base.Start();
 
-        gameManager = GameManager.Instance;
+        audioManager = AudioManager.Instance;
 
         homePos = transform.position;
     }
@@ -135,6 +137,7 @@ public class Messenger : EntityUnit
     {
         bringMessage = true;
         canGo = false;
+        audioManager.Play(soundGo);
     }
 
     public void Reset()

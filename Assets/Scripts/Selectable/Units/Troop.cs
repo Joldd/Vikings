@@ -72,7 +72,6 @@ public class Troop : Selectable
 
     public bool hitByHouse;
 
-
     [Header("Fogwar")]
     [SerializeField] GameObject ward;
     private float timerWardMax = 2f;
@@ -80,15 +79,16 @@ public class Troop : Selectable
     public FogRevealer fogRevealer;
 
     private UIManager uiManager;
-    
+    private AudioManager audioManager;
+
     public NavMeshAgent NavMeshAgent { get => navMeshAgent; }
 
     public override void Start()
     {
         base.Start();
 
-        gameManager = GameManager.Instance;
         uiManager = UIManager.Instance;
+        audioManager = AudioManager.Instance;
 
         //STATS UNIT FOR TROOPS NOT INSTANCED
         if (L_Units.Count > 0)
@@ -225,6 +225,8 @@ public class Troop : Selectable
 
         if (myWayPoints) myWayPoints.gameObject.SetActive(true);
         if (changingWayPoints) changingWayPoints.gameObject.SetActive(true);
+
+        if (L_Units[0].soundBuilding != null) audioManager.Play(L_Units[0].soundBuilding);
 
         if (type == Type.Messenger)
         {
@@ -369,6 +371,7 @@ public class Troop : Selectable
 
     public void Run()
     {
+        if (L_Units[0].soundGo != null) audioManager.Play(L_Units[0].soundGo);
         PlayAnimation("Run");
         navMeshAgent.enabled = true;
         navMeshAgent.isStopped = false;
