@@ -14,6 +14,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private UITroopInfo uiTroopInfo;
     [SerializeField] private GameObject uiBuilding;
     [SerializeField] private Transform buttonsBuildings;
+    [SerializeField] private Transform buildingUnits;
     public Button btnRepair;
 
     private GameManager gameManager;
@@ -120,7 +121,7 @@ public class UIManager : MonoBehaviour
     {
         foreach (ButtonUnit btn in house.myButtonsToCreate)
         {
-            GameObject btnGO = btn.SetupButton(buttonsBuildings, house);
+            GameObject btnGO = btn.SetupButton(buttonsBuildings, buildingUnits, house);
             house.myButtonsToDisplay.Add(btnGO);
             btnGO.SetActive(false);
         }

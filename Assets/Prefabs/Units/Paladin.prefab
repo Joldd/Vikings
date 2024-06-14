@@ -50,11 +50,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 894a9a6d59d6ffb4a9c005ccce7997cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
+  animator: {fileID: 4318648580813740718}
   PV: 0
   maxPV: 40
   size: 1
-  timeBuildMax: 1
+  timeBuildMax: 5
   isBuilt: 0
   timeBuild: 0
   priceReputation: 0

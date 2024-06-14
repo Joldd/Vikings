@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.UIElements.UxmlAttributeDescription;
 
 public class House : Selectable
 {
@@ -8,7 +9,9 @@ public class House : Selectable
 
     EntityUnit currentUnit;
     public Slider currentSliderUnit = null;
-    bool isBuilding = false;
+    public BuildingUnit currentBuildingUnit = null;
+    public bool isBuilding = false;
+    public List<BuildingUnit> L_WaitListUnits = new List<BuildingUnit>();
 
     public Constructible constructible;
 
@@ -38,17 +41,13 @@ public class House : Selectable
 
     public void StartBuild(EntityUnit unit)
     {
-        if (!isBuilding && gameManager.gold >= unit.priceGold
-                        && (!GetTroop(unit.GetComponent<EntityUnit>())
-                            || GetTroop(unit.GetComponent<EntityUnit>()).L_Units.Count < GetTroop(unit.GetComponent<EntityUnit>()).maxTroop))
+        if (!isBuilding && (!GetTroop(unit.GetComponent<EntityUnit>()) || GetTroop(unit.GetComponent<EntityUnit>()).L_Units.Count < GetTroop(unit.GetComponent<EntityUnit>()).maxTroop))
         {
             if (unit)
             {
                 currentUnit = unit;
                 isBuilding = true;
                 timer = currentUnit.timeBuildMax;
-                gameManager.gold -= currentUnit.priceGold;
-                gameManager.UpdateRessources();
             }
         }
     }
@@ -77,6 +76,27 @@ public class House : Selectable
             }
         }
         return null;
+    }
+
+    public void StopBuildUnit(BuildingUnit buildingUnit)
+    {
+        if (buildingUnit == currentBuildingUnit)
+        {
+            isBuilding = false;
+            currentSliderUnit = null;
+            currentUnit = null;
+            Destroy(currentBuildingUnit.gameObject);
+            currentBuildingUnit = null;
+            gameManager.gold += buildingUnit.myEntityUnit.priceGold;
+            gameManager.UpdateRessources();
+        }
+        else
+        {
+            Destroy(buildingUnit.gameObject);
+            L_WaitListUnits.Remove(buildingUnit);
+            gameManager.gold += buildingUnit.myEntityUnit.priceGold;
+            gameManager.UpdateRessources();
+        }
     }
 
     private void createUnit(EntityUnit unit, Transform spawn)
@@ -125,10 +145,24 @@ public class House : Selectable
             if (currentSliderUnit.value >= 1)
             {
                 createUnit(currentUnit, spawn);
-                currentSliderUnit.gameObject.SetActive(false);
                 isBuilding = false;
                 currentSliderUnit = null;
                 currentUnit = null;
+                Destroy(currentBuildingUnit.gameObject);
+                currentBuildingUnit = null;
+            }
+        }
+
+        ///Build WaitList
+        if (L_WaitListUnits.Count > 0 && !isBuilding)
+        {
+            if (!GetTroop(L_WaitListUnits[0].myEntityUnit.GetComponent<EntityUnit>()) ||
+                GetTroop(L_WaitListUnits[0].myEntityUnit.GetComponent<EntityUnit>()).L_Units.Count < GetTroop(L_WaitListUnits[0].myEntityUnit.GetComponent<EntityUnit>()).maxTroop)
+            {
+                currentSliderUnit = L_WaitListUnits[0].mySlider;
+                currentBuildingUnit = L_WaitListUnits[0];
+                StartBuild(L_WaitListUnits[0].myEntityUnit);
+                L_WaitListUnits.RemoveAt(0);
             }
         }
     }

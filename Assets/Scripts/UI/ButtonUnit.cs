@@ -9,17 +9,16 @@ public class ButtonUnit
     [SerializeField] Sprite sprite;
     [SerializeField] string nameUnit;
     [SerializeField] GameObject BtnPF;
+    [SerializeField] GameObject buildingUnitPF;
+    private GameManager gameManager;
+    private int maxWaiting = 4;
 
-
-    public GameObject SetupButton(Transform parent, House house)
+    public GameObject SetupButton(Transform parentButton, Transform parentBuildingUnit, House house)
     {
-        GameObject btnUnitGO = GameObject.Instantiate(BtnPF, parent);
+        gameManager = GameManager.Instance;
+
+        GameObject btnUnitGO = GameObject.Instantiate(BtnPF, parentButton);
         Button btn = btnUnitGO.GetComponent<Button>();
-
-        GameObject sliderGO = btnUnitGO.transform.Find("Slider").gameObject;
-        sliderGO.SetActive(false);
-
-        Slider slider = sliderGO.GetComponent<Slider>();
 
         Image img = btnUnitGO.GetComponent<Image>();
         img.sprite = sprite;
@@ -32,9 +31,28 @@ public class ButtonUnit
 
         btn.onClick.AddListener(() =>
         {
-            sliderGO.SetActive(true);
-            house.currentSliderUnit = slider;
-            house.StartBuild(unit);
+            if (unit.priceGold > gameManager.gold) return;
+            if (house.L_WaitListUnits.Count >= maxWaiting) return;
+
+            gameManager.gold -= unit.priceGold;
+            gameManager.UpdateRessources();
+
+            GameObject buildingUnitGO = GameObject.Instantiate(buildingUnitPF, parentBuildingUnit);
+            BuildingUnit buildingUnit = buildingUnitGO.GetComponent<BuildingUnit>();
+            buildingUnit.myHouse = house;
+            buildingUnit.myImage.sprite = sprite;
+            buildingUnit.myEntityUnit = unit;
+
+            if (!house.isBuilding) 
+            {
+                house.currentSliderUnit = buildingUnit.mySlider;
+                house.currentBuildingUnit = buildingUnit;
+                house.StartBuild(unit);
+            }
+            else
+            {
+                house.L_WaitListUnits.Add(buildingUnit);
+            }
         });
 
         return btnUnitGO;

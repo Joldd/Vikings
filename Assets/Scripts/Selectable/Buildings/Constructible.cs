@@ -90,10 +90,8 @@ public class Constructible : MonoBehaviour
 
     public void CanBeBuild()
     {
-        Debug.Log("yes");
         if (isConstructible)
         {
-            Debug.Log("no");
             btnBuildings.SetActive(true);
             UpdateHouseToBuild();
             isConstructible = false;

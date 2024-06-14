@@ -94,6 +94,9 @@ MonoBehaviour:
   owner: {fileID: 0}
   spawn: {fileID: 1745729143058281864}
   currentSliderUnit: {fileID: 0}
+  currentBuildingUnit: {fileID: 0}
+  isBuilding: 0
+  L_WaitListUnits: []
   constructible: {fileID: 0}
   isBase: 0
   troopGO: {fileID: 2953771740510689689, guid: c4ae4464363fbbc47b67d3e72b2ece80, type: 3}
@@ -102,6 +105,7 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: 137de1bc599e46841a878813f559210d, type: 3}
     nameUnit: Archer
     BtnPF: {fileID: 931265639525859496, guid: 8a6ac55a65fec284684c44851b7fd3f0, type: 3}
+    buildingUnitPF: {fileID: 931265639525859496, guid: 246269cee50e29041a270baae557dbd5, type: 3}
   myButtonsToDisplay: []
 --- !u!65 &7255845743970466150
 BoxCollider:
