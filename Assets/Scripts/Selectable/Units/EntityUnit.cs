@@ -50,10 +50,9 @@ public class EntityUnit : Entity
 
     public string soundBuilding;
     public string soundGo;
-
-    [SerializeField] 
+    
     public Type type;
-
+    [SerializeField] private GameObject shadowObject;
     public Troop myTroop;
 
     public Outline outline;
