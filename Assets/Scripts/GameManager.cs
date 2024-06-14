@@ -58,8 +58,6 @@ public class GameManager : MonoBehaviour
     public bool isBuilding = false;
     public House houseToBuild;
 
-    [SerializeField] NavMeshSurface navMeshSurface;
-
     [Header("UI System")]
     [SerializeField] Canvas mainMenu;
     TextMeshProUGUI textGold;

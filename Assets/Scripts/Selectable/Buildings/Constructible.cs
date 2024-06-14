@@ -40,6 +40,8 @@ public class Constructible : MonoBehaviour
     private Player owner;
 
     private List<Troop> L_troops = new List<Troop>();
+    private List<Mark> L_Marks = new List<Mark>();
+
 
     private void Start()
     {
@@ -60,6 +62,66 @@ public class Constructible : MonoBehaviour
         {
             isConstructible = true;
             btnCanBuild.SetActive(true);
+
+            //Manage Troops on constructible
+            foreach (Troop troop in L_troops)
+            {
+                float x = transform.position.x - troop.transform.position.x;
+                float z = transform.position.z - troop.transform.position.z;
+                Vector3 newPos = troop.transform.position;
+                if (x >= 0)
+                {
+                    newPos.x -= (2 - x);
+                }
+                else
+                {
+                    newPos.x += (2 - x);
+                }
+                if (z >= 0)
+                {
+                    newPos.z -= (2 - z);
+                }
+                else
+                {
+                    newPos.z += (2 - z);
+                }
+
+                troop.transform.position = newPos;
+                if (troop.state == State.WAITING) troop.lastPositionMove = newPos;
+            }
+
+            //Manage Marks on constructible
+            for (int i = L_Marks.Count - 1; i >= 0; i--)
+            {
+                Mark mark = L_Marks[i];
+                if (mark == null)
+                {
+                    L_Marks.Remove(mark);
+                    continue;
+                }
+                float x = transform.position.x - mark.transform.position.x;
+                float z = transform.position.z - mark.transform.position.z;
+
+                Vector3 newPos = mark.transform.position;
+                if (x >= 0)
+                {
+                    newPos.x -= (1 - x);
+                }
+                else
+                {
+                    newPos.x += (1 - x);
+                }
+                if (z >= 0)
+                {
+                    newPos.z -= (1 - z);
+                }
+                else
+                {
+                    newPos.z += (1 - z);
+                }
+
+                mark.myWayPoints.myTroop.UpdateMarkPos(mark, newPos);
+            }
         }
         else
         {
@@ -118,11 +180,6 @@ public class Constructible : MonoBehaviour
         isEmpty = false;
         gameManager.reputation -= L_HousesToBuild[currentImg].PB_House.GetComponent<EntityHouse>().priceReputation;
         gameManager.UpdateRessources();
-
-        foreach(Troop troop in L_troops)
-        {
-            troop.hitByHouse = true;
-        }
     }
 
     public void ChangeRight()
@@ -178,12 +235,18 @@ public class Constructible : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        //Check Troop
         if (other.TryGetComponent(out Troop troop))
         {
             if (gameManager.CheckIsVicars(troop.owner))
             {
                 L_troops.Add(troop);
             }
+        }
+        //Check Marks
+        if (other.TryGetComponent(out Mark mark))
+        {
+            L_Marks.Add(mark);
         }
     }
 
@@ -200,6 +263,11 @@ public class Constructible : MonoBehaviour
             {
                 enemyCapturing = false;
             }
+        }
+        //Check Marks
+        if (other.TryGetComponent(out Mark mark))
+        {
+            L_Marks.Remove(mark);
         }
     }
 

@@ -45,7 +45,7 @@ public class Troop : Selectable
     [Header("WayPoints")]
     public WayPoints myWayPoints;
     public WayPoints changingWayPoints;
-    protected Vector3 lastPositionMove;
+    public Vector3 lastPositionMove;
     Mark currentMark;
     LineRenderer currentLine;
     float lastClickTime;
@@ -69,8 +69,6 @@ public class Troop : Selectable
     
     [Header("Constructible Capture")]
     public Constructible areaToCapture;
-
-    public bool hitByHouse;
 
     [Header("Fogwar")]
     [SerializeField] GameObject ward;
@@ -372,6 +370,16 @@ public class Troop : Selectable
         }
     }
 
+    public void UpdateMarkPos(Mark mark, Vector3 pos)
+    {
+        mark.transform.position = pos;
+        if (mark == currentMark) { navMeshAgent.SetDestination(pos); }
+        int i = myWayPoints.marks.IndexOf(mark);
+        myWayPoints.lines[i - 1].SetPosition(1, mark.transform.position);
+        if (i == myWayPoints.marks.Count - 1) return;
+        myWayPoints.lines[i].SetPosition(0, mark.transform.position);
+    }
+
     public void Run()
     {
         if (L_Units[0].soundGo != null) audioManager.Play(L_Units[0].soundGo);
@@ -513,6 +521,7 @@ public class Troop : Selectable
                     gameManager.L_WayPoints.Remove(myWayPoints);
                     Destroy(myWayPoints.gameObject);
                     state = State.WAITING;
+                    navMeshAgent.isStopped = true;
                 }
 
                 // Save last position before changing state
@@ -524,12 +533,6 @@ public class Troop : Selectable
                 if (Vector3.Distance(transform.position, lastPositionMove) >= 1)
                 {
                     if (!isRunning) GoTo(lastPositionMove);
-
-                    if (hitByHouse)
-                    {
-                        lastPositionMove = transform.position;
-                        hitByHouse = false;
-                    }
                 }
                 else
                 {
