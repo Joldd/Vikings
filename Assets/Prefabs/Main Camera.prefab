@@ -74,7 +74,7 @@ Camera:
   m_Depth: 1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 12287
+    m_Bits: 45055
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -113,8 +113,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 3063
   trailCamera: {fileID: 409668785090036085}
-  rangeX: {x: -100, y: 45}
-  rangeZ: {x: -112, y: 30}
+  rangeX: {x: -120, y: 65}
+  rangeZ: {x: -140, y: 55}
 --- !u!1 &7386382889722735907
 GameObject:
   m_ObjectHideFlags: 0

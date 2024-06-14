@@ -121,10 +121,13 @@ public class Troop : Selectable
         }
 
         //Health Bar
-        healthBar = Instantiate(healthBarPrefab, transform.position, Quaternion.identity);
-        healthBar.StartBar(gameObject, healthBarColor);
-        UpdateHealthBarTroop();
-        
+        if (type != Type.Messenger)
+        {
+            healthBar = Instantiate(healthBarPrefab, transform.position, Quaternion.identity);
+            healthBar.StartBar(gameObject, healthBarColor);
+            UpdateHealthBarTroop();
+        }
+     
         onStatChangeEvent.AddListener(()=>
         {
             uiManager.UpdateTroopInfos(this);

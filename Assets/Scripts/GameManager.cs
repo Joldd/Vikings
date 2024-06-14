@@ -58,6 +58,8 @@ public class GameManager : MonoBehaviour
     public bool isBuilding = false;
     public House houseToBuild;
 
+    [SerializeField] NavMeshSurface navMeshSurface;
+
     [Header("UI System")]
     [SerializeField] Canvas mainMenu;
     TextMeshProUGUI textGold;
@@ -90,7 +92,6 @@ public class GameManager : MonoBehaviour
     private UIManager uiManager;
 
     public GameObject basePlayer;
-
 
     public PlayerBaseSetup VicarPlayer { get => vicarPlayer; }
 
@@ -303,8 +304,6 @@ public class GameManager : MonoBehaviour
                 {
                     currentMark.transform.position = hit.point;
                     currentLine.SetPosition(1, hit.point);
-                
-                    currentMark.canBuild = NavMesh.SamplePosition(hit.point, out navMeshHit, 0.25f, NavMesh.AllAreas);
                 }
                 //TODO Faire un feedback pour informer que le point n'est pas placable
             }
@@ -318,6 +317,12 @@ public class GameManager : MonoBehaviour
         if (isPathing && Input.GetMouseButtonDown(0) && !isFirstMessage && currentMark.canBuild)
         {
             Vector3 currentPos = currentMark.transform.position;
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(currentPos, out hit, 100f, NavMesh.AllAreas))
+            {
+                currentMark.transform.position = hit.position;
+                currentLine.SetPosition(1, hit.position);
+            }
             currentMark = Instantiate(mark, currentWayPoints.transform);
             currentWayPoints.AddMark(currentMark);
             currentMark.transform.position = currentPos;

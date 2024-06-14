@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.EventSystems;
 
 public class Mark : MonoBehaviour
@@ -16,6 +17,8 @@ public class Mark : MonoBehaviour
     public bool goback;
 
     private bool isHover;
+
+    public bool isNavHit;
 
     private void Start()
     {
@@ -54,6 +57,12 @@ public class Mark : MonoBehaviour
                         {
                             transform.position = startPosition;
                             goback = true;
+                        }
+                        NavMeshHit navHit;
+                        if (NavMesh.SamplePosition(transform.position, out navHit, 100f, NavMesh.AllAreas))
+                        {
+                            transform.position = navHit.position;
+                            isNavHit = true;
                         }
                         isMoving = false;
                     }
@@ -131,6 +140,7 @@ public class Mark : MonoBehaviour
     {
         if (other.TryGetComponent<EntityHouse>(out EntityHouse house))
         {
+            Debug.Log("hoho");
             canBuild = true;
         }
     }
