@@ -144,7 +144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 901cfc2ba8078364c9aa35e71e1065a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
+  animator: {fileID: 1833028780472532524}
   PV: 20
   maxPV: 16
   size: 1

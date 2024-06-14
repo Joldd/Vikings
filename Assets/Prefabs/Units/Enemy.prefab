@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 894a9a6d59d6ffb4a9c005ccce7997cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
+  animator: {fileID: 8868816765936405873}
   PV: 0
   maxPV: 35
   size: 1
@@ -71,6 +71,8 @@ MonoBehaviour:
   body: {fileID: 0}
   enemyStop: 0
   goldToWin: 50
+  soundBuilding: 
+  soundGo: 
   type: 2
   myTroop: {fileID: 0}
   outline: {fileID: 0}

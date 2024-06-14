@@ -47,7 +47,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9302ee12651a0294e911dee7eb5db140, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvas: {fileID: 0}
   isSelect: 0
   canBeSelected: 0
   outline: {fileID: 0}
@@ -61,10 +60,11 @@ MonoBehaviour:
   myHouse: {fileID: 0}
   healthBarColor: {r: 0.33333334, g: 0.9607844, b: 0, a: 1}
   healthBarPrefab: {fileID: 1119104912643297415, guid: f17337097d63c1e4ebbea0de56ce28ea, type: 3}
-  healthBar: {fileID: 1119104912643297415, guid: f047968025925904da731c68d8f2ce27, type: 3}
+  healthBar: {fileID: 0}
   myWayPoints: {fileID: 0}
   changingWayPoints: {fileID: 0}
-  maxTroop: 0
+  isWaypoints: 0
+  maxTroop: 2
   uiInfos: {fileID: 0}
   layerMaskTroopTarget:
     serializedVersion: 2
