@@ -459,7 +459,7 @@ public class Troop : Selectable
                 {
                     float timeSinceLastClick = Time.unscaledTime - lastClickTime;
 
-                    if (timeSinceLastClick <= gameManager.DOUBLE_CLICK_TIME * Time.timeScale)
+                    if (timeSinceLastClick <= gameManager.DOUBLE_CLICK_TIME * Time.unscaledTime)
                     {
                         Run();
                         isWaypoints = true;
