@@ -19,7 +19,6 @@ public class Arrow : MonoBehaviour
         if (Vector3.Distance(transform.position, unit.target.transform.position) <= unit.target.size)
         {
             unitHelper.Deal();
-
             Destroy(gameObject);
         }
     }

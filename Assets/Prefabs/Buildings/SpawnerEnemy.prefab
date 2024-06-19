@@ -90,6 +90,9 @@ MonoBehaviour:
   owner: {fileID: 0}
   spawn: {fileID: 1745729143058281864}
   currentSliderUnit: {fileID: 0}
+  currentBuildingUnit: {fileID: 0}
+  isBuilding: 0
+  L_WaitListUnits: []
   constructible: {fileID: 0}
   isBase: 0
   troopGO: {fileID: 2953771740510689689, guid: c4ae4464363fbbc47b67d3e72b2ece80, type: 3}
@@ -149,9 +152,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22ed03377adbff243842602b3c167e79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timerMaxBaseUnit: 10
-  timerMaxTroop: 40
-  timerMaxGuardTroop: 10
+  timerMaxBaseUnit: 20
+  timerMaxTroop: 50
+  timerMaxGuardTroop: 20
   maxTroopPercentageSpawn: 20
   baseTroopPercentageSpawn: 40
   guardTroopPercentageSpawn: 40

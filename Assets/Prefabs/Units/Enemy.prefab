@@ -65,7 +65,7 @@ MonoBehaviour:
   speed: 1
   range: 1
   aoeRange: 8
-  flankRange: 1
+  flankRange: 2
   damage: 1
   armor: 0
   maxTroop: 5
@@ -74,7 +74,7 @@ MonoBehaviour:
   goldToWin: 50
   soundBuilding: 
   soundGo: 
-  type: 2
+  type: 0
   shadowObject: {fileID: 5298737763600026439}
   myTroop: {fileID: 0}
   outline: {fileID: 0}

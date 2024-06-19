@@ -35,8 +35,7 @@ public class Troop : Selectable
     protected Entity target;
     private Troop currentFightingTroop;
     private FlankValues currentFlank;
-    private 
-    Vector3 directionEnemy;
+    private Vector3 directionEnemy;
     public House myHouse;
     public Color healthBarColor;
     public HealthBar healthBarPrefab;
@@ -46,6 +45,7 @@ public class Troop : Selectable
     public WayPoints myWayPoints;
     public WayPoints changingWayPoints;
     protected Vector3 lastPositionMove;
+    protected Vector3 lastPositionEnemy;
     Mark currentMark;
     LineRenderer currentLine;
     float lastClickTime;
@@ -353,6 +353,8 @@ public class Troop : Selectable
     {
         if (target == null)
         {
+            Debug.LogError("Troop Get Targeted");
+            Debug.LogError(gameObject.name);
             target = enemyTroop.GetNearestUnitFromTroop(transform.position);
             checkEnemy = true;
             GiveTarget();
@@ -521,7 +523,7 @@ public class Troop : Selectable
 
             if (state == State.WAITING && type != Type.Messenger)
             {
-                if (Vector3.Distance(transform.position, lastPositionMove) >= 1)
+                if (Vector3.Distance(transform.position, lastPositionMove) >= 0.5f && lastPositionEnemy != Vector3.zero)
                 {
                     if (!isRunning) GoTo(lastPositionMove);
 
@@ -534,6 +536,12 @@ public class Troop : Selectable
                 else
                 {
                     PlayAnimation("Idle");
+                    if (lastPositionEnemy != Vector3.zero)
+                    {
+                        GoTo(lastPositionMove + (lastPositionEnemy - lastPositionMove).normalized);
+                        lastPositionEnemy = Vector3.zero;
+                    }
+
                 }
             }
 
@@ -581,6 +589,7 @@ public class Troop : Selectable
             }
             if (state == State.ATTACK && target)
             {
+                lastPositionEnemy = target.transform.position;
                 if (target.PV <= 0)
                 {
                     target.Die();

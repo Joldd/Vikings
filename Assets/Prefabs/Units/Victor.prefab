@@ -161,7 +161,7 @@ MonoBehaviour:
   speed: 1
   range: 1
   aoeRange: 8
-  flankRange: 1
+  flankRange: 2
   damage: 3
   armor: 0
   maxTroop: 0

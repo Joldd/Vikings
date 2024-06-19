@@ -45,6 +45,7 @@ public class UnitHelper : MonoBehaviour
             if (unit.target.TryGetComponent(out EntityUnit entityUnit))
             {
                 damage = (int) entityUnit.GetMitigatedDamage(unit.GetDamage());
+                entityUnit.myTroop.GetTargeted(unit.myTroop);
             }
             else
             {
@@ -90,12 +91,6 @@ public class UnitHelper : MonoBehaviour
                 if (unit.TryGetComponent<Hero>(out Hero hero))
                 {
                     hero.UpdatePVHero();
-                }
-
-                //Enemy aggro
-                if (unit.target.TryGetComponent<EntityUnit>(out EntityUnit enemy))
-                {
-                    enemy.myTroop.GetTargeted(unit.myTroop);
                 }
             }
 
