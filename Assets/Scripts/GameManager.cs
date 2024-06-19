@@ -180,7 +180,7 @@ public class GameManager : MonoBehaviour
 
             Mark firstMark = Instantiate(mark, currentWayPoints.transform);
             firstMark.transform.position = selectedUnit.RayTheFloor(layer_mask);
-
+            Debug.Log(firstMark.transform.position);
             currentWayPoints.AddMark(firstMark);
             currentMark = Instantiate(mark, currentWayPoints.transform);
             currentWayPoints.AddMark(currentMark);
