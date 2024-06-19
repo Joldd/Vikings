@@ -75,7 +75,7 @@ MonoBehaviour:
   PV: 1
   maxPV: 1
   size: 0
-  timeBuildMax: 2
+  timeBuildMax: 10
   isBuilt: 0
   timeBuild: 0
   priceReputation: 0

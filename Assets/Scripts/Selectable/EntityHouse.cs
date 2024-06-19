@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 public class EntityHouse : Entity
 {
@@ -9,11 +8,10 @@ public class EntityHouse : Entity
 
     [SerializeField] private House house;
     private GameManager gameManager;
-    private UIManager uIManager;
 
-    private bool isRepairing;
-    private bool canRepair;
-    private LayerMask layerUnit;
+    public bool isRepairing;
+    public bool canRepair = true;
+    private LayerMask layerTroop;
     private float timerCheckEnemiesMax = 1f;
     private float timerCheckEnemies;
     private float timerRepairMax = 0.5f;
@@ -28,22 +26,29 @@ public class EntityHouse : Entity
     {
         base.Start();
 
-        layerUnit = LayerMask.GetMask("EntityUnit");
+        layerTroop = LayerMask.GetMask("Troop");
 
         gameManager = GameManager.Instance;
-        uIManager = UIManager.Instance;
+
         if (!isBuilt) animator.Play("Build");
         flameEffect = transform.Find("Flame").gameObject;
         flameEffect.SetActive(false);
 
         timerCheckEnemies = timerCheckEnemiesMax;
         timeRepair = timerRepairMax;
-        uIManager.btnRepair.onClick.AddListener(() => { if (gameManager.reputation > 0 && PV < maxPV) isRepairing = true; });
         
         //Health Bar
         healthBarHouse = Instantiate(healthBarHousePrefab, transform.position, Quaternion.identity);
         healthBarHouse.StartBar(gameObject, healthBarColor);
         healthBarHouse.UpdateValue();
+    }
+
+    public void Sell()
+    {
+        gameManager.reputation += Mathf.RoundToInt((float)priceReputation / 2f);
+        gameManager.UpdateRessources();
+        house.UnSelect();
+        Die();
     }
 
     public override void Die()
@@ -97,7 +102,7 @@ public class EntityHouse : Entity
         timerCheckEnemies -= Time.deltaTime;
         if (timerCheckEnemies <= 0)
         {
-            RaycastHit[] hitsSphere = Physics.SphereCastAll(transform.position, 10f, transform.up, 10000, layerUnit);
+            RaycastHit[] hitsSphere = Physics.SphereCastAll(transform.position, 10f, transform.up, 10000, layerTroop);
             canRepair = true;
             foreach (RaycastHit hit in hitsSphere)
             {
@@ -108,10 +113,10 @@ public class EntityHouse : Entity
                         canRepair = false;
                         isRepairing = false;
                         timeRepair = timerRepairMax;
+                        break;
                     }
                 }
             }
-            uIManager.btnRepair.interactable = canRepair;
             timerCheckEnemies = timerCheckEnemiesMax;
         }
 

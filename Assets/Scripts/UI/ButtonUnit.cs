@@ -25,6 +25,7 @@ public class ButtonUnit
 
         HoverTitle hoverTitle = btnUnitGO.AddComponent<HoverTitle>();
         hoverTitle.unit = unit;
+        hoverTitle.hover_pos = Hover_Pos.UPRIGHT;
 
         TextMeshProUGUI title = btnUnitGO.transform.Find("Title").gameObject.GetComponent<TextMeshProUGUI>();
         title.text = nameUnit;

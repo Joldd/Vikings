@@ -468,7 +468,7 @@ public class Troop : Selectable
             {
                 /////////////////////// GO //////////////////////////
                                 //DOUBLECLICK
-                if (Input.GetKeyUp(KeyCode.Space))
+                if (Input.GetKeyUp(KeyCode.Space) || Input.GetMouseButtonUp(2))
                 {
                     float timeSinceLastClick = Time.unscaledTime - lastClickTime;
 
