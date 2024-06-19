@@ -1,8 +1,6 @@
 using FischlWorks_FogWar;
 using System;
 using System.Collections.Generic;
-using TMPro;
-using Unity.AI.Navigation;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
@@ -60,11 +58,8 @@ public class GameManager : MonoBehaviour
 
     [Header("UI System")]
     [SerializeField] Canvas mainMenu;
-    TextMeshProUGUI textGold;
-    TextMeshProUGUI textReputation;
 
     public HoverTitle objectHover;
-    public GameObject panelHover;
 
     public bool isFirstMessage;
 
@@ -109,18 +104,15 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        uiManager = UIManager.Instance;
+
         ChangeCursor(cursorNormal);
 
         layer_mask = LayerMask.GetMask("Floor");
         layer_mark = LayerMask.GetMask("Mark");
         StopBuilding();
 
-        textGold = mainMenu.gameObject.transform.Find("Ressources").Find("Gold").Find("Text").GetComponent<TextMeshProUGUI>();
-        textReputation = mainMenu.gameObject.transform.Find("Ressources").Find("Reputation").Find("Text").GetComponent<TextMeshProUGUI>();
         UpdateRessources();
-
-        panelHover = mainMenu.gameObject.transform.Find("Hover").gameObject;
-        panelHover.SetActive(false);
         
         //Setup Players
         Player vic_Player = vicarPlayer.Player;
@@ -141,8 +133,6 @@ public class GameManager : MonoBehaviour
         {
             building.owner = vik_Player;
         }
-        
-        uiManager = UIManager.Instance;
         
         // Reset Timer
         timerGame = 0;
@@ -307,7 +297,7 @@ public class GameManager : MonoBehaviour
 
         // TIMER GAME
         timerGame += Time.deltaTime;
-        uiManager.UpdateTimer(timerGame);
+        if (uiManager) uiManager.UpdateTimer(timerGame);
         
         /////////////////////////////// PATH WAYPOINTS UNIT /////////////////////////////////////
         if (isPathing && Input.GetMouseButtonDown(0) && !isFirstMessage)
@@ -331,7 +321,7 @@ public class GameManager : MonoBehaviour
         }
 
         //////// STOP PATHING
-        if (isPathing && Input.GetKeyUp(KeyCode.Space))
+        if (isPathing && (Input.GetKeyUp(KeyCode.Space) || Input.GetMouseButtonUp(2)))
         {
             if (currentWayPoints.marks.Count <= 2)
             {
@@ -432,8 +422,8 @@ public class GameManager : MonoBehaviour
 
     public void UpdateRessources()
     {
-        textGold.text = gold.ToString();
-        textReputation.text = reputation.ToString();
+        uiManager.textGold.text = gold.ToString();
+        uiManager.textReputation.text = reputation.ToString();
     }
 
     private void CheckEachSeconds()

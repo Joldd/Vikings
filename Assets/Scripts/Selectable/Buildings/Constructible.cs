@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.AI;
 using UnityEngine.UI;
 
 public class Constructible : MonoBehaviour
@@ -29,7 +28,7 @@ public class Constructible : MonoBehaviour
     private int currentImg = 0;
 
     [SerializeField] private Image imageCapture;
-    private Color baseColor = new Color(1, 1, 1, 0.4f);
+    private Color baseColor = new Color(1, 1, 1, 0.2f);
 
     public bool houseDestroy;
 
@@ -47,6 +46,15 @@ public class Constructible : MonoBehaviour
         btnBuildings.SetActive(false);
         btnCanBuild.SetActive(false);
         gameManager = GameManager.Instance;
+
+        imageCapture.color = baseColor;
+    }
+
+    public void DestroyBuilding()
+    {
+        after.SetActive(true);
+        btnBuildings.SetActive(true);
+        UpdateHouseToBuild();
     }
 
     public void ChangeOwnership(Player owner)
@@ -231,7 +239,7 @@ public class Constructible : MonoBehaviour
             if (playerBuilder && !playerBuilder.isRunning)
             {
                 playerBuilder.Go();
-                imageCapture.color = new Color(1, 0.92f, 0.016f, 0.4f);
+                imageCapture.color = new Color(1, 0.92f, 0.016f, 0.2f);
             }
             if (enemyBuilder && enemyBuilder.isRunning) enemyBuilder.Stop();
         }
@@ -240,7 +248,7 @@ public class Constructible : MonoBehaviour
             if (playerBuilder && playerBuilder.isRunning) playerBuilder.Stop();
             if (enemyBuilder && !enemyBuilder.isRunning)
             {
-                imageCapture.color = new Color(1, 0, 0, 0.4f);
+                imageCapture.color = new Color(1, 0, 0, 0.2f);
                 enemyBuilder.Go();
             }
         }

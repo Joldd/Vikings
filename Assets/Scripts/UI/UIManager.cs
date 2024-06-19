@@ -15,7 +15,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject uiBuilding;
     [SerializeField] private Transform buttonsBuildings;
     [SerializeField] private Transform buildingUnits;
-    public Button btnRepair;
+    [SerializeField] private Button btnRepair;
+    [SerializeField] private Button btnDestroyBuilding;
 
     private GameManager gameManager;
     [Header("Timer")]
@@ -27,6 +28,11 @@ public class UIManager : MonoBehaviour
     public bool inGamePause;
     [SerializeField] Image btnPauseGame;
     [SerializeField] Sprite spritePause, spritePlay;
+
+    public TextMeshProUGUI textGold;
+    public TextMeshProUGUI textReputation;
+
+    public GameObject panelHover;
 
     float currentTimeScale = 1f;
 
@@ -46,9 +52,32 @@ public class UIManager : MonoBehaviour
     {
         gameManager = GameManager.Instance;
 
+        panelHover.SetActive(false);
         pauseMenu.SetActive(false);
         victoryMenu.SetActive(false);
         defeatMenu.SetActive(false);
+
+        btnRepair.onClick.AddListener(() =>
+        {
+            if (gameManager.selectedUnit)
+            {
+                if (gameManager.selectedUnit.TryGetComponent<EntityHouse>(out EntityHouse entityHouse))
+                {
+                    entityHouse.isRepairing = true;
+                }
+            }
+        });
+
+        btnDestroyBuilding.onClick.AddListener(() =>
+        {
+            if (gameManager.selectedUnit)
+            {
+                if (gameManager.selectedUnit.TryGetComponent<EntityHouse>(out EntityHouse entityHouse))
+                {
+                    entityHouse.Sell();
+                }
+            }
+        });
     }
 
     public void Pause()
@@ -139,6 +168,7 @@ public class UIManager : MonoBehaviour
         {
             buildingUnit.gameObject.SetActive(value);
         }
+        btnDestroyBuilding.gameObject.SetActive(!house.isBase);
     }
 
     public void PauseGame()
@@ -174,6 +204,14 @@ public class UIManager : MonoBehaviour
             {
                 hero.timerRespawn = hero.timerRespawnMax;
                 hero.Respawn();
+            }
+        }
+
+        if (gameManager.selectedUnit)
+        {
+            if (gameManager.selectedUnit.TryGetComponent<EntityHouse>(out EntityHouse entityHouse))
+            {
+                btnRepair.interactable = entityHouse.canRepair;
             }
         }
 
