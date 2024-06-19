@@ -486,7 +486,7 @@ public class Troop : Selectable
                 if (L_Units[0].TryGetComponent<Messenger>(out Messenger messenger))
                 {
                     ////////////////////// BRING MESSAGE /////////////////////
-                    if (Input.GetKeyDown(KeyCode.Space) && messenger.canGo)
+                    if ((Input.GetKeyUp(KeyCode.Space) || Input.GetMouseButtonUp(2)) && messenger.canGo)
                     {
                         messenger.Go();
                         gameManager.ChangeCursor(gameManager.cursorNormal);

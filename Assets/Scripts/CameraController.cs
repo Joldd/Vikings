@@ -94,25 +94,25 @@ public class CameraController : MonoBehaviour
 
         //////////////////////// MOUSE CONTROL  //////////////////////
         //RIGHT
-        if (Input.mousePosition.x >= Screen.width - 3 * delta)
+        if (Input.mousePosition.x >= Screen.width - 3 * delta && transform.position.x < rangeX.y - factorHorizontal * myCam.orthographicSize)
         {
             newPos += transform.right * moveSpeed;
             gameManager.ChangeCursor(gameManager.cursorRight);
         }
         //LEFT
-        if (Input.mousePosition.x <= delta)
+        if (Input.mousePosition.x <= delta && transform.position.x > rangeX.x + factorHorizontal * myCam.orthographicSize)
         {
             newPos -= transform.right * moveSpeed;
             gameManager.ChangeCursor(gameManager.cursorLeft);
         }
         //UP
-        if (Input.mousePosition.y >= Screen.height - delta)
+        if (Input.mousePosition.y >= Screen.height - delta && transform.position.z < rangeZ.y - factorVertical * myCam.orthographicSize)
         {
             newPos += transform.up * moveSpeed + transform.forward * moveSpeed;
             gameManager.ChangeCursor(gameManager.cursorUp);
         }
         //DOWN
-        if (Input.mousePosition.y <= 3 * delta)
+        if (Input.mousePosition.y <= 3 * delta && transform.position.z > rangeZ.x + factorVertical * myCam.orthographicSize)
         {
             newPos -= transform.up * moveSpeed + transform.forward * moveSpeed;
             gameManager.ChangeCursor(gameManager.cursorDown);
