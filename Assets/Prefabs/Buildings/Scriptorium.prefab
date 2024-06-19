@@ -175,6 +175,7 @@ MonoBehaviour:
   healthBarColor: {r: 0.33333334, g: 0.9607843, b: 0, a: 1}
   healthBarHousePrefab: {fileID: -2205284920490260026, guid: f047968025925904da731c68d8f2ce27, type: 3}
   healthBarHouse: {fileID: 0}
+  house: {fileID: 2582249866165288520}
 --- !u!114 &-5579216080697185382
 MonoBehaviour:
   m_ObjectHideFlags: 0

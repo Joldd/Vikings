@@ -70,8 +70,6 @@ public class Troop : Selectable
     [Header("Constructible Capture")]
     public Constructible areaToCapture;
 
-    public bool hitByHouse;
-
     [Header("Fogwar")]
     [SerializeField] GameObject ward;
     private float timerWardMax = 2f;
@@ -374,6 +372,16 @@ public class Troop : Selectable
         }
     }
 
+    public void UpdateMarkPos(Mark mark, Vector3 pos)
+    {
+        mark.transform.position = pos;
+        if (mark == currentMark) { navMeshAgent.SetDestination(pos); }
+        int i = myWayPoints.marks.IndexOf(mark);
+        myWayPoints.lines[i - 1].SetPosition(1, mark.transform.position);
+        if (i == myWayPoints.marks.Count - 1) return;
+        myWayPoints.lines[i].SetPosition(0, mark.transform.position);
+    }
+
     public void Run()
     {
         if (L_Units[0].soundGo != null) audioManager.Play(L_Units[0].soundGo);
@@ -515,6 +523,7 @@ public class Troop : Selectable
                     gameManager.L_WayPoints.Remove(myWayPoints);
                     Destroy(myWayPoints.gameObject);
                     state = State.WAITING;
+                    navMeshAgent.isStopped = true;
                 }
 
                 // Save last position before changing state
@@ -526,12 +535,6 @@ public class Troop : Selectable
                 if (Vector3.Distance(transform.position, lastPositionMove) >= 0.5f && lastPositionEnemy != Vector3.zero)
                 {
                     if (!isRunning) GoTo(lastPositionMove);
-
-                    if (hitByHouse)
-                    {
-                        lastPositionMove = transform.position;
-                        hitByHouse = false;
-                    }
                 }
                 else
                 {

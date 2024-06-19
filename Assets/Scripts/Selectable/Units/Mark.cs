@@ -140,7 +140,6 @@ public class Mark : MonoBehaviour
     {
         if (other.TryGetComponent<EntityHouse>(out EntityHouse house))
         {
-            Debug.Log("hoho");
             canBuild = true;
         }
     }

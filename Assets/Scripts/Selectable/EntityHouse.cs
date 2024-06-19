@@ -6,8 +6,8 @@ public class EntityHouse : Entity
     public Color healthBarColor;
     public HealthBarHouse healthBarHousePrefab;
     [HideInInspector] public HealthBarHouse healthBarHouse;
-    
-    private House house;
+
+    [SerializeField] private House house;
     private GameManager gameManager;
     private UIManager uIManager;
 
@@ -30,7 +30,6 @@ public class EntityHouse : Entity
 
         layerUnit = LayerMask.GetMask("EntityUnit");
 
-        house = GetComponent<House>();
         gameManager = GameManager.Instance;
         uIManager = UIManager.Instance;
         if (!isBuilt) animator.Play("Build");

@@ -134,6 +134,11 @@ public class UIManager : MonoBehaviour
         {
             btn.SetActive(value);
         }
+        if (house.currentBuildingUnit) house.currentBuildingUnit.gameObject.SetActive(value);
+        foreach(BuildingUnit buildingUnit in house.L_WaitListUnits)
+        {
+            buildingUnit.gameObject.SetActive(value);
+        }
     }
 
     public void PauseGame()
