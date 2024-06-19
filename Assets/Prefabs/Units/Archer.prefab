@@ -65,7 +65,7 @@ MonoBehaviour:
   timerAttackMax: 1
   speed: 1
   range: 8
-  aoeRange: 14
+  aoeRange: 18
   flankRange: 1
   damage: 2
   armor: 0

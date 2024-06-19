@@ -180,7 +180,6 @@ public class GameManager : MonoBehaviour
 
             Mark firstMark = Instantiate(mark, currentWayPoints.transform);
             firstMark.transform.position = selectedUnit.RayTheFloor(layer_mask);
-            Debug.Log(firstMark.transform.position);
             currentWayPoints.AddMark(firstMark);
             currentMark = Instantiate(mark, currentWayPoints.transform);
             currentWayPoints.AddMark(currentMark);
@@ -294,7 +293,6 @@ public class GameManager : MonoBehaviour
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-            NavMeshHit navMeshHit;
             
             if (Physics.Raycast(ray, out hit, 100f, layer_mask))
             {
@@ -312,7 +310,7 @@ public class GameManager : MonoBehaviour
         uiManager.UpdateTimer(timerGame);
         
         /////////////////////////////// PATH WAYPOINTS UNIT /////////////////////////////////////
-        if (isPathing && Input.GetMouseButtonDown(0) && !isFirstMessage && currentMark.canBuild)
+        if (isPathing && Input.GetMouseButtonDown(0) && !isFirstMessage)
         {
             Vector3 currentPos = currentMark.transform.position;
             NavMeshHit hit;

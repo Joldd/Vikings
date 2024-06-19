@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Draw
   - Enemy
+  - Constructible
   layers:
   - Default
   - TransparentFX

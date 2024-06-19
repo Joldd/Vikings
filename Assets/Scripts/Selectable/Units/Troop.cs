@@ -560,14 +560,14 @@ public class Troop : Selectable
                 else
                 {
                     Vector3 targetPos = new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z);
-                    if (!isRunning) GoTo(targetPos);
+                     GoTo(targetPos);
                     if (Vector3.Distance(transform.position, target.transform.position) <= range + target.size)
                     {
                         state = State.ATTACK;
                         navMeshAgent.isStopped = true;
                         transform.LookAt(new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z));
                     }
-                    if (Vector3.Distance(transform.position, target.transform.position) > 15f)
+                    if (Vector3.Distance(transform.position, target.transform.position) > aoeRange / 2)
                     {
                         state = State.RUNNING;
                         navMeshAgent.isStopped = false;
