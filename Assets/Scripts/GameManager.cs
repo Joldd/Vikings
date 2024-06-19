@@ -1,8 +1,6 @@
 using FischlWorks_FogWar;
 using System;
 using System.Collections.Generic;
-using TMPro;
-using Unity.AI.Navigation;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;

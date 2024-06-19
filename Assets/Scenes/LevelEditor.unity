@@ -4084,7 +4084,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3362574790166142500, guid: 8c8fb444237c98c48a10d48bc34845ef, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8650053179972722898, guid: 8c8fb444237c98c48a10d48bc34845ef, type: 3}
       propertyPath: levelMidPoint

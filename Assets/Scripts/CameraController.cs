@@ -20,6 +20,8 @@ public class CameraController : MonoBehaviour
     private float factorHorizontal = 1.8f;
     private float factorVertical = 1.4f;
 
+    private float delta = 10f;
+    private bool goBackNormal;
 
     private void Start()
     {
@@ -68,6 +70,7 @@ public class CameraController : MonoBehaviour
 
     private void Move()
     {
+        /////////////////////////   KEYBOARD CONTROL    ////////////////////////////////
         float x = Input.GetAxisRaw("Horizontal");
         float z = Input.GetAxisRaw("Vertical");
 
@@ -89,39 +92,41 @@ public class CameraController : MonoBehaviour
         }
         if (x != 0 || z != 0) transform.position = newPos;
 
-        ////RIGHT
-        //if (Input.mousePosition.x >= Screen.width - 3*delta)
-        //{
-        //    newPos.x += moveSpeed * Time.deltaTime;
-        //    gameManager.ChangeCursor(gameManager.cursorRight);
-        //}
-        ////LEFT
-        //if (Input.mousePosition.x <= delta)
-        //{
-        //    newPos.x -= moveSpeed * Time.deltaTime;
-        //    gameManager.ChangeCursor(gameManager.cursorLeft);
-        //}
-        ////UP
-        //if (Input.mousePosition.y >= Screen.height - delta)
-        //{
-        //    newPos.z += moveSpeed * Time.deltaTime;
-        //    gameManager.ChangeCursor(gameManager.cursorUp);
-        //}
-        ////DOWN
-        //if (Input.mousePosition.y <= 3*delta)
-        //{
-        //    newPos.z -= moveSpeed * Time.deltaTime;
-        //    gameManager.ChangeCursor(gameManager.cursorDown);
-        //}
+        //////////////////////// MOUSE CONTROL  //////////////////////
+        //RIGHT
+        if (Input.mousePosition.x >= Screen.width - 3 * delta)
+        {
+            newPos += transform.right * moveSpeed;
+            gameManager.ChangeCursor(gameManager.cursorRight);
+        }
+        //LEFT
+        if (Input.mousePosition.x <= delta)
+        {
+            newPos -= transform.right * moveSpeed;
+            gameManager.ChangeCursor(gameManager.cursorLeft);
+        }
+        //UP
+        if (Input.mousePosition.y >= Screen.height - delta)
+        {
+            newPos += transform.up * moveSpeed + transform.forward * moveSpeed;
+            gameManager.ChangeCursor(gameManager.cursorUp);
+        }
+        //DOWN
+        if (Input.mousePosition.y <= 3 * delta)
+        {
+            newPos -= transform.up * moveSpeed + transform.forward * moveSpeed;
+            gameManager.ChangeCursor(gameManager.cursorDown);
+        }
 
-        //if (Input.mousePosition.x >= Screen.width - 3*delta || Input.mousePosition.x <= delta || Input.mousePosition.y >= Screen.height - delta || Input.mousePosition.y <= 3*delta)
-        //{
-        //    goBackNormal = false;
-        //}
-        //else if (!goBackNormal)
-        //{
-        //    gameManager.ChangeCursor(gameManager.cursorNormal);
-        //    goBackNormal = true;
-        //}
+        if (Input.mousePosition.x >= Screen.width - 3 * delta || Input.mousePosition.x <= delta || Input.mousePosition.y >= Screen.height - delta || Input.mousePosition.y <= 3 * delta)
+        {
+            goBackNormal = false;
+            transform.position = newPos;
+        }
+        else if (!goBackNormal)
+        {
+            gameManager.ChangeCursor(gameManager.cursorNormal);
+            goBackNormal = true;
+        }
     }
 }
