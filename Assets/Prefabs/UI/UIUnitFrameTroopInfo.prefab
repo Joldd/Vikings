@@ -87,6 +87,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slider: {fileID: 2267810343521535947}
   image: {fileID: 5167974126686541939}
+  fillImage: {fileID: 4432097440467214345}
+  killedColor: {r: 0.5, g: 0.5, b: 0.5, a: 0.5019608}
+  aliveColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &2140200575442493155
 GameObject:
   m_ObjectHideFlags: 0
@@ -196,7 +199,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -0.00018310547, y: 0}
+  m_AnchoredPosition: {x: 0.000015258789, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4058805112858696232
@@ -323,7 +326,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0.622
+  m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
