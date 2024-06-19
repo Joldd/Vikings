@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.UI;
 
 public class Constructible : MonoBehaviour
@@ -19,7 +20,6 @@ public class Constructible : MonoBehaviour
 
     [SerializeField] GameObject before;
     [SerializeField] GameObject after;
-    private bool isConstructible;
     private bool isEmpty = true;
 
     [SerializeField] private GameObject btnBuildings;
@@ -27,6 +27,9 @@ public class Constructible : MonoBehaviour
     [SerializeField] private Image imageToBuild;
     [SerializeField] private List<HouseToBuild> L_HousesToBuild = new List<HouseToBuild>();
     private int currentImg = 0;
+
+    [SerializeField] private Image imageCapture;
+    private Color baseColor = new Color(1, 1, 1, 0.4f);
 
     public bool houseDestroy;
 
@@ -38,10 +41,6 @@ public class Constructible : MonoBehaviour
     private GameManager gameManager;
 
     private Player owner;
-
-    private List<Troop> L_troops = new List<Troop>();
-    private List<Mark> L_Marks = new List<Mark>();
-
 
     private void Start()
     {
@@ -60,68 +59,8 @@ public class Constructible : MonoBehaviour
         if (enemyBuilder) Destroy(enemyBuilder.gameObject);
         if (gameManager.CheckIsVicars(owner))
         {
-            isConstructible = true;
-            btnCanBuild.SetActive(true);
-
-            //Manage Troops on constructible
-            foreach (Troop troop in L_troops)
-            {
-                float x = transform.position.x - troop.transform.position.x;
-                float z = transform.position.z - troop.transform.position.z;
-                Vector3 newPos = troop.transform.position;
-                if (x >= 0)
-                {
-                    newPos.x -= (2 - x);
-                }
-                else
-                {
-                    newPos.x += (2 - x);
-                }
-                if (z >= 0)
-                {
-                    newPos.z -= (2 - z);
-                }
-                else
-                {
-                    newPos.z += (2 - z);
-                }
-
-                troop.transform.position = newPos;
-                if (troop.state == State.WAITING) troop.lastPositionMove = newPos;
-            }
-
-            //Manage Marks on constructible
-            for (int i = L_Marks.Count - 1; i >= 0; i--)
-            {
-                Mark mark = L_Marks[i];
-                if (mark == null)
-                {
-                    L_Marks.Remove(mark);
-                    continue;
-                }
-                float x = transform.position.x - mark.transform.position.x;
-                float z = transform.position.z - mark.transform.position.z;
-
-                Vector3 newPos = mark.transform.position;
-                if (x >= 0)
-                {
-                    newPos.x -= (1 - x);
-                }
-                else
-                {
-                    newPos.x += (1 - x);
-                }
-                if (z >= 0)
-                {
-                    newPos.z -= (1 - z);
-                }
-                else
-                {
-                    newPos.z += (1 - z);
-                }
-
-                mark.myWayPoints.myTroop.UpdateMarkPos(mark, newPos);
-            }
+            btnBuildings.SetActive(true);
+            UpdateHouseToBuild();
         }
         else
         {
@@ -134,6 +73,7 @@ public class Constructible : MonoBehaviour
             enemyHouse.owner = this.owner;
             isEmpty = false;
         }
+        imageCapture.gameObject.SetActive(false);
     }
 
     private void GoBackUnConstructible()
@@ -143,22 +83,11 @@ public class Constructible : MonoBehaviour
         after.SetActive(false);
         firstPlayerBuilder = false;
         firstEnemyBuilder = false;
-        isConstructible = false;
         btnCanBuild.SetActive(false);
         btnBuildings.SetActive(false);
         houseDestroy = false;
         isEmpty = true;
-    }
-
-    public void CanBeBuild()
-    {
-        if (isConstructible)
-        {
-            btnBuildings.SetActive(true);
-            UpdateHouseToBuild();
-            isConstructible = false;
-            btnCanBuild.SetActive(false);
-        }
+        imageCapture.gameObject.SetActive(true);
     }
 
     private void UpdateHouseToBuild()
@@ -235,18 +164,10 @@ public class Constructible : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        //Check Troop
-        if (other.TryGetComponent(out Troop troop))
+        //Check Buikder
+        if (other.TryGetComponent(out Builder builder))
         {
-            if (gameManager.CheckIsVicars(troop.owner))
-            {
-                L_troops.Add(troop);
-            }
-        }
-        //Check Marks
-        if (other.TryGetComponent(out Mark mark))
-        {
-            L_Marks.Add(mark);
+            builder._navMeshAgent.enabled = false;
         }
     }
 
@@ -257,17 +178,11 @@ public class Constructible : MonoBehaviour
             if (gameManager.CheckIsVicars(troop.owner))
             {
                 playerCapturing = false;
-                L_troops.Remove(troop);
             }
             else
             {
                 enemyCapturing = false;
             }
-        }
-        //Check Marks
-        if (other.TryGetComponent(out Mark mark))
-        {
-            L_Marks.Remove(mark);
         }
     }
 
@@ -300,23 +215,47 @@ public class Constructible : MonoBehaviour
 
         if (playerCapturing && enemyCapturing)
         {
-            if (playerBuilder) playerBuilder.isRunning = false;
-            if (enemyBuilder) enemyBuilder.isRunning = false;
+            if (playerBuilder && playerBuilder.isRunning)
+            {
+                playerBuilder.Stop();
+                imageCapture.color = baseColor;
+            }
+            if (enemyBuilder && enemyBuilder.isRunning)
+            {
+                enemyBuilder.Stop();
+                imageCapture.color = baseColor;
+            }
         }
         else if (playerCapturing && !enemyCapturing)
         {
-            if (playerBuilder) playerBuilder.isRunning = true;
-            if (enemyBuilder) enemyBuilder.isRunning = false;
+            if (playerBuilder && !playerBuilder.isRunning)
+            {
+                playerBuilder.Go();
+                imageCapture.color = new Color(1, 0.92f, 0.016f, 0.4f);
+            }
+            if (enemyBuilder && enemyBuilder.isRunning) enemyBuilder.Stop();
         }
         else if (!playerCapturing && enemyCapturing)
         {
-            if (enemyBuilder) enemyBuilder.isRunning = true;
-            if (playerBuilder) playerBuilder.isRunning = false;
+            if (playerBuilder && playerBuilder.isRunning) playerBuilder.Stop();
+            if (enemyBuilder && !enemyBuilder.isRunning)
+            {
+                imageCapture.color = new Color(1, 0, 0, 0.4f);
+                enemyBuilder.Go();
+            }
         }
         else if(!playerCapturing && !enemyCapturing)
         {
-            if (playerBuilder) playerBuilder.isRunning = false;
-            if (enemyBuilder) enemyBuilder.isRunning = false;
+            if (playerBuilder && playerBuilder.isRunning)
+            {
+                playerBuilder.Stop();
+                imageCapture.color = baseColor;
+            }
+            if (enemyBuilder && enemyBuilder.isRunning)
+            {
+                enemyBuilder.Stop();
+                imageCapture.color = baseColor;
+            }
         }
     }
 }

@@ -4,44 +4,57 @@ using UnityEngine.AI;
 public class Builder : MonoBehaviour
 {
     public Constructible constructible;
-    
+
     [SerializeField] private float speed;
     public bool isRunning;
-    
-    private NavMeshAgent _navMeshAgent;
-    private Animator _anim;
+
+    public NavMeshAgent _navMeshAgent;
+    [SerializeField] private Animator _anim;
     private GameObject body;
     
     public Player owner;
-
-    private GameManager gameManager;
     
     public void Start()
     {
-        gameManager = GameManager.Instance;
         _navMeshAgent = GetComponent<NavMeshAgent>();
+        _navMeshAgent.speed = speed;
         body = transform.Find("Body").gameObject;
 
         _anim = body.GetComponent<Animator>();
+
+        Stop();
     }
 
     private void Update()
     {
-        if (isRunning)
+
+        if (!_navMeshAgent.enabled && isRunning)
         {
-            _anim.Play("Run");
-            _navMeshAgent.isStopped = false;
-            _navMeshAgent.SetDestination(constructible.transform.position);
-        }
-        else
-        {
-            _anim.Play("Idle");
-            _navMeshAgent.isStopped = true;
+            transform.position = Vector3.MoveTowards(transform.position, constructible.transform.position, speed * Time.deltaTime);
+            transform.LookAt(constructible.transform.position);
         }
 
         if (Vector3.Distance(transform.position, constructible.transform.position) < 0.2f)
         {
             constructible.ChangeOwnership(owner);
         }
+    }
+
+    public void Go()
+    {
+        isRunning = true;
+        _anim.Play("Run");
+        if (_navMeshAgent.enabled)
+        {
+            _navMeshAgent.isStopped = false;
+            _navMeshAgent.SetDestination(constructible.transform.position);
+        }
+    }
+
+    public void Stop()
+    {
+        isRunning = false;
+        _anim.Play("Idle");
+        if(_navMeshAgent.enabled) _navMeshAgent.isStopped = true;
     }
 }

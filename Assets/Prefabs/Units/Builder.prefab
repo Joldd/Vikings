@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2045665113303042195}
   - component: {fileID: -8825534390914816822}
   - component: {fileID: -478969386088555235}
+  - component: {fileID: 2456725329737582220}
   m_Layer: 0
   m_Name: Builder
   m_TagString: Untagged
@@ -49,8 +50,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   constructible: {fileID: 0}
-  speed: 2.5
+  speed: 5
   isRunning: 0
+  _navMeshAgent: {fileID: -8825534390914816822}
+  _anim: {fileID: 335482522631002669}
   owner: {fileID: 0}
 --- !u!195 &-8825534390914816822
 NavMeshAgent:
@@ -101,6 +104,29 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!136 &2456725329737582220
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5938549553171308113}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.4
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1001 &5903006778023950769
 PrefabInstance:
   m_ObjectHideFlags: 0

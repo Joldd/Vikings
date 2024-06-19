@@ -12,10 +12,6 @@ public class Mark : MonoBehaviour
 
     private GameManager gameManager;
 
-    public bool canBuild = true;
-    Vector3 startPosition;
-    public bool goback;
-
     private bool isHover;
 
     public bool isNavHit;
@@ -53,11 +49,6 @@ public class Mark : MonoBehaviour
                 {
                     if (isMoving)
                     {
-                        if (!canBuild)
-                        {
-                            transform.position = startPosition;
-                            goback = true;
-                        }
                         NavMeshHit navHit;
                         if (NavMesh.SamplePosition(transform.position, out navHit, 100f, NavMesh.AllAreas))
                         {
@@ -74,7 +65,6 @@ public class Mark : MonoBehaviour
                         }
                         else
                         {
-                            startPosition = transform.position;
                             isMoving = true;
                         }
                     }
@@ -125,22 +115,6 @@ public class Mark : MonoBehaviour
             {
                 transform.position = hitFloor.point;
             }
-        }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.TryGetComponent<EntityHouse>(out EntityHouse house))
-        {
-            canBuild = false;
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.TryGetComponent<EntityHouse>(out EntityHouse house))
-        {
-            canBuild = true;
         }
     }
 }
